@@ -1,3 +1,5 @@
+Use 'bd' for task tracking
+
 This is a web application written using the Phoenix web framework.
 
 ## Project guidelines
