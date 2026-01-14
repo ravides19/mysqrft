@@ -85,7 +85,7 @@ defmodule MySqrftWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components
-      import MySqrftWeb.CoreComponents
+      use MySqrftWeb.Components.MishkaComponents
 
       # Common modules used in templates
       alias Phoenix.LiveView.JS
