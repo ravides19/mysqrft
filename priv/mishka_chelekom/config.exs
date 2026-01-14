@@ -16,27 +16,41 @@ config :mishka_chelekom,
 
   # List of colors to include in component generation
   # Example: ["base", "primary", "danger", "success"]
-  component_colors: [],
+  component_colors: [
+    "base",
+    "natural",
+    "white",
+    "dark",
+    "primary",
+    "secondary",
+    "warning",
+    "misc",
+    "dawn",
+    "success",
+    "danger",
+    "info",
+    "silver"
+  ],
 
-  # List of variants to include in component generation  
+  # List of variants to include in component generation
   # Example: ["default", "outline", "bordered"]
-  component_variants: [],
+  component_variants: ["default", "outline", "transparent", "bordered", "gradient", "shadow",],
 
   # List of sizes to include in component generation
-  # Example: ["small", "medium", "large"]  
-  component_sizes: [],
+  # Example: ["small", "medium", "large"]
+  component_sizes: ["extra_small", "small", "medium", "large", "extra_large"],
 
   # List of rounded options to include in component generation
   # Example: ["small", "medium", "full"]
-  component_rounded: [],
+  component_rounded: ["extra_small", "small", "medium", "large", "extra_large", "full", "none"],
 
   # List of padding options to include in component generation
   # Example: ["small", "medium", "large"]
-  component_padding: [],
+  component_padding: ["extra_small","small", "medium", "large", "extra_large", "none"],
 
   # List of space options to include in component generation
   # Example: ["small", "medium", "large", "none"]
-  component_space: [],
+  component_space: ["extra_small", "small", "medium", "large", "extra_large", "none"],
 
   # Override specific CSS variables (uncomment and modify as needed)
   css_overrides:

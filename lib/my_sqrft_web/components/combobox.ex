@@ -745,14 +745,6 @@ defmodule MySqrftWeb.Components.Combobox do
   defp space_class("none"), do: nil
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "[&_.combobox-trigger]:bg-white text-black [&_.combobox-trigger]:border-base-border-light [&_.combobox-trigger]:shadow-sm",
-      "dark:[&_.combobox-trigger]:bg-base-bg-dark dark:text-base-text-dark dark:[&_.combobox-trigger]:border-base-border-dark",
-      "[&_.combobox-pill]:text-black [&_.combobox-pill]:bg-base-border-light"
-    ]
-  end
-
   defp color_variant("default", "natural") do
     [
       "[&_.combobox-trigger]:bg-natural-bg-dark text-white dark:[&_.combobox-trigger]:bg-natural-dark dark:text-black",
@@ -944,17 +936,6 @@ defmodule MySqrftWeb.Components.Combobox do
   end
 
   defp color_variant(params, _) when is_binary(params), do: params
-
-  defp dropdown_color_variant("base", _) do
-    [
-      "bg-white border-base-border-light shadow text-base-text-light dark:text-base-text-dark",
-      "dark:bg-base-bg-dark dark:border-base-border-dark",
-      "[&_.combobox-search-input]:border-base-border-light dark:[&_.combobox-search-input]:border-base-border-dark",
-      "[&_.combobox-option[data-combobox-navigate]]:bg-blue-500 [&_.combobox-option[data-combobox-navigate]]:text-white",
-      "[&_.combobox-option:not([data-combobox-navigate])]:hover:bg-base-border-light [&_.combobox-option:not([data-combobox-navigate])]:hover:text-black",
-      "dark:[&_.combobox-option:not([data-combobox-navigate])]:hover:bg-base-border-dark dark:[&_.combobox-option:not([data-combobox-navigate])]:hover:text-base-text-dark"
-    ]
-  end
 
   defp dropdown_color_variant("default", "natural") do
     [

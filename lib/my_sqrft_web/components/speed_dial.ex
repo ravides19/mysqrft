@@ -414,24 +414,6 @@ defmodule MySqrftWeb.Components.SpeedDial do
     ]
   end
 
-  defp size_class("double_large") do
-    [
-      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-6 [&_.speed-dial-base]:size-12"
-    ]
-  end
-
-  defp size_class("triple_large") do
-    [
-      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-7 [&_.speed-dial-base]:size-14"
-    ]
-  end
-
-  defp size_class("quadruple_large") do
-    [
-      "[&_.speed-dial-content]:max-w-96 [&_.speed-dial-icon-base]:size-8 [&_.speed-dial-base]:size-16"
-    ]
-  end
-
   defp size_class(params) when is_binary(params), do: params
 
   defp border_class(_, variant) when variant in ["default", "shadow", "gradient"],
@@ -473,13 +455,6 @@ defmodule MySqrftWeb.Components.SpeedDial do
   defp action_position("large", "bottom-end"), do: "bottom-8 end-8"
   defp action_position("extra_large", "bottom-end"), do: "bottom-9 end-9"
   defp action_position(params, _) when is_binary(params), do: params
-
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
-    ]
-  end
 
   defp color_variant("default", "white") do
     ["bg-white text-black"]

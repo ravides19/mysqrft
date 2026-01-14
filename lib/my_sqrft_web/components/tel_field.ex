@@ -367,21 +367,6 @@ defmodule MySqrftWeb.Components.TelField do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _, floating) do
-    [
-      "[&_.tel-field-wrapper:not(:has(.tel-field-error))]:bg-white",
-      "dark:[&_.tel-field-wrapper:not(:has(.tel-field-error))]:bg-base-bg-dark",
-      "text-base-text-light dark:text-base-text-dark [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-base-border-light",
-      "dark:[&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-base-border-dark",
-      "[&_.tel-field-wrapper.tel-field-error]:border-rose-700",
-      "[&_.tel-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.tel-field-wrapper>input]:placeholder:text-base-text-dark",
-      "focus-within:[&_.tel-field-wrapper]:ring-base-border-light dark:focus-within:[&_.tel-field-wrapper]:ring-base-border-light",
-      "[&_.tel-field-wrapper]:shadow-sm",
-      floating == "outer" &&
-        "[&_.tel-field-wrapper_.floating-label]:bg-white dark:[&_.tel-field-wrapper_.floating-label]:bg-base-bg-dark"
-    ]
-  end
-
   defp color_variant("outline", "natural", floating) do
     [
       "text-natural-light dark:text-natural-dark [&_.tel-field-wrapper:not(:has(.tel-field-error))]:border-natural-light",

@@ -445,13 +445,6 @@ defmodule MySqrftWeb.Components.Card do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "[&:not(:has(.overlay))]:bg-white text-base-text-light border-base-border-light shadow-sm",
-      "dark:[&:not(:has(.overlay))]:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     ["[&:not(:has(.overlay))]:bg-default-white-bg text-black"]
   end

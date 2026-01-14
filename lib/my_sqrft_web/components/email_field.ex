@@ -361,21 +361,6 @@ defmodule MySqrftWeb.Components.EmailField do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _, floating) do
-    [
-      "[&_.email-field-wrapper:not(:has(.email-field-error))]:bg-white",
-      "dark:[&_.email-field-wrapper:not(:has(.email-field-error))]:bg-base-bg-dark",
-      "text-base-text-light dark:text-base-text-dark [&_.email-field-wrapper:not(:has(.email-field-error))]:border-base-border-light",
-      "dark:[&_.email-field-wrapper:not(:has(.email-field-error))]:border-base-border-dark",
-      "[&_.email-field-wrapper.email-field-error]:border-rose-700",
-      "[&_.email-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.email-field-wrapper>input]:placeholder:text-base-text-dark",
-      "focus-within:[&_.email-field-wrapper]:ring-base-border-light dark:focus-within:[&_.email-field-wrapper]:ring-base-border-light",
-      "[&_.email-field-wrapper]:shadow-sm",
-      floating == "outer" &&
-        "[&_.email-field-wrapper_.floating-label]:bg-white dark:[&_.email-field-wrapper_.floating-label]:bg-base-bg-dark"
-    ]
-  end
-
   defp color_variant("outline", "natural", floating) do
     [
       "text-natural-light dark:text-natural-dark [&_.email-field-wrapper:not(:has(.email-field-error))]:border-natural-light",

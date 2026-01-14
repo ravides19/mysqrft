@@ -432,27 +432,6 @@ defmodule MySqrftWeb.Components.Timeline do
     ]
   end
 
-  defp bullet_size("double_large") do
-    [
-      "[&:not(.timeline-image-wrapper)]:size-[22px] [&_.bullet-icon]:size-4",
-      "[&.timeline-image-wrapper>img]:size-12"
-    ]
-  end
-
-  defp bullet_size("triple_large") do
-    [
-      "[&:not(.timeline-image-wrapper)]:size-[25px] [&_.bullet-icon]:size-4",
-      "[&.timeline-image-wrapper>img]:size-14"
-    ]
-  end
-
-  defp bullet_size("quadruple_large") do
-    [
-      "[&:not(.timeline-image-wrapper)]:size-7 [&_.bullet-icon]:size-5",
-      "[&.timeline-image-wrapper>img]:size-16"
-    ]
-  end
-
   defp bullet_size(params) when is_binary(params), do: params
 
   defp color_class("base") do

@@ -258,13 +258,6 @@ defmodule MySqrftWeb.Components.Drawer do
 
   defp size_class(params, _) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     [
       "bg-white text-black"

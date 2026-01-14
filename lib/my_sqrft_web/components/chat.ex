@@ -312,15 +312,6 @@ defmodule MySqrftWeb.Components.Chat do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "[&>.chat-section-bubble]:bg-white [&>.chat-section-bubble]:text-base-text-light",
-      "[&>.chat-section-bubble]:border-base-border-light [&>.chat-section-bubble]:shadow-sm",
-      "dark:[&>.chat-section-bubble]:bg-base-bg-dark dark:[&>.chat-section-bubble]:text-base-text-dark",
-      "dark:[&>.chat-section-bubble]:border-base-border-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     [
       "[&>.chat-section-bubble]:bg-white text-black"

@@ -156,26 +156,6 @@ defmodule MySqrftWeb.Components.Accordion do
     end
   end
 
-  defp color_variant("base", _) do
-    [
-      "text-base-text-light border-base-border-light bg-white",
-      "dark:text-base-text-dark dark:border-base-border-dark dark:bg-base-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-base-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-base-hover-dark",
-      "[&>.accordion-item:not(:first-child)]:border-t-base-border-light",
-      "dark:[&>.accordion-item:not(:first-child)]:border-t-base-border-dark"
-    ]
-  end
-
-  defp color_variant("base_separated", _) do
-    [
-      "text-base-text-light [&>.accordion-item]:border-base-border-light",
-      "[&>.accordion-item]:bg-white",
-      "dark:text-base-text-dark dark:[&>.accordion-item]:border-base-border-dark",
-      "dark:[&>.accordion-item]:bg-base-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-base-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-base-hover-dark"
-    ]
-  end
-
   defp color_variant("default", "natural") do
     [
       "bg-natural-light text-white dark:bg-natural-dark dark:text-black",
@@ -536,200 +516,6 @@ defmodule MySqrftWeb.Components.Accordion do
     ]
   end
 
-  defp color_variant("bordered_separated", "natural") do
-    [
-      "text-natural-bordered-text-light [&>.accordion-item]:border-natural-border-light",
-      "[&>.accordion-item]:bg-natural-bordered-bg-light",
-      "dark:text-natural-bordered-text-dark dark:[&>.accordion-item]:border-natural-border-dark",
-      "dark:[&>.accordion-item]:bg-natural-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-natural-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-natural-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "white") do
-    [
-      "bg-white text-black [&>.accordion-item]:border-bordered-white-border",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-bordered-white-border"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "dark") do
-    [
-      "[&>.accordion-item]:bg-bordered-dark-bg text-white [&>.accordion-item]:border-bordered-dark-border",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-bordered-dark-border"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "primary") do
-    [
-      "text-primary-bordered-text-light [&>.accordion-item]:border-primary-border-light",
-      "[&>.accordion-item]:bg-primary-bordered-bg-light",
-      "dark:text-primary-bordered-text-dark dark:[&>.accordion-item]:border-primary-border-dark",
-      "dark:[&>.accordion-item]:bg-primary-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-primary-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-primary-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "secondary") do
-    [
-      "text-secondary-bordered-text-light [&>.accordion-item]:border-secondary-border-light",
-      "[&>.accordion-item]:bg-secondary-bordered-bg-light",
-      "dark:text-secondary-bordered-text-dark dark:[&>.accordion-item]:border-secondary-border-dark",
-      "dark:[&>.accordion-item]:bg-secondary-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-secondary-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-secondary-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "success") do
-    [
-      "text-success-bordered-text-light [&>.accordion-item]:border-success-border-light",
-      "[&>.accordion-item]:bg-success-bordered-bg-light",
-      "dark:text-success-bordered-text-dark dark:[&>.accordion-item]:border-success-border-dark",
-      "dark:[&>.accordion-item]:bg-success-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-success-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-success-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "warning") do
-    [
-      "text-warning-bordered-text-light [&>.accordion-item]:border-warning-border-light",
-      "[&>.accordion-item]:bg-warning-bordered-bg-light",
-      "dark:text-warning-bordered-text-dark dark:[&>.accordion-item]:border-warning-border-dark",
-      "dark:[&>.accordion-item]:bg-warning-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-warning-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-warning-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "danger") do
-    [
-      "text-danger-bordered-text-light [&>.accordion-item]:border-danger-border-light",
-      "[&>.accordion-item]:bg-danger-bordered-bg-light",
-      "dark:text-danger-bordered-text-dark dark:[&>.accordion-item]:border-danger-border-dark",
-      "dark:[&>.accordion-item]:bg-danger-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-danger-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-danger-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "info") do
-    [
-      "text-info-bordered-text-light [&>.accordion-item]:border-info-border-light",
-      "[&>.accordion-item]:bg-info-bordered-bg-light",
-      "dark:text-info-bordered-text-dark dark:[&>.accordion-item]:border-info-border-dark",
-      "dark:[&>.accordion-item]:bg-info-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-info-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-info-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "misc") do
-    [
-      "text-misc-bordered-text-light [&>.accordion-item]:border-misc-border-light",
-      "[&>.accordion-item]:bg-misc-bordered-bg-light",
-      "dark:text-misc-bordered-text-dark dark:[&>.accordion-item]:border-misc-border-dark",
-      "dark:[&>.accordion-item]:bg-misc-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-misc-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-misc-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "dawn") do
-    [
-      "text-dawn-bordered-text-light [&>.accordion-item]:border-dawn-border-light",
-      "[&>.accordion-item]:bg-dawn-bordered-bg-light",
-      "dark:text-dawn-bordered-text-dark dark:[&>.accordion-item]:border-dawn-border-dark",
-      "dark:[&>.accordion-item]:bg-dawn-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-dawn-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-dawn-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("bordered_separated", "silver") do
-    [
-      "text-silver-bordered-text-light [&>.accordion-item]:border-silver-border-light",
-      "[&>.accordion-item]:bg-silver-bordered-bg-light",
-      "dark:text-silver-bordered-text-dark dark:[&>.accordion-item]:border-silver-border-dark",
-      "dark:[&>.accordion-item]:bg-silver-bordered-bg-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:bg-silver-bordered-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:bg-silver-bordered-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "natural") do
-    [
-      "text-natural-light [&>.accordion-item]:border-natural-light",
-      "dark:text-natural-dark dark:[&>.accordion-item]:border-natural-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-natural-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-natural-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "primary") do
-    [
-      "text-primary-light [&>.accordion-item]:border-primary-light",
-      "dark:text-primary-dark dark:[&>.accordion-item]:border-primary-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-primary-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-primary-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "secondary") do
-    [
-      "text-secondary-light [&>.accordion-item]:border-secondary-light",
-      "dark:text-secondary-dark dark:[&>.accordion-item]:border-secondary-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-secondary-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-secondary-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "success") do
-    [
-      "text-success-light [&>.accordion-item]:border-success-light",
-      "dark:text-success-dark dark:[&>.accordion-item]:border-success-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-success-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-success-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "warning") do
-    [
-      "text-warning-light [&>.accordion-item]:border-warning-light",
-      "dark:text-warning-dark dark:[&>.accordion-item]:border-warning-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-warning-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-warning-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "danger") do
-    [
-      "text-danger-light [&>.accordion-item]:border-danger-light",
-      "dark:text-danger-dark dark:[&>.accordion-item]:border-danger-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-danger-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-danger-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "info") do
-    [
-      "text-info-light [&>.accordion-item]:border-info-light",
-      "dark:text-info-dark dark:[&>.accordion-item]:border-info-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-info-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-info-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "misc") do
-    [
-      "text-misc-light [&>.accordion-item]:border-misc-light",
-      "dark:text-misc-dark dark:[&>.accordion-item]:border-misc-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-misc-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-misc-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "dawn") do
-    [
-      "text-dawn-light [&>.accordion-item]:border-dawn-light",
-      "dark:text-dawn-dark dark:[&>.accordion-item]:border-dawn-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-dawn-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-dawn-hover-dark"
-    ]
-  end
-
-  defp color_variant("outline_separated", "silver") do
-    [
-      "text-silver-light [&>.accordion-item]:border-silver-light",
-      "dark:text-silver-dark dark:[&>.accordion-item]:border-silver-dark",
-      "[&>.accordion-item>.accordion-trigger]:hover:text-silver-hover-light dark:[&>.accordion-item>.accordion-trigger]:hover:text-silver-hover-dark"
-    ]
-  end
-
   defp color_variant("shadow", "natural") do
     [
       "bg-natural-light text-white dark:bg-natural-dark dark:text-black",
@@ -973,10 +759,6 @@ defmodule MySqrftWeb.Components.Accordion do
   defp border_class(params, _) when is_binary(params), do: params
   defp border_class(_, _), do: nil
 
-  defp rounded_class("none", variant)
-       when variant in ["base_separated", "outline_separated", "bordered_separated"],
-       do: nil
-
   defp rounded_class("extra_small", variant)
        when variant in ["base_separated", "outline_separated", "bordered_separated"] do
     "[&>.accordion-item]:rounded-sm"
@@ -1001,8 +783,6 @@ defmodule MySqrftWeb.Components.Accordion do
        when variant in ["base_separated", "outline_separated", "bordered_separated"] do
     "[&>.accordion-item]:rounded-2xl"
   end
-
-  defp rounded_class("none", _), do: nil
 
   defp rounded_class("extra_small", _), do: "rounded-sm"
 

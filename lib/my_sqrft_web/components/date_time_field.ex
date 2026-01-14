@@ -380,8 +380,6 @@ defmodule MySqrftWeb.Components.DateTimeField do
 
   defp rounded_size("extra_large"), do: "[&_.date-time-field-wrapper]:rounded-xl"
 
-  defp rounded_size("full"), do: "[&_.date-time-field-wrapper]:rounded-full"
-
   defp rounded_size("none"), do: nil
 
   defp rounded_size(params) when is_binary(params), do: params
@@ -397,8 +395,6 @@ defmodule MySqrftWeb.Components.DateTimeField do
   defp border_class("extra_large", _), do: "[&_.date-time-field-wrapper]:border-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
 
-  defp space_class("none"), do: nil
-
   defp space_class("extra_small"), do: "space-y-1"
 
   defp space_class("small"), do: "space-y-1.5"
@@ -410,21 +406,6 @@ defmodule MySqrftWeb.Components.DateTimeField do
   defp space_class("extra_large"), do: "space-y-3"
 
   defp space_class(params) when is_binary(params), do: params
-
-  defp color_variant("base", _, floating) do
-    [
-      "[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-white",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:bg-base-bg-dark",
-      "text-base-text-light dark:text-base-text-dark [&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-base-border-light",
-      "dark:[&_.date-time-field-wrapper:not(:has(.date-time-field-error))]:border-base-border-dark",
-      "[&_.date-time-field-wrapper.date-time-field-error]:border-rose-700",
-      "[&_.date-time-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.date-time-field-wrapper>input]:placeholder:text-base-text-dark",
-      "focus-within:[&_.date-time-field-wrapper]:ring-base-border-light dark:focus-within:[&_.date-time-field-wrapper]:ring-base-border-light",
-      "[&_.date-time-field-wrapper]:shadow-sm",
-      floating == "outer" &&
-        "[&_.date-time-field-wrapper_.floating-label]:bg-white dark:[&_.date-time-field-wrapper_.floating-label]:bg-base-bg-dark"
-    ]
-  end
 
   defp color_variant("outline", "natural", floating) do
     [

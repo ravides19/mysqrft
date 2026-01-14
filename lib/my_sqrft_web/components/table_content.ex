@@ -374,12 +374,6 @@ defmodule MySqrftWeb.Components.TableContent do
 
   defp padding_size("extra_large"), do: "p-9"
 
-  defp padding_size("double_large"), do: "p-10"
-
-  defp padding_size("triple_large"), do: "p-12"
-
-  defp padding_size("quadruple_large"), do: "p-16"
-
   defp padding_size(params) when is_binary(params), do: params
 
   defp rounded_size("extra_small"), do: "rounded-sm"
@@ -393,13 +387,6 @@ defmodule MySqrftWeb.Components.TableContent do
   defp rounded_size("extra_large"), do: "rounded-xl"
 
   defp rounded_size(params) when is_binary(params), do: params
-
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
-    ]
-  end
 
   defp color_variant("default", "white") do
     [

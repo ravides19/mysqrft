@@ -268,8 +268,6 @@ defmodule MySqrftWeb.Components.RadioCard do
 
   defp rounded_size("extra_large"), do: "rounded-xl"
 
-  defp rounded_size("none"), do: nil
-
   defp rounded_size(params) when is_binary(params), do: params
 
   defp padding_size("extra_small"), do: "py-1 px-2"
@@ -390,20 +388,6 @@ defmodule MySqrftWeb.Components.RadioCard do
   defp space_class("none"), do: nil
 
   defp space_class(params) when is_binary(params), do: params
-
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark",
-      "[&_.radio-card-input]:checked:accent-base-text-light",
-      "dark:[&_.radio-card-input]:checked:accent-base-disabled-text-dark",
-      "[&_.radio-card-input]:border-base-border-light dark:[&_.radio-card-input]:border-base-border-dark",
-      "[&_.radio-card-input:checked]:border-base-text-light dark:[&_.radio-card-input:checked]:border-base-border-dark",
-      "has-[:checked]:bg-base-hover-light dark:has-[:checked]:bg-base-hover-dark",
-      "has-[:checked]:border-base-text-light dark:has-[:checked]:border-base-disabled-text-dark",
-      "[&_.radio-card-input:not(:checked)]:bg-white dark:[&_.radio-card-input:not(:checked)]:bg-checkbox-unchecked-dark"
-    ]
-  end
 
   defp color_variant("default", "white") do
     [

@@ -322,17 +322,6 @@ defmodule MySqrftWeb.Components.NativeSelect do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "text-base-text-light dark:text-base-text-dark [&_.select-field:not(:has(.select-field-error))]:border-base-border-light [&_.select-field]:shadow-sm",
-      "[&_.select-field:not(:has(.select-field-error))]:bg-white",
-      "dark:[&_.select-field:not(:has(.select-field-error))]:bg-base-bg-dark",
-      "dark:[&_.select-field:not(:has(.select-field-error))]:border-base-border-dark",
-      "[&_.select-field.select-field-error]:bg-rose-700 [&_.select-field.select-field-error]:border-rose-700",
-      "focus-within:[&_.select-field]:ring-base-hover-light dark:focus-within:[&_.select-field]:ring-base-hover-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     [
       "[&_.select-field]:bg-white text-form-white-text",

@@ -148,8 +148,6 @@ defmodule MySqrftWeb.Components.FormWrapper do
 
   defp rounded_size("extra_large"), do: "rounded-xl"
 
-  defp rounded_size("full"), do: "rounded-full"
-
   defp rounded_size(params) when is_binary(params), do: params
 
   defp border_class(_, variant) when variant in ["default", "shadow", "transparent"],
@@ -186,13 +184,6 @@ defmodule MySqrftWeb.Components.FormWrapper do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     [
       "bg-white text-black"
@@ -202,12 +193,6 @@ defmodule MySqrftWeb.Components.FormWrapper do
   defp color_variant("default", "dark") do
     [
       "bg-default-dark-bg text-white"
-    ]
-  end
-
-  defp color_variant("default", "natural") do
-    [
-      "bg-natural-light text-white dark:bg-natural-dark dark:text-black"
     ]
   end
 
@@ -265,12 +250,6 @@ defmodule MySqrftWeb.Components.FormWrapper do
     ]
   end
 
-  defp color_variant("outline", "natural") do
-    [
-      "text-natural-light border-natural-light dark:text-natural-dark dark:border-natural-dark"
-    ]
-  end
-
   defp color_variant("outline", "primary") do
     [
       "text-primary-light border-primary-light dark:text-primary-dark dark:border-primary-dark"
@@ -322,13 +301,6 @@ defmodule MySqrftWeb.Components.FormWrapper do
   defp color_variant("outline", "silver") do
     [
       "text-silver-light border-silver-light dark:text-silver-dark dark:border-silver-dark"
-    ]
-  end
-
-  defp color_variant("shadow", "natural") do
-    [
-      "bg-natural-light text-white dark:bg-natural-dark dark:text-black",
-      "shadow-[0px_4px_6px_-4px_var(--color-shadow-natural)] shadow-[0px_10px_15px_-3px_var(--color-shadow-natural)] dark:shadow-none"
     ]
   end
 
@@ -392,94 +364,6 @@ defmodule MySqrftWeb.Components.FormWrapper do
     [
       "bg-silver-light text-white dark:bg-silver-dark dark:text-black",
       "shadow-[0px_4px_6px_-4px_var(--color-shadow-silver)] shadow-[0px_10px_15px_-3px_var(--color-shadow-silver)] dark:shadow-none"
-    ]
-  end
-
-  defp color_variant("bordered", "white") do
-    [
-      "bg-white text-black border-bordered-white-border"
-    ]
-  end
-
-  defp color_variant("bordered", "dark") do
-    [
-      "bg-default-dark-bg text-white border-silver-hover-light"
-    ]
-  end
-
-  defp color_variant("bordered", "natural") do
-    [
-      "text-natural-bordered-text-light border-natural-bordered-text-light bg-natural-bordered-bg-light",
-      "dark:text-natural-hover-dark dark:border-natural-hover-dark dark:bg-natural-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "primary") do
-    [
-      "text-primary-bordered-text-light border-primary-bordered-text-light bg-primary-bordered-bg-light",
-      "dark:text-primary-hover-dark dark:border-primary-hover-dark dark:bg-primary-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "secondary") do
-    [
-      "text-secondary-bordered-text-light border-secondary-bordered-text-light bg-secondary-bordered-bg-light",
-      "dark:text-secondary-hover-dark dark:border-secondary-hover-dark dark:bg-secondary-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "success") do
-    [
-      "text-success-bordered-text-light border-success-bordered-text-light bg-success-bordered-bg-light",
-      "dark:text-success-hover-dark dark:border-success-hover-dark dark:bg-success-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "warning") do
-    [
-      "text-warning-bordered-text-light border-warning-bordered-text-light bg-warning-bordered-bg-light",
-      "dark:text-warning-hover-dark dark:border-warning-hover-dark dark:bg-warning-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "danger") do
-    [
-      "text-danger-bordered-text-light border-danger-bordered-text-light bg-danger-bordered-bg-light",
-      "dark:text-danger-hover-dark dark:border-danger-hover-dark dark:bg-danger-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "info") do
-    [
-      "text-info-bordered-text-light border-info-bordered-text-light bg-info-bordered-bg-light",
-      "dark:text-info-hover-dark dark:border-info-hover-dark dark:bg-info-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "misc") do
-    [
-      "text-misc-bordered-text-light border-misc-bordered-text-light bg-misc-bordered-bg-light",
-      "dark:text-misc-hover-dark dark:border-misc-hover-dark dark:bg-misc-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "dawn") do
-    [
-      "text-dawn-bordered-text-light border-dawn-bordered-text-light bg-dawn-bordered-bg-light",
-      "dark:text-dawn-hover-dark dark:border-dawn-hover-dark dark:bg-dawn-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "silver") do
-    [
-      "text-silver-hover-light border-silver-hover-light bg-silver-bordered-bg-light",
-      "dark:text-silver-hover-dark dark:border-silver-hover-dark dark:bg-silver-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("transparent", "natural") do
-    [
-      "text-natural-light dark:text-natural-dark"
     ]
   end
 

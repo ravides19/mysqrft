@@ -490,13 +490,6 @@ defmodule MySqrftWeb.Components.FileField do
 
   defp color_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "text-base-text-light [&_.dropzone-wrapper]:border-base-border-light [&_.dropzone-wrapper]:bg-white shadow-sm",
-      "dark:text-base-text-dark dark:[&_.dropzone-wrapper]:border-base-border-dark dark:[&_.dropzone-wrapper]:bg-base-bg-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     [
       "[&_.dropzone-wrapper]:bg-white text-black"

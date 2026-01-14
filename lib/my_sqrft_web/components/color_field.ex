@@ -195,8 +195,6 @@ defmodule MySqrftWeb.Components.ColorField do
     ]
   end
 
-  defp size_class("full"), do: "[&_.color-field-wrapper_.color-input]:w-full h-4"
-
   defp size_class(params) when is_binary(params), do: params
 
   defp rounded_size("extra_small"), do: "[&_.color-field-wrapper_.color-input]:rounded-sm"
@@ -208,8 +206,6 @@ defmodule MySqrftWeb.Components.ColorField do
   defp rounded_size("large"), do: "[&_.color-field-wrapper_.color-input]:rounded-lg"
 
   defp rounded_size("extra_large"), do: "[&_.color-field-wrapper_.color-input]:rounded-xl"
-
-  defp rounded_size("none"), do: nil
 
   defp rounded_size(params) when is_binary(params), do: params
 
@@ -245,13 +241,6 @@ defmodule MySqrftWeb.Components.ColorField do
   defp color_class("white") do
     [
       "[&_.color-field-wrapper_.color-input]:border-form-white-focus"
-    ]
-  end
-
-  defp color_class("natural") do
-    [
-      "[&_.color-field-wrapper_.color-input]:border-natural-light",
-      "dark:[&_.color-field-wrapper_.color-input]:border-natural-dark"
     ]
   end
 

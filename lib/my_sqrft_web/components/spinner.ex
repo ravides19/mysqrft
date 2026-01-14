@@ -210,12 +210,6 @@ defmodule MySqrftWeb.Components.Spinner do
 
   defp size_class("dots", "extra_large"), do: "[&>span]:size-3"
 
-  defp size_class("dots", "double_large"), do: "[&>span]:size-3.5"
-
-  defp size_class("dots", "triple_large"), do: "[&>span]:size-4"
-
-  defp size_class("dots", "quadruple_large"), do: "[&>span]:size-5"
-
   defp size_class("bars", "extra_small"), do: "[&>span]:w-1 [&>span]:h-5"
 
   defp size_class("bars", "small"), do: "[&>span]:w-1 [&>span]:h-6"
@@ -225,12 +219,6 @@ defmodule MySqrftWeb.Components.Spinner do
   defp size_class("bars", "large"), do: "[&>span]:w-1.5 [&>span]:h-8"
 
   defp size_class("bars", "extra_large"), do: "[&>span]:w-2 [&>span]:h-9"
-
-  defp size_class("bars", "double_large"), do: "[&>span]:w-2 [&>span]:h-10"
-
-  defp size_class("bars", "triple_large"), do: "[&>span]:w-2.5 [&>span]:h-11"
-
-  defp size_class("bars", "quadruple_large"), do: "[&>span]:w-2.5 [&>span]:h-12"
 
   defp size_class("pinging", "extra_small"), do: "[&>svg]:size-6"
 
@@ -242,12 +230,6 @@ defmodule MySqrftWeb.Components.Spinner do
 
   defp size_class("pinging", "extra_large"), do: "[&>svg]:size-10"
 
-  defp size_class("pinging", "double_large"), do: "[&>svg]:size-12"
-
-  defp size_class("pinging", "triple_large"), do: "[&>svg]:size-14"
-
-  defp size_class("pinging", "quadruple_large"), do: "[&>svg]:size-16"
-
   defp size_class("default", "extra_small"), do: "size-3.5 border-2"
 
   defp size_class("default", "small"), do: "size-4 border-[3px]"
@@ -257,12 +239,6 @@ defmodule MySqrftWeb.Components.Spinner do
   defp size_class("default", "large"), do: "size-6 border-[5px]"
 
   defp size_class("default", "extra_large"), do: "size-7 border-[5px]"
-
-  defp size_class("default", "double_large"), do: "size-8 border-[5px]"
-
-  defp size_class("default", "triple_large"), do: "size-9 border-[6px]"
-
-  defp size_class("default", "quadruple_large"), do: "size-10 border-[6px]"
 
   defp size_class(_, params) when is_binary(params), do: params
 

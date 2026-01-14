@@ -228,10 +228,6 @@ defmodule MySqrftWeb.Components.Avatar do
     """
   end
 
-  defp image_color("transparent") do
-    nil
-  end
-
   defp image_color("base") do
     "border-base-border-light dark:border-base-border-dark"
   end

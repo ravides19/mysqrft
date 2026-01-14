@@ -225,8 +225,6 @@ defmodule MySqrftWeb.Components.Blockquote do
 
   defp space_class("extra_large"), do: "space-y-6"
 
-  defp space_class("none"), do: nil
-
   defp space_class(params) when is_binary(params), do: params
 
   defp border_class(_, _, variant)
@@ -319,19 +317,8 @@ defmodule MySqrftWeb.Components.Blockquote do
 
   defp size_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     ["bg-white text-black"]
-  end
-
-  defp color_variant("default", "dark") do
-    ["bg-default-dark-bg text-white"]
   end
 
   defp color_variant("default", "natural") do
@@ -586,10 +573,6 @@ defmodule MySqrftWeb.Components.Blockquote do
 
   defp color_variant("bordered", "white") do
     ["bg-white text-black border-bordered-white-border"]
-  end
-
-  defp color_variant("bordered", "dark") do
-    ["bg-bordered-dark-bg text-white border-bordered-dark-border"]
   end
 
   defp color_variant("bordered", "natural") do

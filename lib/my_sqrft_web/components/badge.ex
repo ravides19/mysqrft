@@ -322,13 +322,6 @@ defmodule MySqrftWeb.Components.Badge do
 
   defp badge_position(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light shadow-sm [&>.indicator]:bg-base-border-light",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark dark:[&>.indicator]:bg-base-border-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     ["bg-white text-black [&>.indicator]:bg-black"]
   end

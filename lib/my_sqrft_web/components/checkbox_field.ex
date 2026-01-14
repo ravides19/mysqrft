@@ -329,10 +329,6 @@ defmodule MySqrftWeb.Components.CheckboxField do
 
   defp rounded_size("extra_large"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-xl"
 
-  defp rounded_size("full"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-full"
-
-  defp rounded_size("none"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:rounded-none"
-
   defp rounded_size(params) when is_binary(params), do: params
 
   defp border_class("none"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border-0"
@@ -342,8 +338,6 @@ defmodule MySqrftWeb.Components.CheckboxField do
   defp border_class("large"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border-4"
   defp border_class("extra_large"), do: "[&_.checkbox-field-wrapper_.checkbox-input]:border-[5px]"
   defp border_class(params) when is_binary(params), do: params
-
-  defp space_class("none"), do: nil
 
   defp space_class("extra_small"), do: "[&_.checkbox-field-wrapper]:gap-1"
 

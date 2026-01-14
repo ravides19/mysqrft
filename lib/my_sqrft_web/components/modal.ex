@@ -222,22 +222,7 @@ defmodule MySqrftWeb.Components.Modal do
 
   defp size_class("extra_large"), do: "mx-auto max-w-xl"
 
-  defp size_class("double_large"), do: "mx-auto max-w-2xl"
-
-  defp size_class("triple_large"), do: "mx-auto max-w-3xl"
-
-  defp size_class("quadruple_large"), do: "mx-auto max-w-4xl"
-
-  defp size_class("screen"), do: "w-full h-screen overflow-y-scroll"
-
   defp size_class(params) when is_binary(params), do: params
-
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
-    ]
-  end
 
   defp color_variant("default", "white") do
     [

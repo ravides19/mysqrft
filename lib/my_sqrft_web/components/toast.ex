@@ -420,14 +420,6 @@ defmodule MySqrftWeb.Components.Toast do
   defp border_class("extra_large", _), do: "border-[5px]"
   defp border_class(params, _) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light dark:bg-base-bg-dark dark:text-base-text-dark",
-      "[&>.toast-content-wrapper]:before:bg-base-text-light dark:[&>.toast-content-wrapper]:before:bg-base-text-dark",
-      "border-base-border-light dark:border-base-border-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     ["bg-white text-black [&>.toast-content-wrapper]:before:bg-black"]
   end

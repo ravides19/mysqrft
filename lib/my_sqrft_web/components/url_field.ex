@@ -354,21 +354,6 @@ defmodule MySqrftWeb.Components.UrlField do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _, floating) do
-    [
-      "[&_.url-field-wrapper:not(:has(.url-field-error))]:bg-white",
-      "dark:[&_.url-field-wrapper:not(:has(.url-field-error))]:bg-base-bg-dark",
-      "text-base-text-light dark:text-base-text-dark [&_.url-field-wrapper:not(:has(.url-field-error))]:border-base-border-light",
-      "dark:[&_.url-field-wrapper:not(:has(.url-field-error))]:border-base-border-dark",
-      "[&_.url-field-wrapper.url-field-error]:border-rose-700",
-      "[&_.url-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.url-field-wrapper>input]:placeholder:text-base-text-dark",
-      "focus-within:[&_.url-field-wrapper]:ring-base-border-light dark:focus-within:[&_.url-field-wrapper]:ring-base-border-light",
-      "[&_.url-field-wrapper]:shadow-sm",
-      floating == "outer" &&
-        "[&_.url-field-wrapper_.floating-label]:bg-white dark:[&_.url-field-wrapper_.floating-label]:bg-base-bg-dark"
-    ]
-  end
-
   defp color_variant("outline", "natural", floating) do
     [
       "text-natural-light dark:text-natural-dark [&_.url-field-wrapper:not(:has(.url-field-error))]:border-natural-light",

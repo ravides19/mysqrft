@@ -284,8 +284,6 @@ defmodule MySqrftWeb.Components.TextareaField do
 
   defp height_size("extra_large"), do: "[&_.textarea-field-wrapper_textarea]:h-18"
 
-  defp height_size("auto"), do: "[&_.textarea-field-wrapper_textarea]:h-auto"
-
   defp height_size(params) when is_binary(params), do: params
 
   defp rounded_size("extra_small"), do: "[&_.textarea-field-wrapper]:rounded-sm"
@@ -328,21 +326,6 @@ defmodule MySqrftWeb.Components.TextareaField do
   defp space_class("extra_large"), do: "space-y-3"
 
   defp space_class(params) when is_binary(params), do: params
-
-  defp color_variant("base", _, floating) do
-    [
-      "[&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:bg-white",
-      "dark:[&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:bg-base-bg-dark",
-      "text-base-text-light dark:text-base-text-dark [&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-base-border-light",
-      "dark:[&_.textarea-field-wrapper:not(:has(.textarea-field-error))]:border-base-border-dark",
-      "[&_.textarea-field-wrapper.textarea-field-error]:border-rose-700",
-      "[&_.textarea-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.textarea-field-wrapper>input]:placeholder:text-base-text-dark",
-      "focus-within:[&_.textarea-field-wrapper]:ring-base-border-light dark:focus-within:[&_.textarea-field-wrapper]:ring-base-border-light",
-      "[&_.textarea-field-wrapper]:shadow-sm",
-      floating == "outer" &&
-        "[&_.textarea-field-wrapper_.floating-label]:bg-white dark:[&_.textarea-field-wrapper_.floating-label]:bg-base-bg-dark"
-    ]
-  end
 
   defp color_variant("outline", "natural", floating) do
     [

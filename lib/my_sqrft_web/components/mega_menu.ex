@@ -309,13 +309,6 @@ defmodule MySqrftWeb.Components.MegaMenu do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "[&>.mega-menu-content]:bg-white text-base-text-light [&>.mega-menu-content]:border-base-border-light [&>.mega-menu-content]:shadow-sm",
-      "dark:[&>.mega-menu-content]:bg-base-bg-dark dark:text-base-text-dark dark:[&>.mega-menu-content]:border-base-border-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     [
       "[&>.mega-menu-content]:bg-white text-black"
@@ -597,76 +590,6 @@ defmodule MySqrftWeb.Components.MegaMenu do
     [
       "text-silver-bordered-text-light [&>.mega-menu-content]:border-silver-bordered-text-light [&>.mega-menu-content]:bg-silver-bordered-bg-light",
       "dark:text-silver-bordered-text-dark dark:[&>.mega-menu-content]:border-silver-bordered-text-dark dark:[&>.mega-menu-content]:bg-silver-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("gradient", "natural") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-natural-from-light to-gradient-natural-to-light text-white",
-      "dark:from-gradient-natural-from-dark dark:to-white dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "primary") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-primary-from-light to-gradient-primary-to-light text-white",
-      "dark:from-gradient-primary-from-dark dark:to-gradient-primary-to-dark dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "secondary") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-secondary-from-light to-gradient-secondary-to-light text-white",
-      "dark:from-gradient-secondary-from-dark dark:to-gradient-secondary-to-dark dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "success") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-success-from-light to-gradient-success-to-light text-white",
-      "dark:from-gradient-success-from-dark dark:to-gradient-success-to-dark dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "warning") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-warning-from-light to-gradient-warning-to-light text-white",
-      "dark:from-gradient-warning-from-dark dark:to-gradient-warning-to-dark dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "danger") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-danger-from-light to-gradient-danger-to-light text-white",
-      "dark:from-gradient-danger-from-dark dark:to-gradient-danger-to-dark dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "info") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-info-from-light to-gradient-info-to-light text-white",
-      "dark:from-gradient-info-from-dark dark:to-gradient-info-to-dark dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "misc") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-misc-from-light to-gradient-misc-to-light text-white",
-      "dark:from-gradient-misc-from-dark dark:to-gradient-misc-to-dark dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "dawn") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-dawn-from-light to-gradient-dawn-to-light text-white",
-      "dark:from-gradient-dawn-from-dark dark:to-gradient-dawn-to-dark dark:text-black"
-    ]
-  end
-
-  defp color_variant("gradient", "silver") do
-    [
-      "[&>.mega-menu-content]:bg-gradient-to-br from-gradient-silver-from-light to-gradient-silver-to-light text-white",
-      "dark:from-gradient-silver-from-dark dark:to-gradient-silver-to-dark dark:text-black"
     ]
   end
 

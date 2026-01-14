@@ -209,12 +209,6 @@ defmodule MySqrftWeb.Components.Rating do
 
   defp size_class("extra_large"), do: "[&_.rating-icon]:size-8"
 
-  defp size_class("double_large"), do: "[&_.rating-icon]:size-9"
-
-  defp size_class("triple_large"), do: "[&_.rating-icon]:size-10"
-
-  defp size_class("quadruple_large"), do: "[&_.rating-icon]:size-11"
-
   defp size_class(params) when is_binary(params), do: params
 
   defp color_class("base") do

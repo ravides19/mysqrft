@@ -591,29 +591,6 @@ defmodule MySqrftWeb.Components.Stepper do
   # colors
   # stepper-loading-step, stepper-current-step, stepper-completed-step, stepper-canceled-step
 
-  defp color_variant("base", _) do
-    [
-      "[&_.stepper-step]:bg-white [&_.stepper-step]:text-base-text-light [&_.stepper-loading-icon]:fill-stepper-current-step-text-light",
-      "[&_.stepper-step]:border-base-border-light [&_.stepper-current-step_.stepper-step]:border-stepper-current-step-border-light",
-      "[&_.stepper-current-step_.stepper-step]:text-stepper-current-step-text-light",
-      "[&_.stepper-completed-step_.stepper-step]:bg-stepper-completed-step-bg-light [&_.stepper-completed-step_.stepper-step]:border-stepper-completed-step-border-light",
-      "[&_.stepper-completed-step_.stepper-step]:text-white",
-      "dark:[&_.stepper-step]:bg-base-bg-dark dark:[&_.stepper-step]:text-base-text-dark dark:[&_.stepper-step]:border-base-border-dark",
-      "dark:[&_.stepper-current-step_.stepper-step]:text-stepper-current-step-text-dark",
-      "dark:[&_.stepper-current-step_.stepper-step]:border-stepper-current-step-border-dark",
-      "dark:[&_.stepper-completed-step_.stepper-step]:bg-stepper-completed-step-bg-dark dark:[&_.stepper-completed-step_.stepper-step]:border-stepper-completed-step-border-dark",
-      "dark:[&_.stepper-completed-step_.stepper-step]:text-white",
-      "[&_.stepper-canceled-step_.stepper-step]:bg-stepper-canceled-step-bg-light [&_.stepper-canceled-step_.stepper-step]:border-stepper-canceled-step-border-light",
-      "[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "dark:[&_.stepper-canceled-step_.stepper-step]:bg-stepper-canceled-step-bg-dark dark:[&_.stepper-canceled-step_.stepper-step]:border-stepper-canceled-step-border-dark",
-      "dark:[&_.stepper-canceled-step_.stepper-step]:text-white",
-      "[&_.stepper-separator]:border-base-border-light dark:[&_.stepper-separator]:border-base-border-dark",
-      "[&_.stepper-completed-step+.stepper-separator]:border-stepper-separator-completed-border-light dark:[&_.stepper-completed-step+.stepper-separator]:border-stepper-separator-completed-border-dark",
-      "[&.vertical-stepper_.stepper-completed-step_.stepper-separator]:border-stepper-separator-completed-border-light",
-      "dark:[&.vertical-stepper_.stepper-completed-step_.stepper-separator]:border-stepper-separator-completed-border-dark"
-    ]
-  end
-
   defp color_variant("default", "natural") do
     [
       "[&_.stepper-step]:bg-natural-bordered-bg-light [&_.stepper-step]:text-natural-bordered-text-light [&_.stepper-loading-icon]:fill-stepper-loading-icon-fill",

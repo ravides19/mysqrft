@@ -1204,8 +1204,6 @@ defmodule MySqrftWeb.Components.Typography do
 
   defp color("dark"), do: "text-default-dark-bg"
 
-  defp color("inherit"), do: "text-inherit"
-
   defp color(params) when is_binary(params), do: params
 
   defp size_class("extra_small"), do: "text-xs"
@@ -1217,12 +1215,6 @@ defmodule MySqrftWeb.Components.Typography do
   defp size_class("large"), do: "text-lg"
 
   defp size_class("extra_large"), do: "text-xl"
-
-  defp size_class("double_large"), do: "text-2xl"
-
-  defp size_class("triple_large"), do: "text-3xl"
-
-  defp size_class("quadruple_large"), do: "text-4xl"
 
   defp size_class(params) when is_binary(params), do: params
 end

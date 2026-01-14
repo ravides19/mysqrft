@@ -567,12 +567,6 @@ defmodule MySqrftWeb.Components.Progress do
 
   defp size_class("extra_large", "horizontal"), do: "text-xl h-5 [&>*]:h-5"
 
-  defp size_class("double_large", "horizontal"), do: "text-xl h-6 [&>*]:h-6"
-
-  defp size_class("triple_large", "horizontal"), do: "text-xl h-7 [&>*]:h-7"
-
-  defp size_class("quadruple_large", "horizontal"), do: "text-xl h-8 [&>*]:h-8"
-
   defp size_class("extra_small", "vertical"), do: "text-xs w-1 h-[5rem]"
 
   defp size_class("small", "vertical"), do: "text-sm w-2 h-[6rem]"
@@ -583,19 +577,7 @@ defmodule MySqrftWeb.Components.Progress do
 
   defp size_class("extra_large", "vertical"), do: "text-xl w-5 h-[9rem]"
 
-  defp size_class("double_large", "vertical"), do: "text-xl w-6 h-[10rem]"
-
-  defp size_class("triple_large", "vertical"), do: "text-xl w-7 h-[11rem]"
-
-  defp size_class("quadruple_large", "vertical"), do: "text-xl w-8 h-[12rem]"
-
   defp size_class(params, _) when is_binary(params), do: params
-
-  defp color_variant("base", _) do
-    [
-      "text-base-text-light bg-base-border-light dark:text-base-text-dark dark:bg-base-border-dark"
-    ]
-  end
 
   defp color_variant("default", "white") do
     [

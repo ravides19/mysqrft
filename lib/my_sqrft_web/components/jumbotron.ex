@@ -158,12 +158,6 @@ defmodule MySqrftWeb.Components.Jumbotron do
 
   defp padding_size("extra_large"), do: "p-5"
 
-  defp padding_size("double_large"), do: "p-6"
-
-  defp padding_size("triple_large"), do: "p-7"
-
-  defp padding_size("quadruple_large"), do: "p-8"
-
   defp padding_size(params) when is_binary(params), do: params
 
   defp space_class("extra_small"), do: "space-y-2"
@@ -177,13 +171,6 @@ defmodule MySqrftWeb.Components.Jumbotron do
   defp space_class("extra_large"), do: "space-y-6"
 
   defp space_class(params) when is_binary(params), do: params
-
-  defp color_variant("base", _) do
-    [
-      "bg-white text-base-text-light border-base-border-light shadow-sm",
-      "dark:bg-base-bg-dark dark:text-base-text-dark dark:border-base-border-dark"
-    ]
-  end
 
   defp color_variant("default", "white") do
     [

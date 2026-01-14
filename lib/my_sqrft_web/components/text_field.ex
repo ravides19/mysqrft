@@ -370,21 +370,6 @@ defmodule MySqrftWeb.Components.TextField do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _, floating) do
-    [
-      "[&_.text-field-wrapper:not(:has(.text-field-error))]:bg-white",
-      "dark:[&_.text-field-wrapper:not(:has(.text-field-error))]:bg-base-bg-dark",
-      "text-base-text-light dark:text-base-text-dark [&_.text-field-wrapper:not(:has(.text-field-error))]:border-base-border-light",
-      "dark:[&_.text-field-wrapper:not(:has(.text-field-error))]:border-base-border-dark",
-      "[&_.text-field-wrapper.text-field-error]:border-rose-700",
-      "[&_.text-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.text-field-wrapper>input]:placeholder:text-base-text-dark",
-      "focus-within:[&_.text-field-wrapper]:ring-base-border-light dark:focus-within:[&_.text-field-wrapper]:ring-base-border-light",
-      "[&_.text-field-wrapper]:shadow-sm",
-      floating == "outer" &&
-        "[&_.text-field-wrapper_.floating-label]:bg-white dark:[&_.text-field-wrapper_.floating-label]:bg-base-bg-dark"
-    ]
-  end
-
   defp color_variant("outline", "natural", floating) do
     [
       "text-natural-light dark:text-natural-dark [&_.text-field-wrapper:not(:has(.text-field-error))]:border-natural-light",

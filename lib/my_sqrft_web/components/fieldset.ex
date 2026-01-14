@@ -220,13 +220,6 @@ defmodule MySqrftWeb.Components.Fieldset do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _) do
-    [
-      "text-base-text-light [&_.fieldset-field]:border-base-border-light [&_.fieldset-field]:bg-white [&_.fieldset-field]:shadow-sm",
-      "dark:text-base-text-dark dark:[&_.fieldset-field]:border-base-border-dark dark:[&_.fieldset-field]:bg-base-bg-dark"
-    ]
-  end
-
   defp color_variant("default", "white") do
     [
       "[&_.fieldset-field]:bg-white text-black",
@@ -448,100 +441,6 @@ defmodule MySqrftWeb.Components.Fieldset do
       "[&_.fieldset-field]:bg-silver-light text-white dark:[&_.fieldset-field]:bg-silver-dark dark:text-black",
       "shadow-[0px_4px_6px_-4px_var(--color-shadow-silver)] shadow-[0px_10px_15px_-3px_var(--color-shadow-silver)] dark:shadow-none",
       "[&_.fieldset-legend]:bg-silver-light dark:[&_.fieldset-legend]:bg-silver-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "white") do
-    [
-      "[&_.fieldset-field]:bg-white text-black [&_.fieldset-field]:border-bordered-white-border",
-      "[&_.fieldset-legend]:bg-white"
-    ]
-  end
-
-  defp color_variant("bordered", "dark") do
-    [
-      "[&_.fieldset-field]:bg-default-dark-bg text-white [&_.fieldset-field]:border-silver-hover-light",
-      "[&_.fieldset-legend]:bg-default-dark-bg"
-    ]
-  end
-
-  defp color_variant("bordered", "natural") do
-    [
-      "text-natural-bordered-text-light [&_.fieldset-field]:border-natural-bordered-text-light [&_.fieldset-field]:bg-natural-bordered-bg-light",
-      "dark:text-natural-hover-dark dark:[&_.fieldset-field]:border-natural-hover-dark dark:[&_.fieldset-field]:bg-natural-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-natural-bordered-bg-light dark:[&_.fieldset-legend]:bg-natural-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "primary") do
-    [
-      "text-primary-bordered-text-light [&_.fieldset-field]:border-primary-bordered-text-light [&_.fieldset-field]:bg-primary-bordered-bg-light",
-      "dark:text-primary-hover-dark dark:[&_.fieldset-field]:border-primary-hover-dark dark:[&_.fieldset-field]:bg-primary-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-primary-bordered-bg-light dark:[&_.fieldset-legend]:bg-primary-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "secondary") do
-    [
-      "text-secondary-bordered-text-light [&_.fieldset-field]:border-secondary-bordered-text-light [&_.fieldset-field]:bg-secondary-bordered-bg-light",
-      "dark:text-secondary-hover-dark dark:[&_.fieldset-field]:border-secondary-hover-dark dark:[&_.fieldset-field]:bg-secondary-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-secondary-bordered-bg-light dark:[&_.fieldset-legend]:bg-secondary-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "success") do
-    [
-      "text-success-bordered-text-light [&_.fieldset-field]:border-success-bordered-text-light [&_.fieldset-field]:bg-success-bordered-bg-light",
-      "dark:text-success-hover-dark dark:[&_.fieldset-field]:border-success-hover-dark dark:[&_.fieldset-field]:bg-success-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-success-bordered-bg-light dark:[&_.fieldset-legend]:bg-success-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "warning") do
-    [
-      "text-warning-bordered-text-light [&_.fieldset-field]:border-warning-bordered-text-light [&_.fieldset-field]:bg-warning-bordered-bg-light",
-      "dark:text-warning-hover-dark dark:[&_.fieldset-field]:border-warning-hover-dark dark:[&_.fieldset-field]:bg-warning-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-warning-bordered-bg-light dark:[&_.fieldset-legend]:bg-warning-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "danger") do
-    [
-      "text-danger-bordered-text-light [&_.fieldset-field]:border-danger-bordered-text-light [&_.fieldset-field]:bg-danger-bordered-bg-light",
-      "dark:text-danger-hover-dark dark:[&_.fieldset-field]:border-danger-hover-dark dark:[&_.fieldset-field]:bg-danger-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-danger-bordered-bg-light dark:[&_.fieldset-legend]:bg-danger-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "info") do
-    [
-      "text-info-bordered-text-light [&_.fieldset-field]:border-info-bordered-text-light [&_.fieldset-field]:bg-info-bordered-bg-light",
-      "dark:text-info-hover-dark dark:[&_.fieldset-field]:border-info-hover-dark dark:[&_.fieldset-field]:bg-info-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-info-bordered-bg-light dark:[&_.fieldset-legend]:bg-info-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "misc") do
-    [
-      "text-misc-bordered-text-light [&_.fieldset-field]:border-misc-bordered-text-light [&_.fieldset-field]:bg-misc-bordered-bg-light",
-      "dark:text-misc-hover-dark dark:[&_.fieldset-field]:border-misc-hover-dark dark:[&_.fieldset-field]:bg-misc-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-misc-bordered-bg-light dark:[&_.fieldset-legend]:bg-misc-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "dawn") do
-    [
-      "text-dawn-bordered-text-light [&_.fieldset-field]:border-dawn-bordered-text-light [&_.fieldset-field]:bg-dawn-bordered-bg-light",
-      "dark:text-dawn-hover-dark dark:[&_.fieldset-field]:border-dawn-hover-dark dark:[&_.fieldset-field]:bg-dawn-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-dawn-bordered-bg-light dark:[&_.fieldset-legend]:bg-dawn-bordered-bg-dark"
-    ]
-  end
-
-  defp color_variant("bordered", "silver") do
-    [
-      "text-silver-hover-light [&_.fieldset-field]:border-silver-hover-light [&_.fieldset-field]:bg-silver-bordered-bg-light",
-      "dark:text-silver-hover-dark dark:[&_.fieldset-field]:border-silver-hover-dark dark:[&_.fieldset-field]:bg-silver-bordered-bg-dark",
-      "[&_.fieldset-legend]:bg-silver-bordered-bg-light dark:[&_.fieldset-legend]:bg-silver-bordered-bg-dark"
     ]
   end
 

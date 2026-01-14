@@ -380,21 +380,6 @@ defmodule MySqrftWeb.Components.SearchField do
 
   defp space_class(params) when is_binary(params), do: params
 
-  defp color_variant("base", _, floating) do
-    [
-      "[&_.search-field-wrapper:not(:has(.search-field-error))]:bg-white",
-      "dark:[&_.search-field-wrapper:not(:has(.search-field-error))]:bg-base-bg-dark",
-      "text-base-text-light dark:text-base-text-dark [&_.search-field-wrapper:not(:has(.search-field-error))]:border-base-border-light",
-      "dark:[&_.search-field-wrapper:not(:has(.search-field-error))]:border-base-border-dark",
-      "[&_.search-field-wrapper.search-field-error]:border-rose-700",
-      "[&_.search-field-wrapper>input]:placeholder:text-base-text-light dark:[&_.search-field-wrapper>input]:placeholder:text-base-text-dark",
-      "focus-within:[&_.search-field-wrapper]:ring-base-border-light dark:focus-within:[&_.search-field-wrapper]:ring-base-border-light",
-      "[&_.search-field-wrapper]:shadow-sm",
-      floating == "outer" &&
-        "[&_.search-field-wrapper_.floating-label]:bg-white dark:[&_.search-field-wrapper_.floating-label]:bg-base-bg-dark"
-    ]
-  end
-
   defp color_variant("outline", "natural", floating) do
     [
       "text-natural-light dark:text-natural-dark [&_.search-field-wrapper:not(:has(.search-field-error))]:border-natural-light",
