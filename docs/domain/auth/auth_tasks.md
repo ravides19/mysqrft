@@ -1,5 +1,25 @@
 # Auth Domain - Beads Tasks
 
+## BD Issue ID Mapping
+
+| Task ID | BD Issue ID | Title |
+|---------|-------------|-------|
+| AUTH-EPIC-1 | `mysqrft-jc7` | Complete Auth Domain Implementation |
+| AUTH-T-2 | `mysqrft-23p` | Write Comprehensive Password Auth Tests |
+| AUTH-T-4 | `mysqrft-0n4` | Write Comprehensive Magic Link Auth Tests |
+| AUTH-T-5 | `mysqrft-4g1` | Create UserIdentity Resource for OAuth2 |
+| AUTH-T-6 | `mysqrft-3w2` | Implement Google OAuth2 Strategy |
+| AUTH-T-8 | `mysqrft-6in` | Write Google OAuth2 Tests |
+| AUTH-T-9 | `mysqrft-n8o` | Create Session Tracking Resource |
+| AUTH-T-11 | `mysqrft-6vs` | Create Session Management LiveView |
+| AUTH-T-14 | `mysqrft-099` | Add Rate Limiting to Authentication Actions |
+| AUTH-T-15 | `mysqrft-do4` | Implement Authentication Event Logging |
+| AUTH-T-17 | `mysqrft-a0x` | Create Auth Implementation Documentation |
+
+> **Note**: Tasks AUTH-T-1, AUTH-T-3, AUTH-T-7, AUTH-T-10, AUTH-T-12, AUTH-T-13, AUTH-T-16, AUTH-T-18 are not yet created in bd.
+
+---
+
 ## Implementation Status
 
 ### Already Implemented
@@ -23,9 +43,12 @@
 
 ## EPIC: AUTH-EPIC-1
 
+> **BD Issue**: `mysqrft-jc7`
+
 ```yaml
 EPIC:
   id: AUTH-EPIC-1
+  bd_id: mysqrft-jc7
   title: Complete Auth Domain Implementation
   description: |
     Implement the complete authentication layer for Mysqrft as defined in the Auth PRD.
@@ -329,9 +352,12 @@ TASK:
 
 ### AUTH-T-2: Test Password Authentication End-to-End
 
+> **BD Issue**: `mysqrft-23p`
+
 ```yaml
 TASK:
   id: AUTH-T-2
+  bd_id: mysqrft-23p
   title: Write Comprehensive Password Auth Tests
   description: |
     Create comprehensive test coverage for password authentication including:
@@ -383,9 +409,12 @@ TASK:
 
 ### AUTH-T-4: Test Magic Link Authentication End-to-End
 
+> **BD Issue**: `mysqrft-0n4`
+
 ```yaml
 TASK:
   id: AUTH-T-4
+  bd_id: mysqrft-0n4
   title: Write Comprehensive Magic Link Auth Tests
   description: |
     Create comprehensive test coverage for magic link authentication:
@@ -409,9 +438,12 @@ TASK:
 
 ### AUTH-T-5: Create UserIdentity Resource for OAuth2
 
+> **BD Issue**: `mysqrft-4g1`
+
 ```yaml
 TASK:
   id: AUTH-T-5
+  bd_id: mysqrft-4g1
   title: Create UserIdentity Resource
   description: |
     Create an Ash resource to store OAuth2 provider identities linked to users.
@@ -436,9 +468,12 @@ TASK:
 
 ### AUTH-T-6: Implement Google OAuth2 Strategy
 
+> **BD Issue**: `mysqrft-3w2`
+
 ```yaml
 TASK:
   id: AUTH-T-6
+  bd_id: mysqrft-3w2
   title: Configure Google OAuth2 Strategy
   description: |
     Add Google OAuth2 strategy to User resource:
@@ -492,9 +527,12 @@ TASK:
 
 ### AUTH-T-8: Test Google OAuth2 Authentication
 
+> **BD Issue**: `mysqrft-6in`
+
 ```yaml
 TASK:
   id: AUTH-T-8
+  bd_id: mysqrft-6in
   title: Write Google OAuth2 Tests
   description: |
     Create comprehensive tests for Google OAuth2 authentication:
@@ -519,9 +557,12 @@ TASK:
 
 ### AUTH-T-9: Create Session Resource
 
+> **BD Issue**: `mysqrft-n8o`
+
 ```yaml
 TASK:
   id: AUTH-T-9
+  bd_id: mysqrft-n8o
   title: Create Session Tracking Resource
   description: |
     Create an Ash resource to track active user sessions with metadata:
@@ -578,9 +619,12 @@ TASK:
 
 ### AUTH-T-11: Implement Session Management UI
 
+> **BD Issue**: `mysqrft-6vs`
+
 ```yaml
 TASK:
   id: AUTH-T-11
+  bd_id: mysqrft-6vs
   title: Create Session Management LiveView
   description: |
     Create a LiveView for users to manage their active sessions:
@@ -661,9 +705,12 @@ TASK:
 
 ### AUTH-T-14: Implement Rate Limiting for Auth Actions
 
+> **BD Issue**: `mysqrft-099`
+
 ```yaml
 TASK:
   id: AUTH-T-14
+  bd_id: mysqrft-099
   title: Add Rate Limiting to Authentication Actions
   description: |
     Implement rate limiting to prevent brute-force attacks:
@@ -693,9 +740,12 @@ TASK:
 
 ### AUTH-T-15: Implement Authentication Event Logging
 
+> **BD Issue**: `mysqrft-do4`
+
 ```yaml
 TASK:
   id: AUTH-T-15
+  bd_id: mysqrft-do4
   title: Create Authentication Event Resource
   description: |
     Create a resource or Telemetry-based system to log auth events:
@@ -750,9 +800,12 @@ TASK:
 
 ### AUTH-T-17: Document Authentication Implementation
 
+> **BD Issue**: `mysqrft-a0x`
+
 ```yaml
 TASK:
   id: AUTH-T-17
+  bd_id: mysqrft-a0x
   title: Create Auth Implementation Documentation
   description: |
     Create comprehensive documentation for the Auth implementation:
