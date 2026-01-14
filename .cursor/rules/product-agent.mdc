@@ -4,21 +4,20 @@ alwaysApply: true
 
 # Product Requirements Documentation Generation
 
-This document outlines the process and methodology used to generate comprehensive product requirements documentation for HyprOne's domain model.
+This document outlines the process and methodology used to generate comprehensive product requirements documentation for Mysqrft's domain model.
 
 ## Overview
 
-Product requirements documents (PRDs) were systematically generated for each sub-domain identified in the HyprOne domain model (`docs/domain/domains.md`). These documents follow a standardized template and structure to ensure consistency and completeness across all domains.
+Product requirements documents (PRDs) were systematically generated for each resource identified in the Mysqrft domain model (`docs/domains.md`). These documents follow a standardized template and structure to ensure consistency and completeness across all domains.
 
-This is a multi tenant SaaS Application keep this in context at all times.
 
 ## Generation Process
 
 ### 1. Source Material
 
 The product requirements were generated based on:
-- **Domain Model**: The primary source was `docs/domain/domains.md`, which defines all domains and sub-domains using Domain-Driven Design (DDD) principles
-- **Sub-domain Descriptions**: Each sub-domain in the domain model includes a list of key capabilities and responsibilities
+- **Domain Model**: The primary source was `docs/domain/domains.md`, which defines all domains and resources using Domain-Driven Design (DDD) principles
+- **resource Descriptions**: Each resource in the domain model includes a list of key capabilities and responsibilities
 - **Domain Relationships**: Understanding how domains interact with each other to ensure proper integration points
 
 ### 2. Document Structure
@@ -26,14 +25,14 @@ The product requirements were generated based on:
 Each product requirements document follows a consistent structure with the following sections in order:
 
 #### **Overview**
-- High-level description of the sub-domain
-- Purpose and role within the HyprOne platform
+- High-level description of the resource
+- Purpose and role within the Mysqrft platform
 - Context within the broader domain architecture
-- Typically 2-3 paragraphs explaining what the sub-domain does and why it exists
+- Typically 2-3 paragraphs explaining what the resource does and why it exists
 
 #### **Goals & Objectives**
 - Primary business goals (bullet list)
-- Key objectives the sub-domain aims to achieve
+- Key objectives the resource aims to achieve
 - Success outcomes expected
 - Typically 4-6 bullet points
 
@@ -48,7 +47,7 @@ Each product requirements document follows a consistent structure with the follo
 - Persona-based user stories following the format: "As a [role], I want [capability] so that [benefit]"
 - Covers multiple user personas (marketers, analysts, developers, administrators, privacy officers, etc.)
 - Numbered list format: `1. **As a [role]**, I want [capability] so that [benefit].`
-- Typically 5-7 user stories per sub-domain
+- Typically 5-7 user stories per resource
 
 #### **Acceptance Criteria**
 - Detailed acceptance criteria for each key feature
@@ -146,7 +145,7 @@ Each product requirements document follows a consistent structure with the follo
 - Include both targets (what we aim for) and legal maximums (what we must not exceed)
 
 #### **Integration Points**
-- Integration with other domains within HyprOne
+- Integration with other domains within Mysqrft
 - External system integrations
 - Event publishing/subscribing relationships
 - Data dependencies and data flows
@@ -162,7 +161,7 @@ Each product requirements document follows a consistent structure with the follo
 - Typically 4-6 dependencies
 
 #### **Success Metrics**
-- Key performance indicators (KPIs) for the sub-domain
+- Key performance indicators (KPIs) for the resource
 - Measurable targets with specific values
 - Format: `- **Metric Name**: Description (target: [value])`
 - Includes both the metric description and target value
@@ -173,17 +172,17 @@ Each product requirements document follows a consistent structure with the follo
 
 The requirements were generated using the following systematic approach:
 
-1. **Domain Analysis**: Review each sub-domain's description and capabilities from `domains.md`
-   - Understand the sub-domain's purpose and responsibilities
+1. **Domain Analysis**: Review each resource's description and capabilities from `domains.md`
+   - Understand the resource's purpose and responsibilities
    - Identify key capabilities listed in the domain model
    - Review domain relationships to understand integration needs
 
-2. **Feature Extraction**: Identify core features based on the sub-domain's responsibilities
+2. **Feature Extraction**: Identify core features based on the resource's responsibilities
    - Map domain capabilities to key features
    - Group related capabilities into feature areas
    - Ensure all domain capabilities are covered
 
-3. **User Persona Identification**: Determine relevant user personas for each sub-domain
+3. **User Persona Identification**: Determine relevant user personas for each resource
    - Identify primary users (marketers, analysts, developers, administrators, etc.)
    - Consider secondary users (customers, support agents, privacy officers, etc.)
    - Ensure diverse perspectives are represented
@@ -233,65 +232,13 @@ The requirements were generated using the following systematic approach:
 
 ### 4. Generated Documents
 
-As of the current state, product requirements have been generated for the following domains and sub-domains:
+As of the current state, product requirements have been generated for the following domains and resources:
 
-#### **Customer Data Platform (CDP)** - 5/5 sub-domains ✓
-- `identity-resolution.md`
-- `data-ingestion.md`
-- `data-schema-modeling.md`
-- `consent-privacy.md`
-- `data-warehouse.md`
-
-#### **AdTech & Campaign Management** - 6/6 sub-domains ✓
-- `demand-side-platform.md`
-- `campaign-management.md`
-- `audience-management.md`
-- `creative-management.md`
-- `bidding-optimization.md`
-- `retail-media-network.md`
-
-#### **Marketing Automation** - 5/5 sub-domains ✓
-- `journey-builder.md`
-- `channel-orchestration.md`
-- `personalization-engine.md`
-- `lead-scoring-intent.md`
-- `workflow-automation.md`
-
-#### **SEO & Content Marketing** - 6/6 sub-domains ✓
-- `seo-management.md`
-- `content-planning.md`
-- `content-optimization.md`
-- `link-building-outreach.md`
-- `local-seo.md`
-- `seo-analytics.md`
-
-#### **Analytics & Attribution** - 5/5 sub-domains ✓
-- `unified-analytics.md`
-- `attribution-modeling.md`
-- `performance-metrics.md`
-- `experiment-framework.md`
-- `forecasting-insights.md`
-
-#### **Sales & Revenue Operations** - 8/8 sub-domains ✓
-- `sales-crm.md`
-- `lead-management.md`
-- `sales-enablement.md`
-- `quotes-proposals.md`
-- `billing-invoicing.md`
-- `revenue-analytics.md`
-- `sales-forecasting.md`
-- `multi-tenant-management.md`
-
-#### **Intelligence & AI** - 2/5 sub-domains ✓
-- `ai-copilot.md`
-- `auto-iteration-engine.md`
-
-**Total Generated**: 37 product requirements documents
 
 ### 5. File Naming Convention
 
 All product requirements documents follow a consistent naming convention:
-- **Format**: `{sub-domain-name}.md` (kebab-case)
+- **Format**: `{resource-name}.md` (kebab-case)
 - **Location**: `docs/domain/{domain-name}/`
 - **Example**: `docs/domain/customer-data-platform/consent-privacy.md`
 
@@ -326,37 +273,37 @@ All product requirements documents follow a consistent naming convention:
 ### 7. Domain Relationships
 
 When generating requirements, special attention was paid to:
-- **Cross-domain integrations**: How sub-domains interact with other domains
-- **Data dependencies**: What data each sub-domain needs from others
+- **Cross-domain integrations**: How resources interact with other domains
+- **Data dependencies**: What data each resource needs from others
 - **Event flows**: How events are published and consumed across domains
 - **API dependencies**: Which APIs are called by other domains
 
 ### 8. Marking System
 
-The domain model (`domains.md`) uses a checkmark (✓) to indicate which sub-domains have generated product requirements. This provides a quick visual reference for:
+The domain model (`domains.md`) uses a checkmark (✓) to indicate which resources have generated product requirements. This provides a quick visual reference for:
 - Completion status
 - Remaining work
 - Documentation coverage
 
 ### 9. Future Work
 
-The following sub-domains still require product requirements generation:
+The following resources still require product requirements generation:
 
-#### **Intelligence & AI** - 3 remaining sub-domains
+#### **Intelligence & AI** - 3 remaining resources
 - Predictive Models
 - Creative AI
 - Recommendation Engine
 
-#### **Supporting Domains** - All sub-domains
-- Customer Support & Service (6 sub-domains)
-- Go-To-Market Strategy (5 sub-domains)
-- Integrations & Connectors (6 sub-domains)
-- User & Access Management (3 sub-domains)
-- Notification & Communication (2 sub-domains)
-- Configuration & Settings (2 sub-domains)
+#### **Supporting Domains** - All resources
+- Customer Support & Service (6 resources)
+- Go-To-Market Strategy (5 resources)
+- Integrations & Connectors (6 resources)
+- User & Access Management (3 resources)
+- Notification & Communication (2 resources)
+- Configuration & Settings (2 resources)
 
-#### **Shared Kernel** - All sub-domains
-- Common Infrastructure (5 sub-domains)
+#### **Shared Kernel** - All resources
+- Common Infrastructure (5 resources)
 
 **Total Remaining**: 32 product requirements documents
 
@@ -442,7 +389,9 @@ When generating a new product requirements document, ensure:
 - [ ] Integration points reference other domains correctly
 - [ ] Dependencies are comprehensive
 - [ ] Success metrics have target values
+- [ ] Each sub task should be created so that everything fits in the context of an LLM agent and a unit executable task.
 - [ ] All domain capabilities are covered
+- [ ] All test are created and we should have test coverage for 98% and test pass rate is 100%. Create tasks for tests as well.
 
 ## Examples and Templates
 
@@ -515,11 +464,11 @@ Here's a complete example of how NFRs should be structured:
 ### Template: Complete Document Structure
 
 ```markdown
-# [Sub-domain Name] - Product Requirements
+# [resource Name] - Product Requirements
 
 ## Overview
 
-[2-3 paragraph description of the sub-domain, its purpose, and role in HyprOne]
+[2-3 paragraph description of the resource, its purpose, and role in Mysqrft]
 
 ## Goals & Objectives
 
@@ -602,7 +551,7 @@ Here's a complete example of how NFRs should be structured:
 
 ## Conclusion
 
-The product requirements documentation provides a comprehensive foundation for building HyprOne. Each document serves as a detailed specification that guides development, design, and product decisions. The systematic approach ensures consistency and completeness across all domains.
+The product requirements documentation provides a comprehensive foundation for building Mysqrft. Each document serves as a detailed specification that guides development, design, and product decisions. The systematic approach ensures consistency and completeness across all domains.
 
 When generating new product requirements documents, follow this guide to ensure:
 - Complete coverage of all requirement types
@@ -610,10 +559,4 @@ When generating new product requirements documents, follow this guide to ensure:
 - Comprehensive non-functional requirements with specific metrics
 - Clear integration points and dependencies
 - Measurable success metrics
-
----
-
-**Last Updated**: Generated during initial product requirements phase
-**Total Documents**: 37 generated, 32 remaining
-**Coverage**: Core domains complete, supporting domains pending
 

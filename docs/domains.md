@@ -4,13 +4,13 @@ Domain Driven Design for Mysqrft.com
 
 **Goal:** Login + identity proof.
 
-* Ash multitenancy schema based for postgres
 * magic link passwordless authentication
 * OTP login (phone/email)
+* Account recovery
 * Social login (optional)
 * Device/session management, logout all devices
 * MFA (optional)
-* Account recovery
+
 
 ## 2) UserManagement
 
