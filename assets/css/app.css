@@ -315,6 +315,29 @@
 /* Application-level light/dark theme using the data-theme attribute
    controlled by the theme_toggle component and root.html.heex script. */
 :root {
+    /* Default to light; "system" will override via prefers-color-scheme
+       when no explicit data-theme is set. */
+    color-scheme: light;
+    --app-bg: #f9fafb;
+    /* light slate-50/100 */
+    --app-fg: #0f172a;
+    /* slate-900 */
+}
+
+/* When the user has not explicitly chosen a theme (system mode),
+   follow the OS-level preference. */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        color-scheme: dark;
+        --app-bg: #020617;
+        /* slate-950 */
+        --app-fg: #e5e7eb;
+        /* slate-200 */
+    }
+}
+
+/* Explicit user choices override system preference. */
+:root[data-theme="light"] {
     color-scheme: light;
     --app-bg: #f9fafb;
     /* light slate-50/100 */
