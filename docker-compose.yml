@@ -1,0 +1,115 @@
+services:
+  postgres:
+    image: postgis/postgis:latest
+    container_name: postgres_postgis
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      # POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - mysqrft_postgres_data:/var/lib/postgresql/data
+    networks:
+      - mysqrft_network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # pgadmin:
+  #   image: dpage/pgadmin4:7.5
+  #   container_name: pgadmin
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
+  #     PGADMIN_DEFAULT_PASSWORD: pgadminpassword
+  #     PGADMIN_CONFIG_SERVER_MODE: 'False'
+  #   ports:
+  #     - "5050:80"
+  #   volumes:
+  #     - mysqrft_pgadmin_data:/var/lib/pgadmin
+  #   networks:
+  #     - mysqrft_network
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+
+  # WarpStream Setup Local
+  # docker-compose --profile diagnostics up warp-diagnose
+  # docker-compose --profile setup up warp-create-topic
+  warp:
+    image: public.ecr.aws/warpstream-labs/warpstream_agent:latest
+    container_name: warpstream_agent
+    restart: unless-stopped
+    command:
+      - playground
+      - -advertiseHostnameStrategy
+      - custom
+      - -advertiseHostnameCustom
+      - warp
+    environment:
+      # Override for local development - allows connections from host machine
+      - WARPSTREAM_DISCOVERY_KAFKA_HOSTNAME_OVERRIDE=warp
+      - WARPSTREAM_PRIVATE_IP_OVERRIDE=127.0.0.1
+    ports:
+      # Kafka protocol port
+      - "9092:9092"
+      # Kafka protocol port (alternative)
+      - "9094:9094"
+    networks:
+      - mysqrft_network
+    healthcheck:
+      # Check if Kafka is responding on port 9092
+      test: [ "CMD", "sh", "-c", "nc -z localhost 9092 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # One-time diagnostic service (runs once and exits)
+  warp-diagnose:
+    image: public.ecr.aws/warpstream-labs/warpstream_agent:latest
+    command:
+      - kcmd
+      - -bootstrap-host
+      - warp
+      - -type
+      - diagnose-connection
+    networks:
+      - mysqrft_network
+    depends_on:
+      warp:
+        condition: service_healthy
+    profiles:
+      - diagnostics # Only run when explicitly requested: docker-compose --profile diagnostics up
+
+  # One-time topic creation service (runs once and exits)
+  warp-create-topic:
+    image: public.ecr.aws/warpstream-labs/warpstream_agent:latest
+    command:
+      - kcmd
+      - -bootstrap-host
+      - warp
+      - -type
+      - create-topic
+      - -topic
+      - docker-compose-test-topic
+    networks:
+      - mysqrft_network
+    depends_on:
+      warp:
+        condition: service_healthy
+    profiles:
+      - setup # Only run when explicitly requested: docker-compose --profile setup up
+
+networks:
+  mysqrft_network:
+    driver: bridge
+
+volumes:
+  mysqrft_postgres_data:
+    driver: local
+  mysqrft_pgadmin_data:
+    driver: local

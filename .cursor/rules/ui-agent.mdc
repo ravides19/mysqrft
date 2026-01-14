@@ -1,0 +1,653 @@
+# UI/UX Development Guidelines for HyprOne
+
+## Overview
+
+This document provides comprehensive guidelines for building UI/UX components in the HyprOne Phoenix application using the Nexus design system, Tailwind CSS v4, and daisyUI v5. These guidelines ensure consistency, maintainability, and a world-class user experience.
+
+## Design System Foundation
+
+### Technology Stack
+
+- **Tailwind CSS v4**: Utility-first CSS framework with CSS-based configuration
+- **daisyUI v5**: Component library built on Tailwind CSS
+- **Phoenix LiveView**: Server-rendered interactive UI
+- **HEEx Templates**: HTML + Embedded Elixir template language
+- **Heroicons**: Icon system (via `hero-*` classes)
+
+### Design Principles
+
+1. **Consistency**: Use daisyUI components and Tailwind utilities consistently
+2. **Accessibility**: Follow WCAG guidelines, use semantic HTML, proper ARIA labels
+3. **Responsiveness**: Mobile-first design with responsive breakpoints
+4. **Performance**: Minimize JavaScript, leverage server-side rendering
+5. **Maintainability**: Component-based architecture, clear separation of concerns
+
+## Component Architecture
+
+### Component Organization
+
+```
+lib/hypr_one_web/
+├── components/
+│   ├── core_components.ex      # Base components (button, input, table, list, flash, icon, header)
+│   ├── layouts.ex               # Layout components (app, flash_group, theme_toggle)
+│   ├── ui.ex                    # Main UI module that delegates to all daisyUI components
+│   └── ui/                      # Individual daisyUI component modules
+│       ├── accordion.ex
+│       ├── alert.ex
+│       ├── avatar.ex
+│       ├── badge.ex
+│       ├── button.ex            # Delegates to CoreComponents
+│       ├── card.ex
+│       ├── input.ex             # Delegates to CoreComponents
+│       ├── modal.ex
+│       ├── table.ex
+│       └── ... (60+ components)
+└── live/
+    └── [domain]/               # Domain-specific LiveViews
+```
+
+### Component Categories
+
+1. **Core Components** (`HyprOneWeb.CoreComponents`): Form-aware and foundational components
+   - `<.button>` - Button with navigation support
+   - `<.input>` - Form input with label, errors, and validation (supports text, select, checkbox, textarea)
+   - `<.table>` - Data table with columns and actions
+   - `<.list>` - Data list display
+   - `<.header>` - Page header with title, subtitle, and actions
+   - `<.flash>` - Flash message display (toast-style)
+   - `<.icon>` - Heroicon display
+   - JS helpers: `show/2`, `hide/2`
+   - Error translation: `translate_error/1`, `translate_errors/2`
+
+2. **UI Components** (`HyprOneWeb.UI`): daisyUI-based components (60+ components)
+   - Available via `import HyprOneWeb.UI` (automatically imported with `use HyprOneWeb, :live_view` or `:html`)
+   - Includes: accordion, alert, avatar, badge, breadcrumbs, button, calendar, card, carousel, chat, checkbox, collapse, countdown, diff, divider, dock, drawer, dropdown, fab, fieldset, file_input, filter, footer, hero, hover_3d, hover_gallery, indicator, join, kbd, label, list, loading, mask, menu, mockup_browser, mockup_code, mockup_phone, mockup_window, modal, navbar, pagination, progress, radial_progress, radio, range, rating, select, skeleton, stack, stat, status, steps, swap, tab, table, text_rotate, textarea, theme_controller, timeline, toast, toggle, tooltip, validator
+   - Note: `<.button>` and `<.input>` from UI delegate to CoreComponents for form-aware behavior
+
+3. **Layout Components** (`HyprOneWeb.Layouts`): Page structure and layout
+   - `<.app>` - Main app layout wrapper (requires `flash` and optional `current_scope`)
+   - `<.flash_group>` - Flash message container (automatically included in `<.app>`)
+   - `<.theme_toggle>` - Dark/light/system theme toggle
+
+4. **Domain Components**: Domain-specific components
+   - Created in domain-specific LiveView modules
+   - Encapsulate domain logic and UI
+
+## Component Development Guidelines
+
+### Function Component Structure
+
+**ALWAYS** follow this structure for function components:
+
+```elixir
+defmodule HyprOneWeb.SomeComponent do
+  use Phoenix.Component
+
+  @doc """
+  Brief description of what the component does.
+
+  ## Examples
+
+      <.component_name attr="value">
+        Content
+      </.component_name>
+  """
+  attr :required_attr, :string, required: true, doc: "Description"
+  attr :optional_attr, :string, default: nil, doc: "Description"
+  slot :inner_block, required: true
+  slot :optional_slot
+
+  def component_name(assigns) do
+    ~H"""
+    <div class="...">
+      {render_slot(@inner_block)}
+    </div>
+    """
+  end
+end
+```
+
+### Attribute Declarations
+
+- **ALWAYS** declare all attributes using `attr/3`
+- Use `required: true` for mandatory attributes
+- Provide `default` values for optional attributes
+- Include `doc` strings for all attributes
+- Use appropriate types: `:string`, `:atom`, `:list`, `:map`, `:boolean`, etc.
+
+### Slot Usage
+
+- Use `slot :inner_block` for component content
+- Use named slots for structured content (e.g., `slot :actions`, `slot :header`)
+- **ALWAYS** check if slots are empty before rendering: `:if={@slot != []}`
+
+### Class Management
+
+**ALWAYS** use class lists for conditional classes:
+
+```elixir
+class={[
+  "base-class",
+  @condition && "conditional-class",
+  @variant == "primary" && "variant-class"
+]}
+```
+
+**NEVER** use string interpolation for classes:
+
+```elixir
+# BAD
+class={"base-class #{@conditional_class}"}
+
+# GOOD
+class={["base-class", @conditional && "conditional-class"]}
+```
+
+## daisyUI Component Usage
+
+### Component Classes
+
+**ALWAYS** use daisyUI component classes when available:
+
+- Buttons: `btn`, `btn-primary`, `btn-outline`, `btn-ghost`
+- Cards: `card`, `card-body`, `card-title`, `card-actions`
+- Forms: `input`, `select`, `textarea`, `checkbox`, `radio`
+- Navigation: `menu`, `menu-item`, `navbar`, `breadcrumbs`
+- Feedback: `alert`, `toast`, `loading`, `progress`
+- Layout: `divider`, `hero`, `stats`, `table`
+
+### Color System
+
+**ALWAYS** use daisyUI semantic colors:
+
+- `primary`, `secondary`, `accent`
+- `info`, `success`, `warning`, `error`
+- `base-100`, `base-200`, `base-300`, `base-content`
+- `neutral`, `neutral-content`
+
+**NEVER** use raw Tailwind colors (e.g., `bg-red-500`) for UI elements. Use semantic colors (`bg-error`) so they adapt to themes.
+
+### Component Modifiers
+
+Use daisyUI modifiers for component variations:
+
+- Sizes: `btn-xs`, `btn-sm`, `btn-md`, `btn-lg`, `btn-xl`
+- Styles: `btn-outline`, `btn-ghost`, `btn-soft`, `btn-dash`
+- States: `btn-active`, `btn-disabled`
+- Shapes: `btn-square`, `btn-circle`, `btn-wide`, `btn-block`
+
+## Tailwind CSS Usage
+
+### Utility Classes
+
+**PREFER** Tailwind utilities over custom CSS:
+
+- Layout: `flex`, `grid`, `container`
+- Spacing: `p-4`, `m-2`, `gap-3`, `space-y-4`
+- Typography: `text-sm`, `font-medium`, `leading-tight`
+- Colors: Use daisyUI semantic colors via Tailwind (e.g., `bg-primary`, `text-base-content`)
+- Responsive: `sm:`, `md:`, `lg:`, `xl:`, `2xl:`
+
+### Responsive Design
+
+**ALWAYS** use mobile-first responsive design:
+
+```elixir
+class="text-sm md:text-base lg:text-lg"
+class="flex-col md:flex-row"
+class="hidden lg:block"
+```
+
+### Custom Utilities
+
+When Tailwind utilities aren't sufficient:
+
+1. **First**: Check if daisyUI provides a modifier
+2. **Second**: Use Tailwind arbitrary values: `w-[256px]`, `bg-[#ff0000]`
+3. **Last**: Add custom CSS in `assets/css/app.css` with `@layer utilities`
+
+## LiveView Integration
+
+### Component Usage in LiveViews
+
+**ALWAYS** use `use HyprOneWeb, :live_view` which automatically imports all components:
+
+```elixir
+defmodule HyprOneWeb.SomeLive do
+  use HyprOneWeb, :live_view  # Automatically imports:
+                               # - HyprOneWeb.UI (all daisyUI components)
+                               # - HyprOneWeb.Layouts (aliased as Layouts)
+                               # - Phoenix.Component helpers (.link, .form, etc.)
+
+  def render(assigns) do
+    ~H"""
+    <Layouts.app flash={@flash} current_scope={@current_scope}>
+      <.header>
+        Dashboard
+        <:actions>
+          <.button>New Item</.button>
+        </:actions>
+      </.header>
+      
+      <.card>
+        <:title>Welcome</:title>
+        <:body>
+          <p>Content goes here</p>
+        </:body>
+      </.card>
+    </Layouts.app>
+    """
+  end
+end
+```
+
+**Component Import Details:**
+- `use HyprOneWeb, :live_view` or `use HyprOneWeb, :html` automatically imports `HyprOneWeb.UI`
+- `HyprOneWeb.UI` provides all daisyUI components (`.button`, `.card`, `.modal`, etc.)
+- `HyprOneWeb.Layouts` is aliased as `Layouts` and provides layout components
+- Core components (`.flash`, `.input`, `.icon`) are available via `HyprOneWeb.UI` delegates
+
+### LiveView-Specific Patterns
+
+1. **Forms**: Use `to_form/2` and `<.form>` component
+2. **Streams**: Use `phx-update="stream"` for dynamic lists
+3. **Loading States**: Use `phx-click-loading`, `phx-submit-loading` classes
+4. **Flash Messages**: Use `<.flash>` component with `@flash` assign
+
+### Event Handling
+
+**ALWAYS** use LiveView bindings:
+
+- `phx-click="event_name"` for button clicks
+- `phx-submit="event_name"` for form submissions
+- `phx-change="event_name"` for input changes
+- `phx-debounce="blur"` for input validation
+
+## Layout Structure
+
+### Standard Page Layout
+
+**ALWAYS** use this structure for authenticated pages:
+
+```elixir
+<Layouts.app flash={@flash} current_scope={@current_scope}>
+  <div class="flex h-screen">
+    <!-- Use navbar, drawer, or menu components for navigation -->
+    <.navbar>
+      <!-- Navigation content -->
+    </.navbar>
+    
+    <div class="flex-1 flex flex-col">
+      <main id="layout-content" class="grow p-6">
+        <.header>
+          Page Title
+          <:subtitle>
+            Page subtitle or description
+          </:subtitle>
+          <:actions>
+            <.button>Action</.button>
+          </:actions>
+        </.header>
+        
+        <!-- Page content -->
+      </main>
+    </div>
+  </div>
+</Layouts.app>
+```
+
+### Layout Components
+
+1. **App Layout** (`<.app>`): Main layout wrapper
+   - **Required**: `flash={@flash}` - Flash messages map
+   - **Optional**: `current_scope={@current_scope}` - Current user scope for authentication
+   - Automatically includes `<.flash_group>` for flash messages
+   - Use for all authenticated pages
+
+2. **Flash Group** (`<.flash_group>`): Flash message container
+   - Automatically included in `<.app>` layout
+   - Displays info and error flash messages
+   - Shows connection status (client/server errors)
+
+3. **Theme Toggle** (`<.theme_toggle>`): Dark/light/system theme switcher
+   - Three-way toggle: system, light, dark
+   - Uses `phx-click` with `JS.dispatch("phx:set-theme")`
+   - Theme applied via `data-theme` attribute
+
+4. **Header** (`<.header>`): Page header component
+   - **Required**: `:inner_block` - Main title
+   - **Optional**: `:subtitle` - Subtitle text
+   - **Optional**: `:actions` - Action buttons slot
+   - Automatically handles spacing and layout
+
+### Navigation Components (Available via UI)
+
+Use daisyUI navigation components from `HyprOneWeb.UI`:
+
+- `<.navbar>` - Top navigation bar
+- `<.menu>` - Menu component for navigation
+- `<.drawer>` - Side drawer for mobile navigation
+- `<.breadcrumbs>` - Breadcrumb navigation
+- `<.dropdown>` - Dropdown menus
+
+## Form Development
+
+### Form Structure
+
+**ALWAYS** use this pattern for forms:
+
+```elixir
+<.form for={@form} id="entity-form" phx-change="validate" phx-submit="save">
+  <.input field={@form[:name]} type="text" label="Name" />
+  <.input field={@form[:email]} type="email" label="Email" />
+  <.input field={@form[:role]} type="select" label="Role" options={@role_options} />
+  <.input field={@form[:active]} type="checkbox" label="Active" />
+  <.input field={@form[:description]} type="textarea" label="Description" />
+  
+  <div class="flex gap-4">
+    <.button type="submit">Save</.button>
+    <.link navigate={~p"/entities"} class="btn btn-ghost">Cancel</.link>
+  </div>
+</.form>
+```
+
+**Note**: `<.form>` is from `Phoenix.Component` (automatically available). `<.input>` is from `HyprOneWeb.CoreComponents` (available via `HyprOneWeb.UI`).
+
+### Form Validation
+
+- Use `phx-change="validate"` for real-time validation
+- Use `phx-debounce="blur"` for input fields
+- Display errors using `<.input>` component (automatic error display)
+- Use `to_form/2` in LiveView to create form from changeset
+
+### Input Types
+
+**ALWAYS** use `<.input>` component for all inputs (from `HyprOneWeb.CoreComponents`):
+
+- **Text inputs**: `type="text"`, `type="email"`, `type="password"`, `type="number"`, `type="date"`, `type="datetime-local"`, `type="url"`, `type="tel"`, `type="search"`, `type="time"`, `type="week"`, `type="month"`, `type="color"`
+- **Select**: `type="select"` with `options` attribute (supports `multiple` and `prompt`)
+- **Checkbox**: `type="checkbox"` (boolean values)
+- **Textarea**: `type="textarea"` (supports `rows` and `cols`)
+
+**Input Component Features:**
+- Automatically displays errors from changeset
+- Supports `label` attribute for field labels
+- Supports `class` and `error_class` for custom styling
+- Form-aware: accepts `field={@form[:field_name]}` or explicit `name`, `value`, `errors`
+- Uses daisyUI classes: `input`, `select`, `textarea`, `checkbox` with error variants
+
+## Icon Usage
+
+### Heroicons
+
+**ALWAYS** use Heroicons via `<.icon>` component:
+
+```elixir
+<.icon name="hero-home" class="size-4" />
+<.icon name="hero-user" class="size-5" />
+<.icon name="hero-arrow-right" class="size-4" />
+```
+
+Icon names follow the pattern: `hero-{icon-name}`
+
+Common icons:
+- Navigation: `hero-home`, `hero-arrow-left`, `hero-arrow-right`
+- Actions: `hero-plus`, `hero-pencil`, `hero-trash`, `hero-check`
+- Status: `hero-check-circle`, `hero-x-circle`, `hero-exclamation-circle`
+- UI: `hero-menu`, `hero-x-mark`, `hero-magnifying-glass`
+
+## Testing Components
+
+### Component Testing
+
+**ALWAYS** test components in LiveView tests:
+
+```elixir
+defmodule HyprOneWeb.SomeLiveTest do
+  use HyprOneWeb.ConnCase
+  import Phoenix.LiveViewTest
+
+  test "renders component", %{conn: conn} do
+    {:ok, view, html} = live(conn, ~p"/some-page")
+    
+    assert has_element?(view, ".component-class")
+    assert html =~ "Expected text"
+  end
+end
+```
+
+### Test Patterns
+
+1. **Element Selection**: Use `has_element?/2` with CSS selectors
+2. **User Interaction**: Use `render_click/2`, `render_submit/2`, `render_change/2`
+3. **Assertions**: Test for presence of elements, not raw HTML
+4. **IDs**: Use unique IDs for testable elements (e.g., `id="entity-form"`)
+
+## Accessibility Guidelines
+
+### Semantic HTML
+
+**ALWAYS** use semantic HTML elements:
+
+- `<nav>` for navigation
+- `<main>` for main content
+- `<header>`, `<footer>` for page structure
+- `<button>` for actions, `<a>` for navigation
+- Proper heading hierarchy (`<h1>`, `<h2>`, etc.)
+
+### ARIA Labels
+
+**ALWAYS** provide ARIA labels for interactive elements:
+
+```elixir
+<button aria-label="Close menu" class="btn btn-ghost">
+  <.icon name="hero-x-mark" />
+</button>
+
+<nav aria-label="Main navigation">
+  <!-- Navigation items -->
+</nav>
+```
+
+### Keyboard Navigation
+
+- Ensure all interactive elements are keyboard accessible
+- Use proper focus management
+- Provide visible focus indicators
+
+## Performance Optimization
+
+### CSS Optimization
+
+- Use Tailwind's JIT compiler (automatic in v4)
+- Avoid custom CSS when Tailwind utilities suffice
+- Use `@layer` directives for custom styles
+
+### JavaScript Minimization
+
+- Minimize client-side JavaScript
+- Use LiveView for interactivity (server-side)
+- Only add JavaScript hooks when necessary
+
+### Image Optimization
+
+- Use appropriate image formats (WebP, AVIF)
+- Provide responsive images with `srcset`
+- Lazy load images when appropriate
+
+## Common Patterns
+
+### Empty States
+
+```elixir
+<div :if={@items == []} class="text-center py-12">
+  <.icon name="hero-inbox" class="size-12 mx-auto text-base-content/40 mb-4" />
+  <p class="text-base-content/60">No items found</p>
+  <.button navigate={~p"/items/new"}>Create Item</.button>
+</div>
+```
+
+### Loading States
+
+```elixir
+<div :if={@loading} class="flex items-center justify-center py-12">
+  <.icon name="hero-arrow-path" class="size-6 animate-spin" />
+  <span class="ml-2">Loading...</span>
+</div>
+```
+
+### Error States
+
+```elixir
+<.alert variant="error">
+  <.icon name="hero-exclamation-circle" />
+  <span>{@error}</span>
+</.alert>
+```
+
+### Success Messages
+
+```elixir
+<.alert variant="success">
+  <.icon name="hero-check-circle" />
+  <span>{@success}</span>
+</.alert>
+```
+
+**Note**: Use `<.alert>` component from `HyprOneWeb.UI` instead of raw HTML with classes.
+
+## Best Practices
+
+### DO
+
+✅ Use daisyUI components and modifiers
+✅ Use Tailwind utility classes
+✅ Declare all component attributes
+✅ Use semantic HTML
+✅ Provide ARIA labels
+✅ Test components in LiveView tests
+✅ Use responsive design (mobile-first)
+✅ Use LiveView for interactivity
+✅ Follow Phoenix component patterns
+
+### DON'T
+
+❌ Don't use raw Tailwind colors for UI elements
+❌ Don't write custom CSS when Tailwind utilities work
+❌ Don't use inline styles
+❌ Don't skip attribute declarations
+❌ Don't forget ARIA labels
+❌ Don't test raw HTML strings
+❌ Don't use client-side frameworks unnecessarily
+❌ Don't mix component patterns
+
+## Resources
+
+- [Phoenix Components](https://hexdocs.pm/phoenix/components.html)
+- [Phoenix LiveView](https://hexdocs.pm/phoenix/live_view.html)
+- [Phoenix.Component](https://hexdocs.pm/phoenix_live_view/Phoenix.Component.html)
+- [daisyUI Documentation](https://daisyui.com)
+- [Tailwind CSS Documentation](https://tailwindcss.com)
+- [Heroicons](https://heroicons.com)
+
+## Component Reference
+
+### Core Components (`HyprOneWeb.CoreComponents`)
+
+Available via `HyprOneWeb.UI` (automatically imported):
+
+- **`<.button>`** - Button with navigation support
+  - Supports `navigate`, `patch`, `href` for links
+  - Variant: `variant="primary"` (default: `btn-primary btn-soft`)
+  - Automatically renders as `<button>` or `<.link>` based on attributes
+
+- **`<.input>`** - Form-aware input with label and errors
+  - Supports all HTML input types (text, email, password, select, checkbox, textarea, etc.)
+  - Accepts `field={@form[:field]}` or explicit `name`, `value`, `errors`
+  - Automatically displays validation errors
+  - Uses daisyUI classes: `input`, `select`, `textarea`, `checkbox`
+
+- **`<.table>`** - Data table with columns and actions
+  - Supports LiveView streams via `phx-update="stream"`
+  - Slots: `:col` (required) with `label` attribute, `:action` (optional)
+  - Attributes: `id`, `rows`, `row_id`, `row_click`, `row_item`
+
+- **`<.list>`** - Data list display
+  - Slot: `:item` (required) with `title` attribute
+
+- **`<.header>`** - Page header with title and actions
+  - Slots: `:inner_block` (title, required), `:subtitle`, `:actions`
+
+- **`<.flash>`** - Flash message display (toast-style)
+  - Attributes: `kind` (`:info` or `:error`), `flash`, `title` (optional)
+  - Automatically dismissible with click
+  - Positioned as toast (top-end)
+
+- **`<.icon>`** - Heroicon display
+  - Attribute: `name` (required, format: `"hero-{icon-name}"`)
+  - Default class: `"size-4"` (customizable via `class` attribute)
+
+- **JS Helpers**: `show/2`, `hide/2` - JavaScript commands for transitions
+
+### Layout Components (`HyprOneWeb.Layouts`)
+
+- **`<.app>`** - Main app layout wrapper
+  - **Required**: `flash={@flash}`
+  - **Optional**: `current_scope={@current_scope}`
+  - Automatically includes `<.flash_group>`
+
+- **`<.flash_group>`** - Flash message container
+  - Displays all flash messages (info, error)
+  - Shows connection status indicators
+
+- **`<.theme_toggle>`** - Dark/light/system theme switcher
+  - Three-way toggle button
+  - Uses `phx-click` with `JS.dispatch("phx:set-theme")`
+
+### UI Components (`HyprOneWeb.UI`)
+
+All daisyUI components are available via `HyprOneWeb.UI` (60+ components):
+
+**Common Components:**
+- `<.alert>`, `<.badge>`, `<.button>`, `<.card>`, `<.modal>`, `<.dropdown>`, `<.menu>`, `<.navbar>`, `<.drawer>`, `<.breadcrumbs>`, `<.tabs>`, `<.accordion>`, `<.collapse>`, `<.progress>`, `<.loading>`, `<.toast>`, `<.tooltip>`, `<.avatar>`, `<.stat>`, `<.hero>`, `<.footer>`, `<.divider>`, `<.join>`, `<.stack>`, `<.mask>`, `<.skeleton>`, `<.table>`, `<.pagination>`, `<.steps>`, `<.timeline>`, `<.chat>`, `<.carousel>`, `<.rating>`, `<.range>`, `<.toggle>`, `<.checkbox>`, `<.radio>`, `<.select>`, `<.textarea>`, `<.file_input>`, `<.calendar>`, `<.countdown>`, `<.radial_progress>`, `<.indicator>`, `<.status>`, `<.kbd>`, `<.label>`, `<.fieldset>`, `<.filter>`, `<.validator>`, `<.fab>`, `<.dock>`, `<.diff>`, `<.swap>`, `<.text_rotate>`, `<.hover_3d>`, `<.hover_gallery>`, `<.mockup_browser>`, `<.mockup_code>`, `<.mockup_phone>`, `<.mockup_window>`, `<.theme_controller>`, `<.list>`
+
+**Note**: Each component has its own module under `lib/hypr_one_web/components/ui/` with full documentation. Refer to individual component files for detailed usage and available attributes/slots.
+
+## Component Import and Usage
+
+### Automatic Imports
+
+When you use `use HyprOneWeb, :live_view` or `use HyprOneWeb, :html`, the following are automatically available:
+
+1. **`HyprOneWeb.UI`** - All daisyUI components (`.button`, `.card`, `.modal`, etc.)
+2. **`HyprOneWeb.Layouts`** - Aliased as `Layouts` (`.app`, `.flash_group`, `.theme_toggle`)
+3. **`Phoenix.Component`** - Core Phoenix components (`.link`, `.form`, etc.)
+4. **`Phoenix.LiveView.JS`** - Aliased as `JS` for JavaScript commands
+5. **Gettext** - Translation functions
+6. **Verified Routes** - `~p` sigil for route generation
+
+### Component Naming
+
+- All components use the `<.component_name>` syntax (lowercase with underscores)
+- Components are function components, not LiveComponents
+- Use slots for structured content: `<:slot_name>content</:slot_name>`
+- Use attributes for configuration: `attr="value"`
+
+### Migration Notes
+
+When migrating from standard Phoenix components:
+
+1. Replace custom button classes with `<.button>` component from `HyprOneWeb.UI`
+2. Replace form inputs with `<.input>` component (form-aware, auto error display)
+3. Use `<.app>` layout wrapper for all pages
+4. Use `<.header>` for page titles instead of custom headers
+5. Update color classes to use daisyUI semantic colors (`bg-primary`, `text-error`, etc.)
+6. Replace custom icons with `<.icon>` component
+7. Use daisyUI components (`.card`, `.alert`, `.modal`, etc.) instead of custom HTML
+8. Update responsive classes to mobile-first approach
+
+---
+
+**Last Updated**: Initial version
+**Maintained By**: HyprOne Development Team
