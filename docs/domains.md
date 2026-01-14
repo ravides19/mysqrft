@@ -4,12 +4,12 @@ Domain Driven Design for Mysqrft.com
 
 **Goal:** Login + identity proof.
 
-* magic link passwordless authentication
-* OTP login (phone/email)
-* Account recovery
-* Social login (optional)
-* Device/session management, logout all devices
-* MFA (optional)
+* Password-based authentication (email + password) using Ash Authentication
+* Magic link (passwordless) email authentication
+* Google OAuth2 social login using Ash Authentication
+* Account recovery flows (password reset and magic-link based recovery)
+* Session and device management, including logout-all-sessions
+* Optional MFA and advanced security controls (future)
 
 
 ## 2) UserManagement

@@ -1,5 +1,5 @@
 ---
-alwaysApply: true
+alwaysApply: false
 ---
 
 You are an expert Software Architect and Engineer.
@@ -7,15 +7,14 @@ You are an expert Software Architect and Engineer.
 Application techonologies :
 Elixir
 Phoenix
+Ash : https://hexdocs.pm/ash/readme.html
 WarpStream : https://docs.warpstream.com/warpstream
 Broadway : https://hexdocs.pm/broadway/Broadway.html
 Tigris : https://www.tigrisdata.com/docs/
 
 Tigris instead of S3
 
-LiveView for UI 
-
-Always make sure that this is multi-tenant application and we have tenant_id propagated across all the domains.
+LiveView for UI
 
 ## Test Driven Development and Testing Guidelines
 
@@ -34,7 +33,7 @@ Always make sure that this is multi-tenant application and we have tenant_id pro
 
 ### Testing Requirements from Domain Model
 
-All features must be tested according to requirements defined in `docs/domain/domains.md`:
+All features must be tested according to requirements defined in `docs/domains.md`:
 - **Functional Requirements (FRs)**: Each FR must have corresponding tests
 - **Acceptance Criteria**: All acceptance criteria must be verified by tests
 - **Non-Functional Requirements (NFRs)**: Performance, scalability, and reliability requirements must be tested
@@ -47,7 +46,7 @@ All features must be tested according to requirements defined in `docs/domain/do
 - **100% code coverage** for all domain logic and context modules
 - **100% code coverage** for all LiveView event handlers and critical paths
 - **100% code coverage** for all authentication and authorization logic
-- **100% code coverage** for all domain boundary enforcement (tenant isolation, user isolation)
+- **100% code coverage** for all domain boundary enforcement (user isolation)
 - **Minimum 90% coverage** for controllers and views (UI can have lower coverage)
 - **100% coverage** for all error handling and edge cases
 
@@ -60,7 +59,6 @@ All features must be tested according to requirements defined in `docs/domain/do
 ### Test Structure and Organization
 
 **Test File Organization:**
-- Mirror source file structure: `test/domain_name/context_test.exs` for `lib/domain_name/context.ex`
 - Group related tests using `describe` blocks
 - Use descriptive test names that explain what is being tested
 - Follow Arrange-Act-Assert pattern
@@ -68,7 +66,7 @@ All features must be tested according to requirements defined in `docs/domain/do
 **Test Categories:**
 1. **Unit Tests**: Test individual functions and modules in isolation
 2. **Integration Tests**: Test interactions between modules and domains
-3. **Domain Boundary Tests**: Verify tenant isolation, user isolation, and domain boundaries
+3. **Domain Boundary Tests**: Verify user isolation and domain boundaries
 4. **Event Tests**: Test event publishing, consumption, and outbox pattern
 5. **LiveView Tests**: Test user interactions, real-time updates, and UI flows
 6. **Controller Tests**: Test HTTP endpoints and API responses
@@ -101,7 +99,7 @@ All features must be tested according to requirements defined in `docs/domain/do
 **Domain Logic Testing:**
 - Test all context functions with various inputs
 - Test success and error cases
-- Test tenant isolation and user isolation
+- Test user isolation
 - Test domain boundary enforcement
 - Use fixtures for test data setup
 - Test Outbox Pattern: verify events are written in same transaction
@@ -109,11 +107,11 @@ All features must be tested according to requirements defined in `docs/domain/do
 **LiveView Testing:**
 - Test mount with and without authentication
 - Test all event handlers (phx-click, phx-submit, phx-change)
-- Test real-time updates (Phoenix Sync subscriptions)
-- Test tenant and user filtering in subscriptions
+- Test real-time updates and LiveView subscriptions
+- Test user filtering in data access
 - Test error handling and flash messages
 - Use `Phoenix.LiveViewTest` helpers
-- Test with multiple users and tenants to verify isolation
+- Test with multiple users to verify user isolation
 
 **Integration Testing:**
 - Test event publishing and consumption
@@ -125,7 +123,7 @@ All features must be tested according to requirements defined in `docs/domain/do
 
 **Authentication and Authorization Testing:**
 - Test all authentication flows (login, logout, registration)
-- Test authorization checks (tenant isolation, user permissions)
+- Test authorization checks (user permissions)
 - Test session management
 - Test protected routes and redirects
 - Test `current_scope` assignment in LiveViews and controllers
@@ -135,8 +133,8 @@ All features must be tested according to requirements defined in `docs/domain/do
 **Fixture Guidelines:**
 - Create domain-specific fixtures in `test/support/fixtures/`
 - Use unique data generators (unique emails, unique IDs)
-- Create fixtures for users, tenants, and domain entities
-- Use `user_fixture/1` and `tenant_fixture/1` patterns
+- Create fixtures for users and domain entities
+- Use `user_fixture/1` patterns
 - Support both confirmed and unconfirmed users
 - Create fixtures for different user roles and permissions
 
@@ -147,24 +145,18 @@ All features must be tested according to requirements defined in `docs/domain/do
 - Use `async: true` when tests don't share state
 - Use `setup` blocks for common test setup
 
-### Testing Multi-Tenant and Multi-User Scenarios
+### Testing User Isolation Scenarios
 
-**CRITICAL**: All tests must verify tenant and user isolation:
-
-**Tenant Isolation Tests:**
-- Test that users from tenant A cannot access tenant B data
-- Test that subscriptions filter by tenant_id
-- Test that writes validate tenant ownership
-- Test cross-tenant data leakage prevention
+**CRITICAL**: All tests must verify user isolation where applicable:
 
 **User Isolation Tests:**
 - Test that user 1 cannot access user 2's personal data
-- Test that user-specific subscriptions filter correctly
+- Test that user-specific data access filters correctly
 - Test that writes validate user permissions
 - Test user-scoped data access patterns
 
 **Test Patterns:**
-- Create multiple tenants and users in test setup
+- Create multiple users in test setup
 - Verify data is properly scoped in queries
 - Test that unauthorized access attempts fail
 - Test that authorized access succeeds
@@ -185,16 +177,6 @@ All features must be tested according to requirements defined in `docs/domain/do
 - Verify outbox events are created with correct payload
 - Test event consumers update projections correctly
 - Test event-driven domain interactions
-
-### Testing Phoenix Sync
-
-**Phoenix Sync Test Requirements:**
-- Test subscriptions filter by tenant_id
-- Test subscriptions filter by user_id when appropriate
-- Test real-time updates trigger correctly
-- Test write validation with tenant/user checks
-- Test sync failures and error handling
-- Test multi-tenant isolation in subscriptions
 
 ### Performance and Load Testing
 
@@ -246,7 +228,6 @@ When implementing features, ensure:
 - [ ] TDD used when possible, or 100% coverage achieved if TDD not used
 - [ ] All functional requirements (FRs) have tests
 - [ ] All acceptance criteria are tested
-- [ ] Tenant isolation is tested
 - [ ] User isolation is tested (when applicable)
 - [ ] Domain boundaries are tested
 - [ ] Event publishing/consumption is tested
@@ -258,479 +239,3 @@ When implementing features, ensure:
 - [ ] Tests are readable and maintainable
 - [ ] Tests run in CI/CD pipeline 
 
-## Realtime UI Updates and Sync using Phoenix Sync
-
-Phoenix Sync provides real-time data synchronization for Postgres-backed Phoenix applications, enabling seamless data updates across LiveView, web, and mobile clients using ElectricSQL. Reference: https://hexdocs.pm/phoenix_sync/readme.html
-
-### When to Use Phoenix Sync
-
-Use Phoenix Sync for:
-- **Real-time UI updates** when database changes need to be reflected immediately in LiveView
-- **Multi-client synchronization** when multiple users need to see the same data updates
-- **Collaborative features** where multiple users interact with shared data
-- **Live dashboards** that need to reflect current state without polling
-- **Domain-specific projections** that need real-time updates from domain events
-
-**DO NOT use Phoenix Sync for:**
-- Cross-domain data access (use events or OTP calls instead)
-- Inter-domain communication (use event bus)
-- Data that doesn't need real-time updates (use standard LiveView assigns)
-
-### Phoenix Sync Architecture Integration
-
-Phoenix Sync integrates with HyprOne's event-driven architecture:
-
-```
-Domain Event → Outbox → Event Bus → Domain Consumer → DB Write → Phoenix Sync → LiveView Update
-```
-
-**Key Integration Points:**
-1. **Domain writes to database** (via Outbox Pattern)
-2. **Phoenix Sync detects database changes** (via ElectricSQL)
-3. **LiveView receives real-time updates** (via Phoenix Sync subscriptions)
-4. **UI updates automatically** without manual refresh
-
-### Configuration
-
-#### Embedded Mode (Recommended for Single-Node)
-
-Use embedded mode when running ElectricSQL within the same application. Configure in `mix.exs` with `{:electric, "~> 1.0"}` and `{:phoenix_sync, "~> 0.5"}` dependencies. Set `mode: :embedded` and `repo: MyApp.Repo` in config. Add `{MyApp.Endpoint, phoenix_sync: Phoenix.Sync.plug_opts()}` to application children.
-
-#### HTTP Mode (Recommended for Multi-Node)
-
-Use HTTP mode when using Electric Cloud or external Electric service. Configure `mode: :http` with `url` pointing to Electric service and `credentials` with `secret` (required) and `source_id` (optional, required for Electric Cloud).
-
-### Domain Boundary Compliance
-
-**CRITICAL**: Phoenix Sync must respect domain boundaries:
-
-- **Phoenix Sync subscriptions MUST be domain-scoped** - only subscribe to tables within the same domain
-- **NO cross-domain subscriptions** - do not subscribe to other domains' database tables
-- **Use projections for cross-domain data** - if you need data from another domain, create a local projection and subscribe to that
-- **Domain events drive projections** - when consuming events from other domains, update local projections that Phoenix Sync can then sync
-
-**Pattern:**
-- Domain A publishes events via Outbox Pattern in same transaction as database writes
-- Domain B consumes events and creates local projections in its own database
-- Domain B LiveView subscribes to local projection tables (domain-scoped)
-- Phoenix Sync automatically detects projection changes and updates LiveView
-
-### Tenant and User Isolation Requirements
-
-**CRITICAL**: All Phoenix Sync subscriptions MUST enforce tenant and user isolation:
-
-#### Tenant Isolation (Non-Negotiable)
-
-- **ALWAYS filter subscriptions by `tenant_id`** - every subscription must include `tenant_id` in the `where` clause
-- **NEVER subscribe to data without tenant filtering** - this would expose data across tenants
-- **Tenant ID must come from authenticated session** - use `socket.assigns.tenant_id` from authenticated LiveView
-- **Write validation MUST enforce tenant boundaries** - all writes must validate tenant ownership
-- **Multi-tenant tables MUST have `tenant_id` column** - all domain tables must include tenant isolation
-
-#### User-Specific Isolation
-
-- **Filter by `user_id` for user-specific data** - when data belongs to a specific user, always filter by `user_id`
-- **Use `current_user_id` from socket assigns** - get user ID from authenticated session: `socket.assigns.current_user.id`
-- **Combine tenant and user filters** - for user-scoped data within a tenant, filter by both `tenant_id` AND `user_id`
-- **Respect user permissions** - ensure user has permission to view the data they're subscribing to
-- **User-owned data patterns** - for personal data (user settings, user preferences, user tasks), always include `user_id` filter
-
-#### Subscription Filter Patterns
-
-**Tenant-scoped data (shared within tenant):**
-- Filter by `tenant_id` only
-- Example: team-wide dashboards, tenant-level configurations, shared resources
-
-**User-scoped data (personal to user):**
-- Filter by both `tenant_id` AND `user_id`
-- Example: user preferences, personal tasks, user-specific notifications
-
-**Role-based data (filtered by user role within tenant):**
-- Filter by `tenant_id` and check user role/permissions
-- Example: admin-only data, role-specific views, permission-gated features
-
-**Collaborative data (tenant-scoped with user attribution):**
-- Filter by `tenant_id` for visibility, track `user_id` for attribution
-- Example: collaborative documents, team comments, shared workspaces
-
-### Write-Path Handling
-
-For handling writes from clients, use `Phoenix.Sync.Writer`:
-
-**CRITICAL Requirements:**
-- **ALWAYS validate tenant ownership** - use `load` function to ensure entity belongs to tenant
-- **ALWAYS validate user permissions** - check if current user can modify the entity
-- **ALWAYS get tenant_id from authenticated session** - use `conn.assigns.tenant_id` or `socket.assigns.tenant_id`
-- **ALWAYS get user_id from authenticated session** - use `conn.assigns.current_user.id` or `socket.assigns.current_user.id`
-- **Use domain context functions for validation** - delegate to domain context for tenant/user checks
-- **Use Outbox Pattern** - writes should trigger outbox events in the same transaction
-- **Domain-scoped writes only** - never allow writes to other domains' tables
-
-**Write Validation Pattern:**
-- Use `Writer.allow/3` with `load` function that enforces tenant boundaries
-- Use `check` function to validate user permissions
-- Use `validate` function with changeset that includes tenant_id and user_id
-- Ensure all writes are scoped to authenticated tenant and user
-
-### LiveView Integration
-
-#### Basic Subscription Pattern
-
-**CRITICAL**: Every LiveView subscription MUST include tenant and user filtering:
-
-- **Get tenant_id from socket assigns** - use `socket.assigns.tenant_id` from authenticated session
-- **Get user_id from socket assigns** - use `socket.assigns.current_user.id` for user-specific data
-- **Subscribe only when connected** - use `if connected?(socket)` before subscribing
-- **Always include tenant_id in where clause** - every subscription must filter by tenant
-- **Include user_id when data is user-specific** - add user_id filter for personal data
-- **Reload data on sync events** - in `handle_info({:sync, _topic, _event}, socket)`, reload data to get latest state
-
-#### Filtered Subscriptions
-
-**Subscription Filter Guidelines:**
-
-1. **Tenant-scoped subscriptions** (shared data):
-   - Always include `tenant_id: socket.assigns.tenant_id`
-   - Add additional filters as needed (status, type, etc.)
-
-2. **User-scoped subscriptions** (personal data):
-   - Include both `tenant_id: socket.assigns.tenant_id` AND `user_id: socket.assigns.current_user.id`
-   - Use for user-specific data like preferences, personal tasks, user settings
-
-3. **Role-based subscriptions** (permission-gated):
-   - Filter by `tenant_id` and check user role/permissions in LiveView
-   - Subscribe to data user has permission to see based on role
-
-4. **Collaborative subscriptions** (tenant-wide with user context):
-   - Filter by `tenant_id` for visibility
-   - Track `user_id` for attribution but don't filter by it
-   - Use for collaborative features where all tenant users see the same data
-
-**Filter Examples:**
-- Tenant-wide: `where: [tenant_id: socket.assigns.tenant_id]`
-- User-specific: `where: [tenant_id: socket.assigns.tenant_id, user_id: socket.assigns.current_user.id]`
-- Status-filtered: `where: [tenant_id: socket.assigns.tenant_id, status: "active"]`
-- User + status: `where: [tenant_id: socket.assigns.tenant_id, user_id: socket.assigns.current_user.id, status: "pending"]`
-
-### Best Practices
-
-1. **Domain Isolation**
-   - Only subscribe to tables within your domain
-   - Use projections for cross-domain data needs
-   - Never subscribe to other domains' tables directly
-
-2. **Tenant Isolation (CRITICAL)**
-   - **ALWAYS filter subscriptions by `tenant_id`** - non-negotiable requirement
-   - **ALWAYS validate tenant ownership in writes** - use domain context functions
-   - **NEVER expose data across tenants** - tenant isolation is security-critical
-   - Use tenant-scoped queries in LiveView
-   - Ensure all domain tables include `tenant_id` column
-
-3. **User Isolation**
-   - Filter by `user_id` for user-specific data
-   - Validate user permissions before subscribing
-   - Use `current_user_id` from socket assigns
-   - Combine tenant and user filters for personal data
-   - Respect user access controls and permissions
-
-4. **Performance**
-   - Use filtered subscriptions to limit data volume
-   - Avoid subscribing to large, frequently-changing tables
-   - Use projections to create domain-specific views
-   - Filter by tenant_id and user_id to minimize data transfer
-   - Use status/type filters to further narrow subscriptions
-
-5. **Event Integration**
-   - Domain events should trigger database writes
-   - Database writes trigger Phoenix Sync updates
-   - LiveView receives updates automatically
-   - Ensure events include tenant_id and user_id for proper filtering
-
-6. **Error Handling**
-   - Handle sync failures gracefully
-   - Provide fallback to manual refresh if sync fails
-   - Log sync errors for monitoring
-   - Validate tenant/user access on sync failures
-
-7. **Security**
-   - Never trust client-provided tenant_id or user_id
-   - Always get tenant_id and user_id from authenticated session
-   - Validate permissions before subscribing
-   - Audit subscription attempts for security monitoring
-
-### Testing Phoenix Sync
-
-**Test Requirements:**
-- Test with multiple tenants to ensure isolation
-- Test with multiple users within same tenant
-- Test user-specific subscriptions
-- Test tenant-wide subscriptions
-- Verify tenant isolation (user from tenant A cannot see tenant B data)
-- Verify user isolation (user 1 cannot see user 2's personal data)
-- Test write validation with tenant/user checks
-- Test sync updates trigger correctly
-- Test error handling and fallbacks
-
-### Multi-Node Considerations
-
-When scaling horizontally:
-- Use **HTTP mode** with Electric Cloud or external Electric service
-- Each node connects to the same Electric service
-- Phoenix Sync handles cross-node synchronization automatically
-- Works seamlessly with BEAM/OTP distribution
-- Tenant and user filtering works across all nodes
-- Ensure tenant isolation is maintained across nodes
-
-### Phoenix Sync Checklist
-
-When implementing Phoenix Sync:
-- [ ] Configuration matches deployment mode (embedded vs HTTP)
-- [ ] Subscriptions are domain-scoped (no cross-domain subscriptions)
-- [ ] **Subscriptions ALWAYS filter by tenant_id** (non-negotiable)
-- [ ] **Subscriptions filter by user_id when data is user-specific** (required for personal data)
-- [ ] **Tenant_id comes from authenticated session** (never from client)
-- [ ] **User_id comes from authenticated session** (never from client)
-- [ ] Write validation enforces tenant boundaries
-- [ ] Write validation enforces user permissions
-- [ ] Writes use Outbox Pattern (same transaction)
-- [ ] Write validation enforces domain boundaries
-- [ ] Projections used for cross-domain data needs
-- [ ] Error handling for sync failures
-- [ ] Tests verify tenant isolation
-- [ ] Tests verify user isolation
-- [ ] Tests verify real-time updates
-
-
-
-## Domain Architecture Principles
-
-### Hard Domain Boundaries (Non-Negotiable)
-
-**CRITICAL**: HyprOne enforces strict domain boundaries with the following rules:
-
-- **NO shared database tables** across domains
-- **NO cross-domain database joins** - domains must not query other domains' databases directly
-- **Database isolation by domain** - each domain has its own database schema/tables
-- **Integration ONLY via events or OTP interactions** - no direct database access between domains
-- **Duplicate data intentionally** - use projections to maintain domain-specific views of data from other domains
-
-This architecture enables:
-- Independent domain evolution
-- Event-driven SaaS evolution
-- True microservices boundaries
-- Domain autonomy and scalability
-
-### Integration Patterns
-
-HyprOne uses two primary integration patterns between domains:
-
-#### 1. Events (Async, Durable): "Facts That Happened"
-- Use for: Domain events that represent facts that occurred
-- Characteristics: Async, durable, eventual consistency
-- Pattern: Domain publishes events → Other domains consume and react
-- Data duplication: Domains maintain their own projections/views of data from events
-
-#### 2. OTP Calls (Sync, In-Memory): "I Need an Answer Now"
-- Use for: Real-time decisions, current state queries, immediate validations
-- Characteristics: Sync, in-memory, immediate consistency
-- Pattern: Domain exposes runtime API → Other domains call via explicit interface
-- When to use:
-  - Pre-trade checks
-  - Current risk state queries
-  - Current strategy configuration
-  - Any scenario where you cannot wait for eventual consistency
-
-### Event-First Architecture
-
-#### Domain Event Publishing
-
-Each domain **MUST** emit events for other domains to react to. Events represent facts that happened within the domain.
-
-#### Outbox Pattern (Non-Negotiable for Correctness)
-
-**CRITICAL**: The Outbox Pattern is mandatory for all event publishing:
-
-1. **When a domain writes to its database**, it **MUST** also write an `outbox_events` row in the **same transaction**
-2. A publisher process reads from the outbox and pushes to the event bus
-3. This prevents "database committed but event never published" scenarios
-4. Ensures transactional consistency between database writes and event publishing
-
-**Implementation Pattern:**
-```elixir
-# In a domain context function
-defmodule MyDomain.Context do
-  def create_entity(attrs) do
-    Repo.transaction(fn ->
-      # 1. Write domain data
-      entity = %Entity{} |> Entity.changeset(attrs) |> Repo.insert!()
-      
-      # 2. Write outbox event in SAME transaction
-      %OutboxEvent{}
-      |> OutboxEvent.changeset(%{
-        event_type: "entity.created",
-        event_payload: Jason.encode!(%{id: entity.id, ...}),
-        domain: "my_domain",
-        status: "pending"
-      })
-      |> Repo.insert!()
-      
-      entity
-    end)
-  end
-end
-```
-
-#### Event Bus Strategy
-
-**Phase 1: Simple Start (Local Node)**
-- Use **Phoenix.PubSub** for local events (fast, in-memory)
-- Add persistence using Outbox table + dispatcher process
-- Dispatcher reads from outbox and publishes to PubSub
-
-**Phase 2: Horizontal Scaling**
-- Keep PubSub for local node events (fast local communication)
-- Outbox dispatcher publishes to **WarpStream** for cross-node/durable events
-- This plays extremely well with BEAM/OTP distribution
-
-**Phase 3: Event Bus Evolution**
-- Can swap dispatch mechanism (PubSub → WarpStream → Kafka) without changing domain code
-- Domain code only writes to outbox table
-- Dispatcher handles the actual event bus implementation
-
-### OTP Interactions: Sync Domain Calls
-
-#### When to Use OTP Calls
-
-Use OTP calls when:
-- You need a **decision now** (cannot wait for eventual consistency)
-- You need **current state** (not eventual state)
-- You need **immediate validation** or checks
-- You cannot block on eventual consistency
-
-#### Implementation Pattern
-
-**Each domain exposes a thin runtime API:**
-
-1. **Via GenServer/Registry** (or supervisor tree)
-2. **Explicit interface module** (anti-corruption layer) that other domains call
-3. **No direct GenServer calls** - always go through the interface module
-
-**Example Pattern:**
-```elixir
-# Domain A: Exposes runtime API
-defmodule DomainA.RuntimeAPI do
-  @moduledoc """
-  Runtime API for Domain A - called by other domains via OTP
-  """
-  
-  def get_current_state(entity_id) do
-    GenServer.call({:via, Registry, {DomainARegistry, entity_id}}, :get_state)
-  end
-  
-  def validate_operation(params) do
-    GenServer.call({:via, Registry, {DomainARegistry, :validator}}, {:validate, params})
-  end
-end
-
-# Domain B: Calls Domain A via interface
-defmodule DomainB.Context do
-  def perform_operation(attrs) do
-    # Sync call to Domain A for immediate validation
-    case DomainA.RuntimeAPI.validate_operation(attrs) do
-      :ok -> proceed_with_operation(attrs)
-      {:error, reason} -> {:error, reason}
-    end
-  end
-end
-```
-
-**Anti-Corruption Layer:**
-- Each domain provides an explicit interface module (e.g., `DomainA.RuntimeAPI`)
-- Other domains **ONLY** call through this interface
-- Interface module handles GenServer/Registry lookups
-- Protects domain internals from coupling
-
-### Recommended Integration Architecture
-
-#### Within a Single Node
-
-```
-Domain A DB → Outbox → Dispatcher → Phoenix.PubSub → Domain B Consumer
-                                                      Domain C Consumer
-```
-
-- Phoenix.PubSub for fast local event distribution
-- Outbox dispatcher reads and publishes
-- Domain consumers subscribe to relevant events
-
-#### Horizontal Scaling (Multiple Nodes)
-
-```
-Node 1: Domain A DB → Outbox → Dispatcher → Phoenix.PubSub (local)
-                                              ↓
-                                        WarpStream (cross-node)
-                                              ↓
-Node 2: Phoenix.PubSub (local) ← Dispatcher ← WarpStream Consumer
-         ↓
-    Domain B Consumer
-```
-
-- Keep PubSub for local node communication (fast)
-- Outbox dispatcher publishes to WarpStream for cross-node events
-- Each node has local PubSub subscribers
-- WarpStream provides durability and cross-node distribution
-
-### Data Duplication Strategy
-
-**Intentional Data Duplication via Projections:**
-
-- Domains **MUST** maintain their own projections/views of data from other domains
-- When consuming events, domains create local projections
-- This enables:
-  - Domain autonomy (no cross-domain queries)
-  - Performance (local data access)
-  - Resilience (domain continues working if source domain is down)
-  - Eventual consistency (projections update via events)
-
-**Example:**
-```elixir
-# Domain B consumes events from Domain A
-defmodule DomainB.EventConsumer do
-  def handle_event("user.created", payload) do
-    # Create local projection of user data
-    %UserProjection{}
-    |> UserProjection.changeset(payload)
-    |> Repo.insert()
-  end
-  
-  def handle_event("user.updated", payload) do
-    # Update local projection
-    UserProjection
-    |> Repo.get_by!(external_id: payload.id)
-    |> UserProjection.changeset(payload)
-    |> Repo.update()
-  end
-end
-```
-
-### Architecture Checklist
-
-When implementing domain interactions, ensure:
-
-- [ ] No shared database tables between domains
-- [ ] No cross-domain database joins
-- [ ] Events published via Outbox Pattern (same transaction as DB write)
-- [ ] OTP calls only through explicit interface modules (anti-corruption layer)
-- [ ] Data duplication via projections when needed
-- [ ] Event consumers create/update local projections
-- [ ] Sync calls only when immediate consistency is required
-- [ ] Async events for all "facts that happened"
-
-### Benefits of This Architecture
-
-1. **Domain Autonomy**: Each domain can evolve independently
-2. **Event-Driven Evolution**: Natural path to event-driven SaaS
-3. **Scalability**: Domains scale independently
-4. **Resilience**: Domains continue working even if others are down
-5. **Testability**: Clear boundaries enable isolated testing
-6. **BEAM/OTP Native**: Leverages OTP distribution and supervision
