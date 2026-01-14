@@ -27,6 +27,7 @@
 
 /* This file is for your main application CSS */
 
+/* Base design tokens mapped from Mishka Chelekom variables */
 @theme {
     --color-base-border-light: var(--base-border-light);
     --color-base-border-dark: var(--base-border-dark);
@@ -309,4 +310,33 @@
     --color-stepper-canceled-step-border-dark: var(--stepper-canceled-step-border-dark);
     --color-stepper-separator-completed-border-light: var(--stepper-separator-completed-border-light);
     --color-stepper-separator-completed-border-dark: var(--stepper-separator-completed-border-dark);
+}
+
+/* Application-level light/dark theme using the data-theme attribute
+   controlled by the theme_toggle component and root.html.heex script. */
+:root {
+    color-scheme: light;
+    --app-bg: #f9fafb;
+    /* light slate-50/100 */
+    --app-fg: #0f172a;
+    /* slate-900 */
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --app-bg: #020617;
+    /* slate-950 */
+    --app-fg: #e5e7eb;
+    /* slate-200 */
+}
+
+html,
+body {
+    min-height: 100%;
+}
+
+body {
+    background-color: var(--app-bg);
+    color: var(--app-fg);
+    transition: background-color 150ms ease, color 150ms ease;
 }
