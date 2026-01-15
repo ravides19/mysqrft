@@ -13,4 +13,11 @@ defmodule Storybook.Root do
       icon: {:fa, "hand-wave", :thin}
     ]
   end
+
+  def entry("components") do
+    [
+      name: "MySqrft Components",
+      icon: {:fa, "layer-group", :thin}
+    ]
+  end
 end
