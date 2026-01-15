@@ -17,19 +17,18 @@ config :mishka_chelekom,
   # List of colors to include in component generation
   # Example: ["base", "primary", "danger", "success"]
   component_colors: [
-    "base",
-    "natural",
     "white",
-    "dark",
-    "primary",
-    "secondary",
-    "warning",
-    "misc",
-    "dawn",
-    "success",
-    "danger",
-    "info",
-    "silver"
+        "dark",
+        "natural",
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "danger",
+        "info",
+        "misc",
+        "dawn",
+        "silver"
   ],
 
   # List of variants to include in component generation
