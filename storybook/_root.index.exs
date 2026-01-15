@@ -4,20 +4,20 @@ defmodule Storybook.Root do
 
   use PhoenixStorybook.Index
 
-  def folder_icon, do: {:fa, "book-open", :light, "psb:mr-1"}
+  def folder_icon, do: {:local, "hero-book-open"}
   def folder_name, do: "Storybook"
 
   def entry("welcome") do
     [
       name: "Welcome Page",
-      icon: {:fa, "hand-wave", :thin}
+      icon: {:local, "hero-hand-raised"}
     ]
   end
 
   def entry("components") do
     [
       name: "MySqrft Components",
-      icon: {:fa, "layer-group", :thin}
+      icon: {:local, "hero-squares-2x2"}
     ]
   end
 end

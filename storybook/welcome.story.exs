@@ -8,12 +8,12 @@ defmodule Storybook.MyPage do
   # Declare an optional tab-based navigation in your page:
   def navigation do
     [
-      {:welcome, "Welcome", {:fa, "hand-wave", :thin}},
-      {:mysqrft, "MySqrft UI", {:fa, "layer-group", :thin}},
-      {:reference, "Storybook Reference", {:fa, "book", :thin}},
-      {:components, "Components", {:fa, "toolbox", :thin}},
-      {:sandboxing, "Sandboxing", {:fa, "box-check", :thin}},
-      {:icons, "Icons", {:fa, "icons", :thin}}
+      {:welcome, "Welcome", {:local, "hero-hand-raised"}},
+      {:mysqrft, "MySqrft UI", {:local, "hero-squares-2x2"}},
+      {:reference, "Storybook Reference", {:local, "hero-book-open"}},
+      {:components, "Components", {:local, "hero-wrench-screwdriver"}},
+      {:sandboxing, "Sandboxing", {:local, "hero-cube"}},
+      {:icons, "Icons", {:local, "hero-swatch"}}
     ]
   end
 
@@ -52,8 +52,7 @@ defmodule Storybook.MyPage do
       <div class="psb:space-y-3">
         <h2 class="psb:text-2xl psb:font-semibold psb:text-slate-200">MySqrft UI Components</h2>
         <p class="psb:text-slate-400 psb:leading-relaxed">
-          This project ships a large set of function components under <code class="psb:inline">lib/my_sqrft_web/components/</code>, built around the
-          Mishka Chelekom design system.
+          This project uses pre-generated components located in <code class="psb:inline">lib/my_sqrft_web/components/</code>, built around the Mishka Chelekom design system. These components are fully customizable and owned by the project.
         </p>
 
         <p class="psb:text-slate-400 psb:leading-relaxed">
@@ -67,15 +66,19 @@ defmodule Storybook.MyPage do
       <div class="psb:mt-6 psb:border-t psb:border-slate-700 psb:pt-4">
         <h3 class="psb:text-xl psb:font-semibold psb:text-slate-200 psb:mb-2">Using components</h3>
         <p class="psb:text-slate-400 psb:leading-relaxed psb:mb-3">
-          Most apps import them via <code class="psb:inline">MySqrftWeb.Components.MishkaComponents</code>.
+          Components are available directly from <code class="psb:inline">lib/my_sqrft_web/components/</code>. Import individual components as needed:
         </p>
 
         <pre class="psb highlight psb:p-3 psb:border psb:border-slate-800 psb:text-xs psb:rounded-md psb:bg-slate-800! psb:whitespace-pre-wrap psb:break-normal">
           <code phx-no-curly-interpolation>
-            use MySqrftWeb.Components.MishkaComponents
+    # Import specific components
+    import MySqrftWeb.Components.Button, only: [button: 1]
+    import MySqrftWeb.Components.Badge, only: [badge: 1]
+    import MySqrftWeb.Components.Alert, only: [alert: 1, flash: 1]
 
-            &lt;.button color="success"&gt;Save&lt;/.button&gt;
-            &lt;.badge color="warning"&gt;Beta&lt;/.badge&gt;
+    # Use in your templates
+    &lt;.button color="success"&gt;Save&lt;/.button&gt;
+    &lt;.badge color="warning"&gt;Beta&lt;/.badge&gt;
           </code>
         </pre>
 
@@ -246,12 +249,12 @@ defmodule Storybook.MyPage do
     use PhoenixStorybook.Index
 
     def folder_name, do: "My Components"
-    def folder_icon, do: {:fa, "icon"}
+    def folder_icon, do: {:local, "hero-squares-2x2"}
     def folder_open?, do: true
     def folder_index, do: 0
 
     def entry("a_component"), do: [name: "My Component", index: 1]
-    def entry("other_component"), do: [name: "Another Component", icon: {:fa, "icon", :thin}, index: 0]
+    def entry("other_component"), do: [name: "Another Component", icon: {:local, "hero-cube"}, index: 0]
     end
             </code>
           </pre>
@@ -272,7 +275,117 @@ defmodule Storybook.MyPage do
     """
   end
 
-  def render(assigns = %{tab: guide}) when guide in ~w(components sandboxing icons)a do
+  def render(assigns = %{tab: :icons}) do
+    ~H"""
+    <div class="psb:welcome-page psb:w-full psb:text-left">
+      <h2 class="psb:text-2xl psb:font-semibold psb:text-slate-200 psb:mb-2">
+        Icons
+      </h2>
+      <p class="psb:text-slate-400 psb:leading-relaxed psb:mb-6">
+        This project uses <strong>Heroicons</strong>
+        exclusively. Heroicons are a set of free, MIT-licensed high-quality SVG icons for UI development.
+      </p>
+
+      <div class="psb:space-y-10">
+        <section>
+          <h3 class="psb:text-xl psb:font-semibold psb:text-slate-200 psb:mb-2">
+            Using Heroicons in Components
+          </h3>
+          <p class="psb:text-slate-400 psb:leading-relaxed psb:mb-3">
+            Use the <code class="psb:inline">&lt;.icon&gt;</code>
+            component from <code class="psb:inline">core_components.ex</code>
+            with the <code class="psb:inline">hero-</code>
+            prefix:
+          </p>
+
+          <pre class="psb highlight psb:p-3 psb:border psb:border-slate-800 psb:text-xs psb:rounded-md psb:bg-slate-800! psb:whitespace-pre-wrap psb:break-normal">
+            <code phx-no-curly-interpolation>
+    &lt;.icon name="hero-x-mark" class="w-5 h-5" /&gt;
+    &lt;.icon name="hero-check-circle" class="w-6 h-6 text-green-500" /&gt;
+    &lt;.icon name="hero-exclamation-triangle" class="w-4 h-4" /&gt;
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h3 class="psb:text-xl psb:font-semibold psb:text-slate-200 psb:mb-2">
+            Icon Styles
+          </h3>
+          <p class="psb:text-slate-400 psb:leading-relaxed psb:mb-3">
+            Heroicons come in three styles. Use the appropriate suffix:
+          </p>
+
+          <ul class="psb:text-slate-400 psb:leading-relaxed psb:mb-3 psb:list-disc psb:pl-6 psb:space-y-1">
+            <li><code class="psb:inline">hero-icon-name</code> — Outline style (default, 24x24)</li>
+            <li><code class="psb:inline">hero-icon-name-solid</code> — Solid style (24x24)</li>
+            <li><code class="psb:inline">hero-icon-name-mini</code> — Mini solid style (20x20)</li>
+          </ul>
+
+          <pre class="psb highlight psb:p-3 psb:border psb:border-slate-800 psb:text-xs psb:rounded-md psb:bg-slate-800! psb:whitespace-pre-wrap psb:break-normal">
+            <code phx-no-curly-interpolation>
+    &lt;.icon name="hero-heart" /&gt;           &lt;!-- Outline --&gt;
+    &lt;.icon name="hero-heart-solid" /&gt;     &lt;!-- Solid --&gt;
+    &lt;.icon name="hero-heart-mini" /&gt;      &lt;!-- Mini --&gt;
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h3 class="psb:text-xl psb:font-semibold psb:text-slate-200 psb:mb-2">
+            Icons in Storybook Index Files
+          </h3>
+          <p class="psb:text-slate-400 psb:leading-relaxed psb:mb-3">
+            When defining icons in storybook index files, use the
+            <code class="psb:inline">:local</code>
+            provider:
+          </p>
+
+          <pre class="psb highlight psb:p-3 psb:border psb:border-slate-800 psb:text-xs psb:rounded-md psb:bg-slate-800! psb:whitespace-pre-wrap psb:break-normal">
+            <code phx-no-curly-interpolation>
+    def folder_icon, do: {:local, "hero-squares-2x2"}
+
+    def entry("my_component") do
+    [
+    name: "My Component",
+    icon: {:local, "hero-cube"}
+    ]
+    end
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <h3 class="psb:text-xl psb:font-semibold psb:text-slate-200 psb:mb-2">
+            Common Icons Reference
+          </h3>
+          <p class="psb:text-slate-400 psb:leading-relaxed psb:mb-3">
+            Frequently used icons in this project:
+          </p>
+
+          <ul class="psb:text-slate-400 psb:leading-relaxed psb:list-disc psb:pl-6 psb:space-y-1">
+            <li><code class="psb:inline">hero-x-mark</code> — Close/dismiss</li>
+            <li><code class="psb:inline">hero-check-circle</code> — Success</li>
+            <li><code class="psb:inline">hero-exclamation-triangle</code> — Warning</li>
+            <li><code class="psb:inline">hero-x-circle</code> — Error</li>
+            <li><code class="psb:inline">hero-information-circle</code> — Info</li>
+            <li><code class="psb:inline">hero-chevron-down</code> — Expand</li>
+            <li><code class="psb:inline">hero-chevron-right</code> — Navigate</li>
+            <li><code class="psb:inline">hero-arrow-path</code> — Loading/refresh</li>
+          </ul>
+
+          <p class="psb:text-slate-400 psb:leading-relaxed psb:mt-4">
+            Full icon list:
+            <a class="hover:text-indigo-400" href="https://heroicons.com" target="_blank">
+              heroicons.com
+            </a>
+          </p>
+        </section>
+      </div>
+    </div>
+    """
+  end
+
+  def render(assigns = %{tab: guide}) when guide in ~w(components sandboxing)a do
     assigns =
       assign(assigns,
         guide: guide,

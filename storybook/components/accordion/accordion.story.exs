@@ -22,9 +22,9 @@ defmodule Storybook.Components.Accordion.Accordion do
           padding: "small"
         },
         slots: [
-          ~s|<:item id="accordion-default-item-1" title="Shipping" description="Delivery times & tracking">We ship within 1–2 business days.</:item>|,
-          ~s|<:item id="accordion-default-item-2" title="Returns" description="Easy 30‑day returns">Return your item in its original condition.</:item>|,
-          ~s|<:item id="accordion-default-item-3" title="Support" description="We’re here to help">Email us at support@example.com.</:item>|
+          ~s|<:item id="accordion-default-item-1" title="Shipping" icon="hero-truck" description="Delivery times & tracking">We ship within 1–2 business days.</:item>|,
+          ~s|<:item id="accordion-default-item-2" title="Returns" icon="hero-arrow-uturn-left" description="Easy 30‑day returns">Return your item in its original condition.</:item>|,
+          ~s|<:item id="accordion-default-item-3" title="Support" icon="hero-envelope" description="We’re here to help">Email us at support@example.com.</:item>|
         ]
       },
       %Variation{
@@ -57,8 +57,8 @@ defmodule Storybook.Components.Accordion.Accordion do
           size: "medium"
         },
         slots: [
-          ~s|<:item id="accordion-no-chevron-item-1" title="Details">This is a minimalist accordion without a chevron.</:item>|,
-          ~s|<:item id="accordion-no-chevron-item-2" title="More info">Great for dense layouts.</:item>|
+          ~s|<:item id="accordion-no-chevron-item-1" title="Details" icon="hero-information-circle">This is a minimalist accordion without a chevron.</:item>|,
+          ~s|<:item id="accordion-no-chevron-item-2" title="More info" icon="hero-ellipsis-horizontal">Great for dense layouts.</:item>|
         ]
       },
       %VariationGroup{
@@ -75,8 +75,8 @@ defmodule Storybook.Components.Accordion.Accordion do
               size: "medium"
             },
             slots: [
-              ~s|<:item id="accordion-variant-base-item-1" title="Base">Base variant content.</:item>|,
-              ~s|<:item id="accordion-variant-base-item-2" title="Base 2">Another item.</:item>|
+              ~s|<:item id="accordion-variant-base-item-1" title="Base" icon="hero-view-columns">Base variant content.</:item>|,
+              ~s|<:item id="accordion-variant-base-item-2" title="Base 2" icon="hero-view-columns">Another item.</:item>|
             ]
           },
           %Variation{
@@ -88,8 +88,8 @@ defmodule Storybook.Components.Accordion.Accordion do
               size: "medium"
             },
             slots: [
-              ~s|<:item id="accordion-variant-outline-item-1" title="Outline">Outline variant content.</:item>|,
-              ~s|<:item id="accordion-variant-outline-item-2" title="Outline 2">Another item.</:item>|
+              ~s|<:item id="accordion-variant-outline-item-1" title="Outline" icon="hero-square-3-stack-3d">Outline variant content.</:item>|,
+              ~s|<:item id="accordion-variant-outline-item-2" title="Outline 2" icon="hero-square-3-stack-3d">Another item.</:item>|
             ]
           },
           %Variation{
@@ -101,8 +101,8 @@ defmodule Storybook.Components.Accordion.Accordion do
               size: "medium"
             },
             slots: [
-              ~s|<:item id="accordion-variant-bordered-item-1" title="Bordered">Bordered variant content.</:item>|,
-              ~s|<:item id="accordion-variant-bordered-item-2" title="Bordered 2">Another item.</:item>|
+              ~s|<:item id="accordion-variant-bordered-item-1" title="Bordered" icon="hero-square-2-stack">Bordered variant content.</:item>|,
+              ~s|<:item id="accordion-variant-bordered-item-2" title="Bordered 2" icon="hero-square-2-stack">Another item.</:item>|
             ]
           }
         ]
@@ -121,7 +121,7 @@ defmodule Storybook.Components.Accordion.Accordion do
               color: "natural"
             },
             slots: [
-              ~s|<:item id="accordion-size-small-item-1" title="Small">Smaller type + tighter spacing.</:item>|
+              ~s|<:item id="accordion-size-small-item-1" title="Small" icon="hero-arrow-down-right">Smaller type + tighter spacing.</:item>|
             ]
           },
           %Variation{
@@ -133,7 +133,7 @@ defmodule Storybook.Components.Accordion.Accordion do
               color: "natural"
             },
             slots: [
-              ~s|<:item id="accordion-size-medium-item-1" title="Medium">Default sizing.</:item>|
+              ~s|<:item id="accordion-size-medium-item-1" title="Medium" icon="hero-arrow-down">Default sizing.</:item>|
             ]
           },
           %Variation{
@@ -145,7 +145,7 @@ defmodule Storybook.Components.Accordion.Accordion do
               color: "natural"
             },
             slots: [
-              ~s|<:item id="accordion-size-large-item-1" title="Large">Larger type + more breathing room.</:item>|
+              ~s|<:item id="accordion-size-large-item-1" title="Large" icon="hero-arrow-down-left">Larger type + more breathing room.</:item>|
             ]
           }
         ]

@@ -4,6 +4,6 @@ defmodule Storybook.Components do
   use PhoenixStorybook.Index
 
   def folder_name, do: "MySqrft UI"
-  def folder_icon, do: {:fa, "layer-group", :thin}
+  def folder_icon, do: {:local, "hero-squares-2x2"}
   def folder_open?, do: true
 end
