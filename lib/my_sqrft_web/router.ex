@@ -24,29 +24,6 @@ defmodule MySqrftWeb.Router do
     live_storybook("/storybook", backend_module: MySqrftWeb.Storybook)
 
     get "/", PageController, :home
-    live "/components", ComponentsLive
-  end
-
-  # Component-specific LiveViews
-  scope "/components", MySqrftWeb.Live.Components do
-    pipe_through :browser
-
-    live "/button", ButtonLive
-    live "/badge", BadgeLive
-    live "/alert", AlertLive
-    live "/card", CardLive
-    live "/spinner", SpinnerLive
-    live "/progress", ProgressLive
-    live "/text-field", TextFieldLive
-    live "/email-field", EmailFieldLive
-    live "/password-field", PasswordFieldLive
-    live "/number-field", NumberFieldLive
-    live "/checkbox-field", CheckboxFieldLive
-    live "/textarea-field", TextareaFieldLive
-    live "/accordion", AccordionLive
-    live "/avatar", AvatarLive
-    live "/tabs", TabsLive
-    live "/modal", ModalLive
   end
 
   # Other scopes may use custom stacks.
