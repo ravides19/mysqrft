@@ -1,5 +1,10 @@
 defmodule MySqrftWeb.Router do
   use MySqrftWeb, :router
+  import PhoenixStorybook.Router
+
+  scope "/" do
+    storybook_assets()
+  end
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -16,6 +21,7 @@ defmodule MySqrftWeb.Router do
 
   scope "/", MySqrftWeb do
     pipe_through :browser
+    live_storybook("/storybook", backend_module: MySqrftWeb.Storybook)
 
     get "/", PageController, :home
     live "/components", ComponentsLive

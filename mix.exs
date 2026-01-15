@@ -66,7 +66,8 @@ defmodule MySqrft.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      {:mishka_chelekom, "~> 0.0.8", only: :dev}
+      {:mishka_chelekom, "~> 0.0.8", only: :dev},
+      {:phoenix_storybook, "~> 0.9.3"}
     ]
   end
 
@@ -87,6 +88,7 @@ defmodule MySqrft.MixProject do
       "assets.deploy": [
         "tailwind my_sqrft --minify",
         "esbuild my_sqrft --minify",
+        "tailwind storybook --minify",
         "phx.digest"
       ],
       precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]

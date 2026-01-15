@@ -35,7 +35,7 @@ defmodule MySqrftWeb.ComponentsLive do
             Browse all available components and their variations
           </p>
         </div>
-
+        
     <!-- Buttons & Actions -->
         <.component_section title="Button" description="Button components with various styles">
           <div class="space-y-8">
@@ -67,7 +67,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Badges -->
         <.component_section title="Badge" description="Badge components">
           <div class="space-y-8">
@@ -99,7 +99,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Alerts -->
         <.component_section title="Alert" description="Alert components">
           <div class="space-y-8">
@@ -123,7 +123,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Banner -->
         <.component_section title="Banner" description="Banner components">
           <div class="space-y-8">
@@ -139,7 +139,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Cards -->
         <.component_section title="Card" description="Card components">
           <div class="space-y-8">
@@ -171,7 +171,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Spinner -->
         <.component_section title="Spinner" description="Loading spinner components">
           <div class="space-y-8">
@@ -195,7 +195,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Progress -->
         <.component_section title="Progress" description="Progress bar components">
           <div class="space-y-8">
@@ -217,7 +217,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Text Field -->
         <.component_section title="Text Field" description="Text input field components">
           <div class="space-y-8">
@@ -253,7 +253,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Email Field -->
         <.component_section title="Email Field" description="Email input field components">
           <div class="space-y-8">
@@ -273,7 +273,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Password Field -->
         <.component_section title="Password Field" description="Password input field components">
           <div class="space-y-8">
@@ -293,7 +293,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Number Field -->
         <.component_section title="Number Field" description="Number input field components">
           <div class="space-y-8">
@@ -313,7 +313,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Textarea Field -->
         <.component_section title="Textarea Field" description="Textarea input field components">
           <div class="space-y-8">
@@ -333,7 +333,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Checkbox Field -->
         <.component_section title="Checkbox Field" description="Checkbox input field components">
           <div class="space-y-8">
@@ -351,7 +351,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Radio Field -->
         <.component_section title="Radio Field" description="Radio input field components">
           <div class="space-y-8">
@@ -369,7 +369,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Select Field -->
         <.component_section title="Native Select" description="Select dropdown components">
           <div class="space-y-8">
@@ -391,7 +391,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Range Field -->
         <.component_section title="Range Field" description="Range slider components">
           <div class="space-y-8">
@@ -412,7 +412,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Toggle Field -->
         <.component_section title="Toggle Field" description="Toggle switch components">
           <div class="space-y-8">
@@ -430,7 +430,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Color Field -->
         <.component_section title="Color Field" description="Color picker components">
           <div class="space-y-8">
@@ -449,7 +449,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- File Field -->
         <.component_section title="File Field" description="File upload components">
           <div class="space-y-8">
@@ -467,7 +467,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Search Field -->
         <.component_section title="Search Field" description="Search input components">
           <div class="space-y-8">
@@ -487,7 +487,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- URL Field -->
         <.component_section title="URL Field" description="URL input field components">
           <div class="space-y-8">
@@ -507,7 +507,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Tel Field -->
         <.component_section title="Tel Field" description="Telephone input field components">
           <div class="space-y-8">
@@ -527,7 +527,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- DateTime Field -->
         <.component_section title="DateTime Field" description="Date and time input components">
           <div class="space-y-8">
@@ -546,7 +546,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Accordion -->
         <div class="border-b border-gray-200 dark:border-gray-700 pb-8">
           <div class="mb-6">
@@ -572,7 +572,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </div>
-
+        
     <!-- Avatar -->
         <.component_section title="Avatar" description="Avatar components">
           <div class="space-y-8">
@@ -587,7 +587,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Blockquote -->
         <.component_section title="Blockquote" description="Blockquote components">
           <div class="space-y-8">
@@ -603,7 +603,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Breadcrumb -->
         <div class="border-b border-gray-200 dark:border-gray-700 pb-8">
           <div class="mb-6">
@@ -623,7 +623,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </div>
-
+        
     <!-- Carousel -->
         <.component_section title="Carousel" description="Carousel components">
           <div class="space-y-8">
@@ -654,7 +654,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Chat -->
         <.component_section title="Chat" description="Chat message components">
           <div class="space-y-8">
@@ -680,7 +680,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Checkbox Card -->
         <.component_section title="Checkbox Card" description="Checkbox card components">
           <div class="space-y-8">
@@ -701,7 +701,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Radio Card -->
         <.component_section title="Radio Card" description="Radio card components">
           <div class="space-y-8">
@@ -718,7 +718,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Clipboard -->
         <.component_section title="Clipboard" description="Clipboard copy components">
           <div class="space-y-8">
@@ -736,7 +736,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Collapse -->
         <.component_section title="Collapse" description="Collapsible content components">
           <div class="space-y-8">
@@ -758,7 +758,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Combobox -->
         <.component_section title="Combobox" description="Combobox dropdown components">
           <div class="space-y-8">
@@ -774,7 +774,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Device Mockup -->
         <.component_section title="Device Mockup" description="Device mockup components">
           <div class="space-y-8">
@@ -788,7 +788,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Divider -->
         <.component_section title="Divider" description="Divider components">
           <div class="space-y-8">
@@ -803,7 +803,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Dropdown -->
         <.component_section title="Dropdown" description="Dropdown menu components">
           <div class="space-y-8">
@@ -824,7 +824,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Fieldset -->
         <.component_section title="Fieldset" description="Fieldset form grouping components">
           <div class="space-y-8">
@@ -839,7 +839,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Footer -->
         <.component_section title="Footer" description="Footer components">
           <div class="space-y-8">
@@ -865,7 +865,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Gallery -->
         <.component_section title="Gallery" description="Gallery components">
           <div class="space-y-8">
@@ -881,7 +881,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Image -->
         <.component_section title="Image" description="Image components">
           <div class="space-y-8">
@@ -898,7 +898,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Indicator -->
         <.component_section title="Indicator" description="Indicator components">
           <div class="space-y-8">
@@ -913,7 +913,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Jumbotron -->
         <.component_section title="Jumbotron" description="Jumbotron hero components">
           <div class="space-y-8">
@@ -930,7 +930,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Keyboard -->
         <.component_section title="Keyboard" description="Keyboard key display components">
           <div class="space-y-8">
@@ -946,7 +946,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- List -->
         <.component_section title="List" description="List components">
           <div class="space-y-8">
@@ -962,7 +962,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Menu -->
         <.component_section title="Menu" description="Menu components">
           <div class="space-y-8">
@@ -978,7 +978,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Mega Menu -->
         <div class="border-b border-gray-200 dark:border-gray-700 pb-8">
           <div class="mb-6">
@@ -988,7 +988,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </p>
           </div>
         </div>
-
+        
     <!-- Modal -->
         <.component_section title="Modal" description="Modal dialog components">
           <div class="space-y-8">
@@ -1005,7 +1005,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Navbar -->
         <div class="border-b border-gray-200 dark:border-gray-700 pb-8">
           <div class="mb-6">
@@ -1025,7 +1025,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </div>
-
+        
     <!-- Overlay -->
         <.component_section title="Overlay" description="Overlay components">
           <div class="space-y-8">
@@ -1039,7 +1039,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Pagination -->
         <.component_section title="Pagination" description="Pagination components">
           <div class="space-y-8">
@@ -1051,7 +1051,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Popover -->
         <.component_section title="Popover" description="Popover components">
           <div class="space-y-8">
@@ -1070,7 +1070,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Rating -->
         <.component_section title="Rating" description="Rating components">
           <div class="space-y-8">
@@ -1082,7 +1082,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Scroll Area -->
         <.component_section title="Scroll Area" description="Scrollable area components">
           <div class="space-y-8">
@@ -1098,7 +1098,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Sidebar -->
         <.component_section title="Sidebar" description="Sidebar components">
           <div class="space-y-8">
@@ -1114,7 +1114,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Skeleton -->
         <.component_section title="Skeleton" description="Skeleton loading components">
           <div class="space-y-8">
@@ -1128,7 +1128,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Speed Dial -->
         <.component_section title="Speed Dial" description="Speed dial floating action components">
           <div class="space-y-8">
@@ -1143,7 +1143,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Stepper -->
         <.component_section title="Stepper" description="Stepper progress components">
           <div class="space-y-8">
@@ -1159,7 +1159,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Table -->
         <.component_section title="Table" description="Table components">
           <div class="space-y-8">
@@ -1181,7 +1181,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Table Content -->
         <.component_section title="Table Content" description="Table content layout components">
           <div class="space-y-8">
@@ -1197,7 +1197,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Tabs -->
         <div class="border-b border-gray-200 dark:border-gray-700 pb-8">
           <div class="mb-6">
@@ -1226,7 +1226,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </div>
-
+        
     <!-- Timeline -->
         <.component_section title="Timeline" description="Timeline components">
           <div class="space-y-8">
@@ -1248,7 +1248,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Toast -->
         <.component_section title="Toast" description="Toast notification components">
           <div class="space-y-8">
@@ -1264,7 +1264,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Tooltip -->
         <.component_section title="Tooltip" description="Tooltip components">
           <div class="space-y-8">
@@ -1278,7 +1278,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Typography -->
         <.component_section title="Typography" description="Typography components">
           <div class="space-y-8">
@@ -1304,7 +1304,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Video -->
         <.component_section title="Video" description="Video components">
           <div class="space-y-8">
@@ -1318,7 +1318,7 @@ defmodule MySqrftWeb.ComponentsLive do
             </div>
           </div>
         </.component_section>
-
+        
     <!-- Drawer -->
         <.component_section title="Drawer" description="Drawer sidebar components">
           <div class="space-y-8">

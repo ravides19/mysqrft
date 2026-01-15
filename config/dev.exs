@@ -26,7 +26,8 @@ config :my_sqrft, MySqrftWeb.Endpoint,
   secret_key_base: "xb8U/wnXTT8ZBxrO/ehKglpLfbN+0pEzRqeV+JMpG5DHm3zPCRqJ6FVAWatLl7BQ",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:my_sqrft, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:my_sqrft, ~w(--watch)]}
+    tailwind: {Tailwind, :install_and_run, [:my_sqrft, ~w(--watch)]},
+    storybook_tailwind: {Tailwind, :install_and_run, [:storybook, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -63,7 +64,9 @@ config :my_sqrft, MySqrftWeb.Endpoint,
       ~r"priv/gettext/.*\.po$",
       # Router, Controllers, LiveViews and LiveComponents
       ~r"lib/my_sqrft_web/router\.ex$",
-      ~r"lib/my_sqrft_web/(controllers|live|components)/.*\.(ex|heex)$"
+      ~r"lib/my_sqrft_web/(controllers|live|components)/.*\.(ex|heex)$",
+      # Storybook livereload
+      ~r"storybook/.*(exs)$"
     ]
   ]
 
