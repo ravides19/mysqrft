@@ -67,7 +67,8 @@ defmodule MySqrft.MixProject do
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
       {:mishka_chelekom, "~> 0.0.8", only: :dev},
-      {:phoenix_storybook, "~> 0.9.3"}
+      {:phoenix_storybook, "~> 0.9.3"},
+      {:tidewave, "~> 0.5.4", only: :dev}
     ]
   end
 

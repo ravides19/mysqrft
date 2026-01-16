@@ -6,14 +6,22 @@ defmodule Storybook.Components.Banner.Banner do
   def function, do: &MySqrftWeb.Components.Banner.banner/1
   def render_source, do: :function
 
+  def template do
+    """
+    <div class="relative overflow-visible rounded-lg border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900" style="min-height: 70px;">
+      <.psb-variation class="!relative !inset-auto" />
+    </div>
+    """
+  end
+
   def variations do
     [
       %Variation{
         id: :default,
         description: "Default",
-        note: "Basic banner with default styling, positioned at top full-width.",
+        note: "Basic banner with default styling, positioned at top full-width. Click the button to show.",
         attributes: %{
-          id: "banner-default",
+          id: "default",
           variant: "base",
           color: "natural",
           position: "full",
@@ -26,20 +34,20 @@ defmodule Storybook.Components.Banner.Banner do
         description: "Without dismiss button",
         note: "Banner without the dismiss/close button.",
         attributes: %{
-          id: "banner-no-dismiss",
+          id: "without_dismiss",
           variant: "bordered",
           color: "info",
           position: "full",
           hide_dismiss: true
         },
-        slots: ["<span>This banner cannot be dismissed.</span>"]
+        slots: ["<span>This banner cannot be dismissed. Refresh to hide.</span>"]
       },
       %Variation{
         id: :bottom_positioned,
         description: "Bottom positioned",
         note: "Banner positioned at the bottom of the viewport.",
         attributes: %{
-          id: "banner-bottom",
+          id: "bottom_positioned",
           variant: "default",
           color: "primary",
           position: "full",
@@ -55,7 +63,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :variant_base,
             attributes: %{
-              id: "banner-variant-base",
+              id: "variant_base",
               variant: "base",
               color: "primary",
               position: "full"
@@ -65,7 +73,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :variant_default,
             attributes: %{
-              id: "banner-variant-default",
+              id: "variant_default",
               variant: "default",
               color: "primary",
               position: "full"
@@ -75,7 +83,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :variant_outline,
             attributes: %{
-              id: "banner-variant-outline",
+              id: "variant_outline",
               variant: "outline",
               color: "primary",
               position: "full"
@@ -85,7 +93,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :variant_shadow,
             attributes: %{
-              id: "banner-variant-shadow",
+              id: "variant_shadow",
               variant: "shadow",
               color: "primary",
               position: "full"
@@ -95,7 +103,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :variant_transparent,
             attributes: %{
-              id: "banner-variant-transparent",
+              id: "variant_transparent",
               variant: "transparent",
               color: "primary",
               position: "full"
@@ -105,7 +113,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :variant_bordered,
             attributes: %{
-              id: "banner-variant-bordered",
+              id: "variant_bordered",
               variant: "bordered",
               color: "primary",
               position: "full"
@@ -115,7 +123,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :variant_gradient,
             attributes: %{
-              id: "banner-variant-gradient",
+              id: "variant_gradient",
               variant: "gradient",
               color: "primary",
               position: "full"
@@ -132,7 +140,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :color_natural,
             attributes: %{
-              id: "banner-color-natural",
+              id: "color_natural",
               variant: "default",
               color: "natural",
               position: "full"
@@ -142,7 +150,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :color_primary,
             attributes: %{
-              id: "banner-color-primary",
+              id: "color_primary",
               variant: "default",
               color: "primary",
               position: "full"
@@ -152,7 +160,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :color_secondary,
             attributes: %{
-              id: "banner-color-secondary",
+              id: "color_secondary",
               variant: "default",
               color: "secondary",
               position: "full"
@@ -162,7 +170,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :color_success,
             attributes: %{
-              id: "banner-color-success",
+              id: "color_success",
               variant: "default",
               color: "success",
               position: "full"
@@ -172,7 +180,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :color_warning,
             attributes: %{
-              id: "banner-color-warning",
+              id: "color_warning",
               variant: "default",
               color: "warning",
               position: "full"
@@ -182,7 +190,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :color_danger,
             attributes: %{
-              id: "banner-color-danger",
+              id: "color_danger",
               variant: "default",
               color: "danger",
               position: "full"
@@ -192,7 +200,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :color_info,
             attributes: %{
-              id: "banner-color-info",
+              id: "color_info",
               variant: "default",
               color: "info",
               position: "full"
@@ -209,7 +217,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :position_full,
             attributes: %{
-              id: "banner-pos-full",
+              id: "position_full",
               variant: "bordered",
               color: "primary",
               position: "full"
@@ -219,7 +227,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :position_center,
             attributes: %{
-              id: "banner-pos-center",
+              id: "position_center",
               variant: "bordered",
               color: "primary",
               position: "center",
@@ -231,7 +239,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :position_top_left,
             attributes: %{
-              id: "banner-pos-tl",
+              id: "position_top_left",
               variant: "bordered",
               color: "secondary",
               position: "top_left",
@@ -244,7 +252,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :position_top_right,
             attributes: %{
-              id: "banner-pos-tr",
+              id: "position_top_right",
               variant: "bordered",
               color: "success",
               position: "top_right",
@@ -257,7 +265,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :position_bottom_left,
             attributes: %{
-              id: "banner-pos-bl",
+              id: "position_bottom_left",
               variant: "bordered",
               color: "warning",
               position: "bottom_left",
@@ -271,7 +279,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :position_bottom_right,
             attributes: %{
-              id: "banner-pos-br",
+              id: "position_bottom_right",
               variant: "bordered",
               color: "danger",
               position: "bottom_right",
@@ -292,7 +300,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :border_top,
             attributes: %{
-              id: "banner-border-top",
+              id: "border_top",
               variant: "bordered",
               color: "info",
               position: "full",
@@ -304,7 +312,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :border_bottom,
             attributes: %{
-              id: "banner-border-bottom",
+              id: "border_bottom",
               variant: "bordered",
               color: "info",
               position: "full",
@@ -316,7 +324,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :border_full,
             attributes: %{
-              id: "banner-border-full",
+              id: "border_full",
               variant: "bordered",
               color: "info",
               position: "full",
@@ -328,7 +336,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :border_none,
             attributes: %{
-              id: "banner-border-none",
+              id: "border_none",
               variant: "bordered",
               color: "info",
               position: "full",
@@ -346,7 +354,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :rounded_top,
             attributes: %{
-              id: "banner-rounded-top",
+              id: "rounded_top",
               variant: "default",
               color: "secondary",
               position: "full",
@@ -359,7 +367,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :rounded_bottom,
             attributes: %{
-              id: "banner-rounded-bottom",
+              id: "rounded_bottom",
               variant: "default",
               color: "secondary",
               position: "full",
@@ -372,7 +380,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :rounded_all,
             attributes: %{
-              id: "banner-rounded-all",
+              id: "rounded_all",
               variant: "default",
               color: "secondary",
               position: "center",
@@ -391,7 +399,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :padding_extra_small,
             attributes: %{
-              id: "banner-padding-xs",
+              id: "padding_extra_small",
               variant: "bordered",
               color: "natural",
               position: "full",
@@ -402,7 +410,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :padding_small,
             attributes: %{
-              id: "banner-padding-sm",
+              id: "padding_small",
               variant: "bordered",
               color: "natural",
               position: "full",
@@ -413,7 +421,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :padding_medium,
             attributes: %{
-              id: "banner-padding-md",
+              id: "padding_medium",
               variant: "bordered",
               color: "natural",
               position: "full",
@@ -424,7 +432,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :padding_large,
             attributes: %{
-              id: "banner-padding-lg",
+              id: "padding_large",
               variant: "bordered",
               color: "natural",
               position: "full",
@@ -435,7 +443,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :padding_extra_large,
             attributes: %{
-              id: "banner-padding-xl",
+              id: "padding_extra_large",
               variant: "bordered",
               color: "natural",
               position: "full",
@@ -453,7 +461,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :announcement,
             attributes: %{
-              id: "banner-announcement",
+              id: "announcement",
               variant: "gradient",
               color: "primary",
               position: "full",
@@ -466,7 +474,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :cookie_consent,
             attributes: %{
-              id: "banner-cookie",
+              id: "cookie_consent",
               variant: "bordered",
               color: "natural",
               position: "full",
@@ -480,7 +488,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :maintenance,
             attributes: %{
-              id: "banner-maintenance",
+              id: "maintenance",
               variant: "default",
               color: "warning",
               position: "full",
@@ -494,7 +502,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :promo,
             attributes: %{
-              id: "banner-promo",
+              id: "promo",
               variant: "gradient",
               color: "success",
               position: "full",
@@ -507,7 +515,7 @@ defmodule Storybook.Components.Banner.Banner do
           %Variation{
             id: :error_notice,
             attributes: %{
-              id: "banner-error",
+              id: "error_notice",
               variant: "default",
               color: "danger",
               position: "full",
