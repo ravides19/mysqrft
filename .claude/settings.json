@@ -1,0 +1,10 @@
+{
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "beads"
+  ],
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "beads@beads-marketplace": true
+  }
+}
