@@ -25,8 +25,21 @@ defmodule MySqrftWeb.Router do
   scope "/", MySqrftWeb do
     pipe_through :browser
     live_storybook("/storybook", backend_module: MySqrftWeb.Storybook)
+  end
 
-    get "/", PageController, :home
+  # Marketing pages with custom layout
+  scope "/", MySqrftWeb do
+    pipe_through :browser
+
+    live_session :marketing,
+      layout: {MySqrftWeb.Layouts, :marketing},
+      on_mount: [{MySqrftWeb.UserAuth, :mount_current_scope}] do
+      live "/", Marketing.LandingLive, :index
+      live "/about", Marketing.AboutLive, :index
+      live "/contact", Marketing.ContactLive, :index
+      live "/terms", Marketing.TermsLive, :index
+      live "/privacy", Marketing.PrivacyLive, :index
+    end
   end
 
   # Other scopes may use custom stacks.
