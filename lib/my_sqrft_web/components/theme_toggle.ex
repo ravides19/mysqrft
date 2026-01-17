@@ -52,17 +52,65 @@ defmodule MySqrftWeb.Components.ThemeToggle do
     <script :type={Phoenix.LiveView.ColocatedHook} name=".ThemeToggle">
       export default {
         mounted() {
+          // Get the current effective theme (checking data-theme or system preference)
+          const getCurrentTheme = () => {
+            const dataTheme = document.documentElement.getAttribute("data-theme");
+            if (dataTheme === "light" || dataTheme === "dark") {
+              return dataTheme;
+            }
+            // If no data-theme, check system preference
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          };
+
+          // Handle click to toggle theme
           this.el.addEventListener("click", () => {
-            const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+            const currentTheme = getCurrentTheme();
             const newTheme = currentTheme === "dark" ? "light" : "dark";
 
-            // Use the same setTheme logic from the head script
+            // Set the theme explicitly (not "system")
             localStorage.setItem("phx:theme", newTheme);
             document.documentElement.setAttribute("data-theme", newTheme);
 
             // Dispatch storage event to sync across tabs
-            window.dispatchEvent(new Event("storage"));
+            window.dispatchEvent(new StorageEvent("storage", {
+              key: "phx:theme",
+              newValue: newTheme
+            }));
+
+            // Dispatch custom event for other components
+            window.dispatchEvent(new CustomEvent("phx:set-theme", {
+              detail: { theme: newTheme }
+            }));
           });
+
+          // Listen for storage events (theme changes in other tabs)
+          const handleStorage = (e) => {
+            if (e.key === "phx:theme") {
+              // Theme will be updated by the initialization script
+              // The CSS classes will automatically update the button appearance
+            }
+          };
+
+          window.addEventListener("storage", handleStorage);
+
+          // Listen for custom theme change events
+          const handleThemeChange = () => {
+            // Theme will be updated by the initialization script
+            // The CSS classes will automatically update the button appearance
+          };
+
+          window.addEventListener("phx:set-theme", handleThemeChange);
+
+          // Cleanup
+          this.handleDestroy = () => {
+            window.removeEventListener("storage", handleStorage);
+            window.removeEventListener("phx:set-theme", handleThemeChange);
+          };
+        },
+        destroyed() {
+          if (this.handleDestroy) {
+            this.handleDestroy();
+          }
         }
       }
     </script>

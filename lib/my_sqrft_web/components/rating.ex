@@ -65,6 +65,11 @@ defmodule MySqrftWeb.Components.Rating do
       "Global attributes can define defaults which are merged with attributes provided by the caller"
 
   def rating(assigns) do
+    # Generate a unique ID if one wasn't provided to prevent duplicate IDs
+    id = assigns.id || "rating-#{:erlang.unique_integer([:positive, :monotonic])}"
+
+    assigns = assign(assigns, :id, id)
+
     ~H"""
     <div
       id={@id}

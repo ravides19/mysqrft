@@ -238,7 +238,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
     ~H"""
     <div class="relative overflow-hidden">
       <!-- Hero Carousel Section (inspired by 99acres) -->
-      <section class="relative h-[50vh] md:h-[60vh] lg:h-[70vh]">
+      <section class="relative h-[25vh] md:h-[30vh] lg:h-[35vh]">
         <.carousel
           id="hero-carousel"
           indicator={true}
@@ -247,7 +247,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           autoplay_interval={5000}
           size="extra_large"
           padding="extra_large"
-          overlay="natural"
+          overlay="success"
           text_position="center"
           class="h-full"
         >
@@ -588,7 +588,13 @@ defmodule MySqrftWeb.Marketing.LandingLive do
                   </div>
                   <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
                     <div class="flex items-center gap-1">
-                      <.rating color="primary" size="small" select={property.rating} count={5} />
+                      <.rating
+                        id={"property-rating-#{property.id}"}
+                        color="primary"
+                        size="small"
+                        select={property.rating}
+                        count={5}
+                      />
                       <span class="text-sm font-semibold text-base-text-light dark:text-base-text-dark">
                         {property.rating}
                       </span>
@@ -781,7 +787,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               class="!bg-white dark:!bg-gray-800"
             >
               <div class="flex mb-4">
-                <.rating color="primary" size="small" select={5} count={5} />
+                <.rating id="testimonial-rating-1" color="primary" size="small" select={5} count={5} />
               </div>
               <.p class="mb-6 leading-relaxed" color="base">
                 "Found my perfect 2BHK in Indiranagar within a week! The verified listings saved me so much time. Highly recommend MySqrft."
@@ -805,7 +811,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               class="!bg-white dark:!bg-gray-800"
             >
               <div class="flex mb-4">
-                <.rating color="primary" size="small" select={5} count={5} />
+                <.rating id="testimonial-rating-2" color="primary" size="small" select={5} count={5} />
               </div>
               <.p class="mb-6 leading-relaxed" color="base">
                 "As a property owner, listing on MySqrft was seamless. Got genuine tenants within days, and the agreement process was hassle-free."
@@ -829,7 +835,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               class="!bg-white dark:!bg-gray-800"
             >
               <div class="flex mb-4">
-                <.rating color="primary" size="small" select={5} count={5} />
+                <.rating id="testimonial-rating-3" color="primary" size="small" select={5} count={5} />
               </div>
               <.p class="mb-6 leading-relaxed" color="base">
                 "The rental agreement service was a lifesaver! Everything was handled professionally, and I could focus on settling into my new home."
