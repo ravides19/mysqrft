@@ -1,0 +1,641 @@
+# CRM Domain - Product Requirements Document
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Domain | CRM (Customer Relationship Management) |
+| Version | 1.0 |
+| Status | Complete |
+| Platform | MySqrft |
+| Last Updated | 2026-01-17 |
+
+---
+
+## 1. Overview
+
+### 1.1 Purpose
+
+The CRM domain serves as the central hub for relationship management within the MySqrft platform. It provides a unified system for tracking all customer interactions, managing sales pipelines, capturing requirements, and ensuring timely follow-ups. This domain empowers Relationship Managers (RMs) and sales teams to deliver personalized service while maintaining complete visibility into customer journeys.
+
+### 1.2 Scope
+
+The CRM domain encompasses:
+- Unified contact management with comprehensive interaction timelines
+- Requirements capture for tenants and buyers
+- Task and follow-up management with automated reminders
+- Pipeline visualization and management across RMs, teams, and cities
+- Customer satisfaction tracking through NPS and feedback mechanisms
+- Complete interaction history aggregation across all platform touchpoints
+
+### 1.3 Target Users
+
+| User Type | Description |
+|-----------|-------------|
+| Relationship Manager (RM) | Primary users managing customer relationships and pipelines |
+| Sales Team Lead | Oversees team performance and pipeline health |
+| City Manager | Monitors city-level metrics and resource allocation |
+| Support Agent | References interaction history for issue resolution |
+| Admin | Configures CRM settings and manages access |
+
+### 1.4 Primary Goal
+
+**Relationship Management + Pipeline** - Enable MySqrft teams to build strong customer relationships through comprehensive interaction tracking, proactive follow-ups, and intelligent pipeline management.
+
+---
+
+## 2. Goals
+
+### 2.1 Business Goals
+
+| ID | Goal | Success Indicator |
+|----|------|-------------------|
+| BG-01 | Increase customer conversion rates | 15% improvement in lead-to-deal conversion |
+| BG-02 | Reduce response time to customer inquiries | Average response time under 2 hours |
+| BG-03 | Improve customer satisfaction scores | NPS score above 50 |
+| BG-04 | Optimize RM productivity | 20% increase in deals per RM per month |
+| BG-05 | Reduce customer churn | 10% reduction in drop-off during pipeline stages |
+
+### 2.2 Product Goals
+
+| ID | Goal | Description |
+|----|------|-------------|
+| PG-01 | Unified Customer View | Single source of truth for all customer interactions |
+| PG-02 | Intelligent Follow-ups | Automated reminders and task scheduling |
+| PG-03 | Pipeline Visibility | Real-time pipeline views at all organizational levels |
+| PG-04 | Requirements Matching | Efficient capture and matching of tenant/buyer requirements |
+| PG-05 | Actionable Insights | Feedback-driven improvements in customer experience |
+
+### 2.3 Technical Goals
+
+| ID | Goal | Description |
+|----|------|-------------|
+| TG-01 | Real-time Sync | Instant updates across all touchpoints |
+| TG-02 | Scalable Architecture | Support for millions of contacts and interactions |
+| TG-03 | Integration Ready | Seamless integration with Leads, Communications, and Scheduling domains |
+| TG-04 | Mobile-first | Full functionality on mobile devices for field RMs |
+| TG-05 | Offline Capability | Basic offline access for interaction logging |
+
+---
+
+## 3. Key Features
+
+### 3.1 Contact Management
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Contact Profile | Comprehensive contact profiles with personal and preference data | P0 |
+| Contact Timeline | Unified timeline showing all interactions chronologically | P0 |
+| Contact Segmentation | Tag and segment contacts for targeted engagement | P1 |
+| Contact Merge | Identify and merge duplicate contacts | P1 |
+| Contact Import/Export | Bulk import and export capabilities | P2 |
+
+### 3.2 Interaction Tracking
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Call Logging | Log inbound/outbound calls with outcomes and notes | P0 |
+| Chat History | Aggregate chat conversations from Communications domain | P0 |
+| Visit Tracking | Record property visits with feedback integration | P0 |
+| Note Management | Add and manage contact-specific notes | P0 |
+| Email Tracking | Track email interactions and responses | P1 |
+| Interaction Templates | Pre-defined templates for common interaction types | P2 |
+
+### 3.3 Requirements Capture
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Requirement Profile | Structured capture of tenant/buyer requirements | P0 |
+| Budget Range | Capture minimum and maximum budget constraints | P0 |
+| Location Preferences | Multi-locality and area preferences | P0 |
+| Property Specifications | BHK, amenities, furnishing preferences | P0 |
+| Timeline Capture | Move-in urgency and flexibility | P0 |
+| Lifestyle Preferences | Family composition, pet-friendly, parking needs | P1 |
+| Requirement Matching | Auto-match requirements with available inventory | P1 |
+
+### 3.4 Task Management
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Follow-up Tasks | Create and assign follow-up tasks | P0 |
+| Automated Reminders | Time-based and trigger-based reminders | P0 |
+| Task Templates | Pre-defined task workflows for common scenarios | P1 |
+| Task Delegation | Assign and transfer tasks between RMs | P1 |
+| Task Analytics | Track task completion rates and overdue items | P1 |
+| Bulk Task Operations | Create tasks for multiple contacts | P2 |
+
+### 3.5 Pipeline Management
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| Pipeline Stages | Configurable pipeline stages per transaction type | P0 |
+| Pipeline Views | Views by RM, team, city, and custom filters | P0 |
+| Stage Transitions | Rules and validations for stage movements | P0 |
+| Pipeline Analytics | Conversion rates and stage duration metrics | P1 |
+| Stale Deal Alerts | Automated alerts for stagnant pipeline items | P1 |
+| Pipeline Forecasting | Revenue and closure forecasting | P2 |
+
+### 3.6 Customer Satisfaction
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| NPS Surveys | Automated NPS survey triggers | P0 |
+| Feedback Collection | Multi-channel feedback capture | P0 |
+| Feedback Scoring | Calculate and track FeedbackScore | P0 |
+| Satisfaction Trends | Historical satisfaction trend analysis | P1 |
+| Detractor Alerts | Immediate alerts for negative feedback | P1 |
+| Feedback Response | Workflow for responding to feedback | P2 |
+
+---
+
+## 4. User Stories
+
+### 4.1 Contact Management
+
+| ID | User Story | Acceptance Criteria |
+|----|------------|---------------------|
+| US-01 | As an RM, I want to view a contact's complete profile so that I can understand their history with MySqrft | - Profile displays all personal information<br>- Shows verification status<br>- Displays associated leads and deals |
+| US-02 | As an RM, I want to see a unified timeline of all interactions with a contact so that I have full context before engaging | - Timeline shows calls, chats, visits, notes chronologically<br>- Each interaction is clickable for details<br>- Timeline loads within 2 seconds |
+| US-03 | As a Team Lead, I want to merge duplicate contacts so that we maintain data quality | - System suggests potential duplicates<br>- Merge preserves all interaction history<br>- Primary contact retains key identifiers |
+
+### 4.2 Interaction Tracking
+
+| ID | User Story | Acceptance Criteria |
+|----|------------|---------------------|
+| US-04 | As an RM, I want to log a call with outcome and notes so that the interaction is recorded | - Call duration auto-captured if integrated<br>- Predefined outcome options available<br>- Notes support rich text |
+| US-05 | As an RM, I want to quickly add notes from my mobile device so that I can record information in the field | - Mobile-optimized note entry<br>- Offline support with sync<br>- Voice-to-text option |
+| US-06 | As a Support Agent, I want to view complete interaction history so that I can resolve issues with context | - Read-only access to timeline<br>- Search within interactions<br>- Filter by interaction type |
+
+### 4.3 Requirements Capture
+
+| ID | User Story | Acceptance Criteria |
+|----|------------|---------------------|
+| US-07 | As an RM, I want to capture a tenant's requirements in a structured format so that I can find matching properties | - Form captures all key requirement fields<br>- Validates budget and location inputs<br>- Saves partial progress |
+| US-08 | As an RM, I want the system to suggest matching properties based on requirements so that I can quickly serve the customer | - Matches display within 3 seconds<br>- Sorted by relevance score<br>- Shows match percentage |
+| US-09 | As a customer, I want to update my requirements through the app so that RMs have current information | - Self-service requirement update<br>- RM notified of changes<br>- Version history maintained |
+
+### 4.4 Task Management
+
+| ID | User Story | Acceptance Criteria |
+|----|------------|---------------------|
+| US-10 | As an RM, I want to create a follow-up task after a call so that I don't forget to reconnect | - Quick task creation from call log<br>- Default reminder settings<br>- Links to contact and interaction |
+| US-11 | As an RM, I want to receive reminders for upcoming tasks so that I never miss a follow-up | - Push notification support<br>- In-app reminder display<br>- Snooze and reschedule options |
+| US-12 | As a Team Lead, I want to reassign tasks when an RM is unavailable so that customers are served | - Bulk reassignment capability<br>- Reassignment notification sent<br>- Original RM can view history |
+
+### 4.5 Pipeline Management
+
+| ID | User Story | Acceptance Criteria |
+|----|------------|---------------------|
+| US-13 | As an RM, I want to move a deal through pipeline stages so that I track progress | - Drag-and-drop stage movement<br>- Required fields per stage<br>- Stage change logged |
+| US-14 | As a Team Lead, I want to view my team's pipeline so that I can identify bottlenecks | - Team filter available<br>- Stage-wise deal count visible<br>- Stale deals highlighted |
+| US-15 | As a City Manager, I want to see city-level pipeline metrics so that I can allocate resources | - City-wise aggregation<br>- Comparison with targets<br>- Drill-down to team level |
+
+### 4.6 Customer Satisfaction
+
+| ID | User Story | Acceptance Criteria |
+|----|------------|---------------------|
+| US-16 | As a customer, I want to provide feedback after a visit so that MySqrft can improve | - Simple 1-5 rating interface<br>- Optional comment field<br>- Thank you acknowledgment |
+| US-17 | As an RM, I want to see a contact's satisfaction history so that I can address concerns | - NPS score visible on profile<br>- Feedback history accessible<br>- Trend indicator shown |
+| US-18 | As a Team Lead, I want alerts when a customer gives negative feedback so that I can intervene | - Real-time alert on score < 3<br>- Alert includes context<br>- Escalation workflow triggered |
+
+---
+
+## 5. Acceptance Criteria
+
+### 5.1 System-Level Criteria
+
+| ID | Criteria | Validation Method |
+|----|----------|-------------------|
+| AC-01 | Contact timeline loads within 2 seconds for contacts with up to 500 interactions | Performance testing |
+| AC-02 | All interactions are captured and visible within 30 seconds of occurrence | Integration testing |
+| AC-03 | Task reminders are delivered within 1 minute of scheduled time | Functional testing |
+| AC-04 | Pipeline views refresh within 5 seconds of stage changes | Real-time testing |
+| AC-05 | NPS surveys are triggered within 1 hour of qualifying events | Automation testing |
+| AC-06 | Mobile app provides full CRM functionality with responsive design | Cross-device testing |
+| AC-07 | Offline interactions sync within 5 minutes of connectivity restoration | Offline testing |
+
+### 5.2 Data Quality Criteria
+
+| ID | Criteria | Validation Method |
+|----|----------|-------------------|
+| AC-08 | Duplicate contact suggestions have minimum 85% accuracy | Quality analysis |
+| AC-09 | Requirement matching shows relevant results in top 10 suggestions | Relevance testing |
+| AC-10 | All mandatory fields enforced during contact and requirement creation | Form validation testing |
+| AC-11 | Interaction data maintains referential integrity with source systems | Data integrity testing |
+
+---
+
+## 6. Functional Requirements
+
+### 6.1 Contact Management
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR-01 | System shall create Contact records with mandatory fields: name, phone, email, type (tenant/buyer/owner) | P0 |
+| FR-02 | System shall maintain a Contact Timeline aggregating all Interaction records | P0 |
+| FR-03 | System shall support Contact tagging with custom and system-defined tags | P1 |
+| FR-04 | System shall detect potential duplicate Contacts based on phone and email matching | P1 |
+| FR-05 | System shall support Contact merging with full history preservation | P1 |
+| FR-06 | System shall allow Contact search by name, phone, email, and tags | P0 |
+| FR-07 | System shall track Contact source (organic, referral, campaign, RM-acquired) | P1 |
+
+### 6.2 Interaction Tracking
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR-08 | System shall support Interaction types: Call, Chat, Visit, Note, Email, SMS | P0 |
+| FR-09 | System shall auto-capture Interaction metadata from integrated systems (Communications, Scheduling) | P0 |
+| FR-10 | System shall allow manual Interaction logging with type, outcome, and notes | P0 |
+| FR-11 | System shall support Interaction outcome categorization (successful, no-response, rescheduled, etc.) | P0 |
+| FR-12 | System shall maintain Interaction audit trail with creator and timestamp | P0 |
+| FR-13 | System shall support rich text and attachments in Interaction notes | P1 |
+| FR-14 | System shall provide Interaction templates for common scenarios | P2 |
+
+### 6.3 Requirements Management
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR-15 | System shall capture Requirement records linked to Contacts with transaction type (rent/buy) | P0 |
+| FR-16 | System shall store Requirement attributes: budget range, localities, BHK, amenities, move-in timeline | P0 |
+| FR-17 | System shall support multiple active Requirements per Contact | P0 |
+| FR-18 | System shall track Requirement status (active, paused, fulfilled, expired) | P0 |
+| FR-19 | System shall match Requirements with Inventory listings based on criteria | P1 |
+| FR-20 | System shall maintain Requirement version history for audit purposes | P1 |
+| FR-21 | System shall send Requirement expiry notifications after configurable inactive period | P2 |
+
+### 6.4 Task Management
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR-22 | System shall support Task creation with title, description, due date, priority, and assignee | P0 |
+| FR-23 | System shall link Tasks to Contacts, Interactions, and Pipeline items | P0 |
+| FR-24 | System shall support Task status tracking: pending, in-progress, completed, cancelled | P0 |
+| FR-25 | System shall trigger reminders at configurable intervals before Task due date | P0 |
+| FR-26 | System shall support Task reassignment with notification to new assignee | P1 |
+| FR-27 | System shall auto-create Tasks based on Pipeline stage transitions | P1 |
+| FR-28 | System shall support recurring Task templates | P2 |
+
+### 6.5 Pipeline Management
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR-29 | System shall support configurable Pipeline stages per transaction type | P0 |
+| FR-30 | System shall track Pipeline items with stage, RM assignment, and timestamps | P0 |
+| FR-31 | System shall enforce stage transition rules and required field validations | P0 |
+| FR-32 | System shall provide Pipeline views filterable by RM, team, city, date range | P0 |
+| FR-33 | System shall calculate stage duration and conversion metrics | P1 |
+| FR-34 | System shall flag stale Pipeline items based on configurable thresholds | P1 |
+| FR-35 | System shall support Pipeline item notes and activity log | P0 |
+| FR-36 | System shall generate Pipeline forecasts based on historical conversion rates | P2 |
+
+### 6.6 Customer Satisfaction
+
+| ID | Requirement | Priority |
+|----|-------------|----------|
+| FR-37 | System shall trigger NPS surveys after configurable events (visit, deal closure) | P0 |
+| FR-38 | System shall capture FeedbackScore with rating (1-10) and optional comments | P0 |
+| FR-39 | System shall calculate rolling NPS score per Contact and aggregate levels | P0 |
+| FR-40 | System shall alert designated users on low FeedbackScore (detractor) submissions | P1 |
+| FR-41 | System shall support feedback response and resolution workflow | P2 |
+| FR-42 | System shall track satisfaction trends over time with visualization | P1 |
+
+---
+
+## 7. Non-Functional Requirements
+
+### 7.1 Performance
+
+| ID | Requirement | Target |
+|----|-------------|--------|
+| NFR-01 | Contact timeline load time | < 2 seconds for 500 interactions |
+| NFR-02 | Search response time | < 1 second for 1M contacts |
+| NFR-03 | Pipeline view load time | < 3 seconds for 10K items |
+| NFR-04 | Real-time sync latency | < 30 seconds |
+| NFR-05 | Concurrent user support | 5,000 simultaneous users |
+
+### 7.2 Scalability
+
+| ID | Requirement | Target |
+|----|-------------|--------|
+| NFR-06 | Contact capacity | 10M+ contacts |
+| NFR-07 | Interaction capacity | 100M+ interactions |
+| NFR-08 | Daily interaction ingestion | 1M+ interactions/day |
+| NFR-09 | Horizontal scaling | Auto-scale based on load |
+
+### 7.3 Availability
+
+| ID | Requirement | Target |
+|----|-------------|--------|
+| NFR-10 | System uptime | 99.9% availability |
+| NFR-11 | Planned maintenance window | < 4 hours/month |
+| NFR-12 | Recovery time objective (RTO) | < 1 hour |
+| NFR-13 | Recovery point objective (RPO) | < 5 minutes |
+
+### 7.4 Security
+
+| ID | Requirement | Description |
+|----|-------------|-------------|
+| NFR-14 | Data encryption | All data encrypted at rest and in transit |
+| NFR-15 | Access control | Role-based access with RM, team, city scoping |
+| NFR-16 | Audit logging | All data access and modifications logged |
+| NFR-17 | PII protection | Masking of sensitive contact information |
+| NFR-18 | Session management | Secure session handling with timeout |
+
+### 7.5 Usability
+
+| ID | Requirement | Description |
+|----|-------------|-------------|
+| NFR-19 | Mobile responsiveness | Full functionality on mobile devices |
+| NFR-20 | Offline support | Basic interaction logging without connectivity |
+| NFR-21 | Accessibility | WCAG 2.1 AA compliance |
+| NFR-22 | Localization | Support for English and regional languages |
+
+### 7.6 Data Retention
+
+| ID | Requirement | Description |
+|----|-------------|-------------|
+| NFR-23 | Active data retention | Indefinite for active contacts |
+| NFR-24 | Archived data retention | 7 years for closed/inactive contacts |
+| NFR-25 | Audit log retention | 3 years minimum |
+
+---
+
+## 8. Integration Points
+
+### 8.1 Internal Domain Integrations
+
+| Domain | Integration Type | Description |
+|--------|------------------|-------------|
+| **Leads** | Bidirectional | Lead creation triggers Contact creation; Lead status updates Pipeline |
+| **Communications** | Inbound | Chat, SMS, email, and call data flows into Interaction timeline |
+| **Scheduling** | Bidirectional | Visit scheduling creates Tasks; Visit outcomes update Interactions |
+| **UserManagement** | Inbound | User profiles and RM assignments; Verification status for Contacts |
+| **Authorization** | Inbound | Access control for Contacts, Pipeline, and data scoping |
+| **Inventory** | Outbound | Requirement matching queries Inventory listings |
+| **Search** | Outbound | Requirement-based property recommendations |
+| **Analytics** | Outbound | Pipeline metrics, conversion data, satisfaction scores |
+| **Support** | Bidirectional | Ticket creation from CRM; Support history in timeline |
+| **Sales** | Bidirectional | Pipeline feeds into Sales; Commission tracking integration |
+
+### 8.2 Integration Patterns
+
+| Pattern | Use Case |
+|---------|----------|
+| Event-Driven | Interaction capture from Communications, Scheduling |
+| Synchronous API | Contact lookup, Requirement matching |
+| Batch Sync | Analytics data export, Report generation |
+| Webhook | External system notifications |
+
+### 8.3 Event Contracts
+
+| Event | Publisher | Subscribers |
+|-------|-----------|-------------|
+| `contact.created` | CRM | Analytics, Marketing |
+| `contact.updated` | CRM | Analytics |
+| `interaction.logged` | CRM | Analytics |
+| `pipeline.stage_changed` | CRM | Sales, Analytics |
+| `feedback.submitted` | CRM | Support, Analytics |
+| `task.overdue` | CRM | Ops, Support |
+| `lead.created` | Leads | CRM |
+| `visit.completed` | Scheduling | CRM |
+| `message.sent` | Communications | CRM |
+
+---
+
+## 9. Dependencies
+
+### 9.1 Upstream Dependencies
+
+| Dependency | Type | Impact |
+|------------|------|--------|
+| Auth Domain | Hard | User authentication required for all CRM access |
+| UserManagement Domain | Hard | User profiles and RM data required |
+| Authorization Domain | Hard | Access control for data scoping |
+| Leads Domain | Soft | Lead data enriches Contact profiles |
+| Communications Domain | Soft | Interaction data from messaging channels |
+| Scheduling Domain | Soft | Visit data for interaction timeline |
+
+### 9.2 Downstream Dependencies
+
+| Dependency | Type | Impact |
+|------------|------|--------|
+| Sales Domain | Soft | Pipeline data feeds sales workflows |
+| Analytics Domain | Soft | CRM metrics for reporting |
+| Marketing Domain | Soft | Contact segments for campaigns |
+
+### 9.3 Infrastructure Dependencies
+
+| Dependency | Description |
+|------------|-------------|
+| Database | PostgreSQL for relational data; Redis for caching |
+| Search Engine | Elasticsearch for contact and interaction search |
+| Message Queue | Kafka/RabbitMQ for event processing |
+| Push Notifications | Firebase/APNs for task reminders |
+| File Storage | S3/GCS for interaction attachments |
+
+### 9.4 External Dependencies
+
+| Dependency | Description | Required For |
+|------------|-------------|--------------|
+| Telephony Provider | Call metadata integration | Call logging automation |
+| Email Service | Email tracking | Email interaction capture |
+| Calendar API | External calendar sync | RM schedule management |
+
+---
+
+## 10. Success Metrics
+
+### 10.1 Business Metrics
+
+| Metric | Description | Target | Measurement Frequency |
+|--------|-------------|--------|----------------------|
+| Lead-to-Deal Conversion Rate | Percentage of leads converted to closed deals | 15% improvement | Monthly |
+| Average Response Time | Time from lead creation to first contact | < 2 hours | Daily |
+| Customer NPS Score | Net Promoter Score from feedback | > 50 | Monthly |
+| Pipeline Velocity | Average time from pipeline entry to closure | 20% reduction | Monthly |
+| Customer Retention Rate | Percentage of repeat customers | > 30% | Quarterly |
+
+### 10.2 Product Metrics
+
+| Metric | Description | Target | Measurement Frequency |
+|--------|-------------|--------|----------------------|
+| CRM Adoption Rate | Percentage of RMs actively using CRM | > 95% | Weekly |
+| Task Completion Rate | Percentage of tasks completed on time | > 85% | Weekly |
+| Interaction Logging Rate | Percentage of interactions logged | > 90% | Daily |
+| Requirements Capture Rate | Percentage of leads with requirements | > 80% | Weekly |
+| Feedback Response Rate | Percentage of surveys completed | > 40% | Monthly |
+
+### 10.3 Technical Metrics
+
+| Metric | Description | Target | Measurement Frequency |
+|--------|-------------|--------|----------------------|
+| System Uptime | CRM service availability | 99.9% | Daily |
+| API Response Time | p95 API latency | < 500ms | Real-time |
+| Error Rate | Percentage of failed API calls | < 0.1% | Real-time |
+| Data Sync Latency | Time for interaction sync | < 30 seconds | Real-time |
+| Mobile App Performance | App crash rate | < 0.5% | Daily |
+
+### 10.4 Operational Metrics
+
+| Metric | Description | Target | Measurement Frequency |
+|--------|-------------|--------|----------------------|
+| Deals per RM per Month | RM productivity indicator | 20% improvement | Monthly |
+| Overdue Task Rate | Percentage of overdue tasks | < 10% | Daily |
+| Stale Pipeline Items | Pipeline items beyond threshold | < 15% | Weekly |
+| Duplicate Contact Rate | Percentage of duplicate contacts | < 5% | Monthly |
+| Data Completeness | Percentage of contacts with full profiles | > 70% | Monthly |
+
+---
+
+## 11. Key Entities
+
+### 11.1 Contact
+
+The central entity representing a customer (tenant, buyer, or owner) in the CRM system.
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | UUID | Unique identifier |
+| name | String | Full name |
+| phone | String | Primary phone number |
+| email | String | Email address |
+| type | Enum | tenant, buyer, owner |
+| source | Enum | organic, referral, campaign, rm_acquired |
+| assigned_rm_id | UUID | Assigned Relationship Manager |
+| tags | Array | Custom and system tags |
+| verification_status | Enum | verified, pending, unverified |
+| created_at | Timestamp | Creation timestamp |
+| updated_at | Timestamp | Last update timestamp |
+
+### 11.2 Interaction
+
+Records all touchpoints with a Contact.
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | UUID | Unique identifier |
+| contact_id | UUID | Associated Contact |
+| type | Enum | call, chat, visit, note, email, sms |
+| direction | Enum | inbound, outbound |
+| outcome | Enum | successful, no_response, rescheduled, etc. |
+| notes | Text | Interaction notes |
+| duration_seconds | Integer | Duration for calls |
+| source_system | String | Originating system |
+| source_id | UUID | Reference ID in source system |
+| created_by | UUID | User who logged interaction |
+| created_at | Timestamp | Interaction timestamp |
+
+### 11.3 Requirement
+
+Captures tenant or buyer property requirements.
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | UUID | Unique identifier |
+| contact_id | UUID | Associated Contact |
+| transaction_type | Enum | rent, buy |
+| budget_min | Decimal | Minimum budget |
+| budget_max | Decimal | Maximum budget |
+| localities | Array | Preferred localities |
+| bhk | Array | Preferred BHK configurations |
+| amenities | Array | Required amenities |
+| furnishing | Enum | furnished, semi, unfurnished |
+| move_in_date | Date | Preferred move-in date |
+| urgency | Enum | immediate, 1_month, 2_3_months, flexible |
+| status | Enum | active, paused, fulfilled, expired |
+| created_at | Timestamp | Creation timestamp |
+| updated_at | Timestamp | Last update timestamp |
+
+### 11.4 Task
+
+Represents follow-up tasks and reminders.
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | UUID | Unique identifier |
+| title | String | Task title |
+| description | Text | Task description |
+| contact_id | UUID | Associated Contact |
+| interaction_id | UUID | Associated Interaction (optional) |
+| pipeline_id | UUID | Associated Pipeline item (optional) |
+| assignee_id | UUID | Assigned user |
+| due_date | Timestamp | Due date and time |
+| priority | Enum | high, medium, low |
+| status | Enum | pending, in_progress, completed, cancelled |
+| reminder_at | Timestamp | Reminder timestamp |
+| created_by | UUID | Task creator |
+| created_at | Timestamp | Creation timestamp |
+| completed_at | Timestamp | Completion timestamp |
+
+### 11.5 Pipeline
+
+Tracks deal progression through sales stages.
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | UUID | Unique identifier |
+| contact_id | UUID | Associated Contact |
+| requirement_id | UUID | Associated Requirement |
+| lead_id | UUID | Source Lead |
+| stage | Enum | Configurable pipeline stages |
+| assigned_rm_id | UUID | Assigned RM |
+| team_id | UUID | Team assignment |
+| city | String | City |
+| expected_value | Decimal | Expected deal value |
+| expected_close_date | Date | Expected closure date |
+| stage_entered_at | Timestamp | Current stage entry time |
+| created_at | Timestamp | Pipeline creation timestamp |
+| closed_at | Timestamp | Closure timestamp |
+| close_reason | Enum | won, lost, dropped |
+
+### 11.6 FeedbackScore
+
+Captures customer satisfaction data.
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| id | UUID | Unique identifier |
+| contact_id | UUID | Associated Contact |
+| interaction_id | UUID | Associated Interaction (optional) |
+| pipeline_id | UUID | Associated Pipeline (optional) |
+| score | Integer | Rating (1-10) |
+| nps_category | Enum | promoter, passive, detractor |
+| comment | Text | Optional feedback comment |
+| trigger_event | String | Event that triggered survey |
+| response_status | Enum | pending, acknowledged, resolved |
+| responded_by | UUID | User who responded |
+| responded_at | Timestamp | Response timestamp |
+| created_at | Timestamp | Feedback submission timestamp |
+
+---
+
+## 12. Appendix
+
+### 12.1 Glossary
+
+| Term | Definition |
+|------|------------|
+| RM | Relationship Manager - MySqrft staff managing customer relationships |
+| NPS | Net Promoter Score - Customer loyalty metric |
+| Pipeline | Visual representation of deals in various stages |
+| Touchpoint | Any interaction between customer and platform |
+| Detractor | Customer with NPS score 0-6 |
+| Promoter | Customer with NPS score 9-10 |
+
+### 12.2 Related Documents
+
+- MySqrft Platform Domain Definitions
+- Leads Domain PRD
+- Communications Domain PRD
+- Scheduling Domain PRD
+- Sales Domain PRD
+
+### 12.3 Revision History
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026-01-17 | MySqrft Product Team | Initial draft |
+
+---
+
+*This document is maintained by the MySqrft Product Team. For questions or clarifications, contact the CRM domain owner.*

@@ -1,0 +1,312 @@
+# Ops - Product Requirements
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| **Domain** | Ops |
+| **Version** | 1.0 |
+| **Status** | Complete |
+| **Owner** | Product Team |
+| **Last Updated** | January 2026 |
+| **Platform** | MySqrft |
+
+---
+
+## Overview
+
+The Ops domain serves as the central command center for internal administration and partner operations within the MySqrft platform. This domain provides comprehensive tools and interfaces for managing the day-to-day operational aspects of the platform, including user and listing administration, relationship manager (RM) coordination, partner ecosystem management, and system configuration. It acts as the operational backbone that enables MySqrft teams to efficiently oversee and control all aspects of the platform.
+
+As the primary interface for internal teams, the Ops domain consolidates administrative functions that would otherwise be scattered across multiple systems. It provides role-based access to sensitive operations such as user account management, payment oversight, lead allocation, and pricing configuration. The domain ensures that operational staff can respond quickly to customer issues, manage business relationships, and maintain platform health through intuitive dashboards and streamlined workflows.
+
+The Ops domain also serves as the configuration hub for the entire platform, managing feature flags, experiment controls, pricing rules, and plan entitlements. This centralized approach enables rapid iteration on business strategies, controlled feature rollouts, and data-driven decision making. By providing robust audit trails and operational dashboards, the domain ensures accountability, compliance, and visibility into all administrative actions taken across the platform.
+
+## Goals & Objectives
+
+- Provide a unified administrative console that enables efficient management of users, listings, leads, and payments with appropriate role-based access controls
+- Enable effective relationship manager operations through roster management, lead allocation, performance tracking, and target setting
+- Establish comprehensive partner management capabilities for service vendors, housing societies, and lending partners
+- Deliver flexible pricing and configuration management that supports rapid business iteration without code deployments
+- Implement robust feature flag and experiment infrastructure that enables controlled rollouts and A/B testing
+- Provide real-time operational dashboards and analytics that enable data-driven decision making and proactive issue resolution
+- Ensure complete audit trails and compliance logging for all administrative actions
+
+## Key Features
+
+- **Admin Console**: Comprehensive management interface for users, listings, leads, and payments with search, filtering, bulk operations, and detailed views. Supports role-based access with granular permissions for different operational teams.
+
+- **Relationship Manager (RM) Management**: Complete RM lifecycle management including roster creation, territory assignment, lead allocation rules, performance targets, and commission tracking. Enables workload balancing and coverage optimization.
+
+- **Partner Management**: End-to-end partner ecosystem management covering service vendors (movers, painters, cleaners), housing societies, and lending partners. Includes onboarding workflows, contract management, performance monitoring, and payment reconciliation.
+
+- **Pricing and Configuration Management**: Dynamic pricing rule engine supporting location-based pricing, promotional discounts, volume tiers, and time-based adjustments. Configuration management for system-wide settings without code changes.
+
+- **Plan and Entitlement Configuration**: Subscription plan management with feature entitlements, usage limits, and upgrade/downgrade paths. Supports plan versioning and grandfathering for existing subscribers.
+
+- **Promotion Management**: Campaign creation and management with support for coupon codes, referral programs, flash sales, and targeted promotions. Includes budget controls, redemption limits, and effectiveness tracking.
+
+- **Feature Flags and Experiments**: Comprehensive feature management with gradual rollouts, user targeting, kill switches, and multivariate testing. Supports experiment design, statistical analysis, and automated winner selection.
+
+- **Operational Dashboards**: Real-time visibility into platform health, operational metrics, team performance, and business KPIs. Customizable dashboards with alerting and drill-down capabilities.
+
+## User Stories
+
+1. **As an admin user**, I want to search and filter users by various criteria (email, phone, registration date, status) so that I can quickly locate and manage specific user accounts.
+
+2. **As a customer support agent**, I want to view complete user activity history including listings, leads, and transactions so that I can effectively assist users with their inquiries.
+
+3. **As an operations manager**, I want to create and manage RM rosters with territory assignments so that I can ensure adequate coverage across all service areas.
+
+4. **As an RM team lead**, I want to set and track performance targets for my team members so that I can monitor progress and identify coaching opportunities.
+
+5. **As a partner operations specialist**, I want to onboard new service vendors with their documentation and service areas so that they can start receiving and fulfilling service requests.
+
+6. **As a pricing analyst**, I want to configure location-based pricing rules with effective dates so that I can implement market-specific pricing strategies.
+
+7. **As a product manager**, I want to create feature flags with targeting rules so that I can gradually roll out new features to specific user segments.
+
+8. **As a marketing manager**, I want to create promotional campaigns with coupon codes and usage limits so that I can drive user acquisition and engagement.
+
+9. **As an executive**, I want to view operational dashboards showing key metrics and trends so that I can make informed business decisions.
+
+10. **As a compliance officer**, I want to review audit logs of administrative actions so that I can ensure policy compliance and investigate incidents.
+
+## Acceptance Criteria
+
+1. **User Management**
+   - Admin can search users by email, phone number, name, or user ID with results returned within 2 seconds
+   - Admin can view complete user profile including verification status, activity history, and linked accounts
+   - Admin can suspend, unsuspend, or delete user accounts with mandatory reason capture
+   - All user management actions are logged with admin ID, timestamp, action type, and reason
+   - Bulk operations support up to 1000 records with progress indication and error reporting
+
+2. **Listing Management**
+   - Admin can search listings by property ID, owner, location, or status
+   - Admin can edit listing details, change status (active/inactive/flagged), or remove listings
+   - Flagged listings queue is prioritized and shows time since flagging
+   - Listing moderation actions include approval, rejection with reason, and request for changes
+   - Admin can view listing performance metrics including views, inquiries, and conversions
+
+3. **Lead Management**
+   - Admin can view all leads with filtering by status, source, assigned RM, and date range
+   - Admin can manually assign or reassign leads to RMs with reason capture
+   - Lead allocation rules can be configured based on geography, property type, and RM capacity
+   - Lead funnel visualization shows conversion rates at each stage
+   - Admin can merge duplicate leads with history preservation
+
+4. **RM Management**
+   - Admin can create RM profiles with contact info, territories, and specializations
+   - Roster view shows all RMs with current workload, active leads, and performance metrics
+   - Target setting supports monthly/quarterly goals for leads, conversions, and revenue
+   - Allocation rules can be configured with weighted distribution and round-robin options
+   - RM performance dashboard shows individual and team metrics against targets
+
+5. **Partner Management**
+   - Partner onboarding workflow captures business details, documentation, and service catalog
+   - Admin can configure partner service areas, pricing, and availability
+   - Partner performance metrics show fulfillment rate, customer ratings, and response times
+   - Contract and agreement management with expiry alerts
+   - Payment reconciliation view shows partner earnings and settlement status
+
+6. **Pricing Configuration**
+   - Pricing rules support conditions based on location, property type, user segment, and time
+   - Rule priority ordering resolves conflicts when multiple rules apply
+   - Effective date scheduling allows future rule activation without manual intervention
+   - Price simulation tool validates rule impact before activation
+   - Historical pricing data is preserved for analytics and audit
+
+7. **Feature Flags and Experiments**
+   - Feature flags support boolean, percentage rollout, and targeting rule types
+   - Targeting rules can use user attributes, cohorts, and custom properties
+   - Kill switch instantly disables features across all users
+   - Experiment configuration supports control/treatment groups with traffic allocation
+   - Statistical significance calculation and automated winner declaration
+
+## Functional Requirements
+
+### FR1: Admin Console - User Management
+- System SHALL provide search functionality for users by email, phone, name, user ID, and registration date range
+- System SHALL display user profiles with personal information, verification status, linked accounts, and activity history
+- System SHALL support user status changes (active, suspended, deleted) with mandatory reason field
+- System SHALL implement soft delete for user accounts with configurable retention period
+- System SHALL log all user management actions in AdminAction audit log with admin ID, timestamp, target user, action type, and reason
+- System SHALL support bulk operations (export, status change) for up to 1000 users with transaction handling
+
+### FR2: Admin Console - Listing Management
+- System SHALL provide search functionality for listings by property ID, owner, location, status, and date range
+- System SHALL display listing details with property information, media, owner details, and performance metrics
+- System SHALL support listing moderation workflow with approve, reject, flag, and request-changes actions
+- System SHALL maintain moderation queue prioritized by flag severity and age
+- System SHALL track listing edit history with diff comparison capability
+- System SHALL support bulk listing operations with validation and rollback on partial failure
+
+### FR3: Admin Console - Lead Management
+- System SHALL display lead pipeline with filtering by status, source, RM assignment, property type, and date range
+- System SHALL support manual lead assignment and reassignment with reason capture
+- System SHALL implement lead allocation rules based on geography, property type, RM capacity, and specialization
+- System SHALL detect and flag potential duplicate leads based on contact information and property interest
+- System SHALL provide lead merge functionality that preserves complete interaction history
+- System SHALL track lead lifecycle events with timestamps for SLA monitoring
+
+### FR4: Admin Console - Payment Management
+- System SHALL display payment transactions with filtering by status, type, user, date range, and amount
+- System SHALL support payment status updates (pending, completed, failed, refunded) with reason capture
+- System SHALL provide refund processing workflow with approval hierarchy based on amount
+- System SHALL reconcile payments with external payment gateway records
+- System SHALL generate payment reports by period, type, and status
+- System SHALL flag suspicious payment patterns for fraud review
+
+### FR5: RM Management
+- System SHALL maintain RMRoster records with RM profile, territories, specializations, and capacity limits
+- System SHALL support territory definition using geographic boundaries (city, locality, pincode)
+- System SHALL implement lead allocation engine with configurable rules (round-robin, weighted, workload-based)
+- System SHALL track RM performance metrics including leads assigned, contacted, converted, and revenue generated
+- System SHALL support target setting at individual and team levels with daily/weekly/monthly/quarterly periods
+- System SHALL calculate commission based on configurable rules tied to performance achievements
+- System SHALL provide RM workload dashboard showing current assignments, pending tasks, and capacity utilization
+
+### FR6: Partner Management
+- System SHALL maintain PartnerConfig records for service vendors, societies, and lenders
+- System SHALL implement partner onboarding workflow with document collection and verification steps
+- System SHALL support service catalog management with pricing, availability, and service area configuration
+- System SHALL track partner performance metrics including fulfillment rate, response time, and customer ratings
+- System SHALL manage partner contracts with terms, renewal dates, and expiry notifications
+- System SHALL process partner payments with settlement calculations and reconciliation
+- System SHALL support partner tiers with different commission rates and priority levels
+
+### FR7: Pricing and Configuration Management
+- System SHALL maintain PricingRule records with conditions, values, priority, and effective date ranges
+- System SHALL support pricing conditions based on location, property type, user segment, channel, and time
+- System SHALL resolve pricing rule conflicts using priority ordering and specificity matching
+- System SHALL provide price simulation tool that calculates final price for given parameters
+- System SHALL maintain ConfigSetting records for system-wide configuration parameters
+- System SHALL support configuration namespaces for organizing settings by domain
+- System SHALL implement configuration caching with invalidation on updates
+- System SHALL preserve configuration history with change tracking and rollback capability
+
+### FR8: Plan and Entitlement Configuration
+- System SHALL maintain subscription plan definitions with features, limits, and pricing
+- System SHALL support plan versioning with ability to grandfather existing subscribers
+- System SHALL define feature entitlements with boolean, numeric limit, and enum value types
+- System SHALL enforce entitlement checks across platform features with graceful degradation
+- System SHALL support plan upgrade/downgrade paths with proration calculations
+- System SHALL track plan usage metrics against entitlement limits
+- System SHALL generate alerts when users approach or exceed entitlement limits
+
+### FR9: Promotion Management
+- System SHALL support promotion types including percentage discount, fixed amount, free trial, and bundled offers
+- System SHALL manage coupon codes with validation rules, usage limits, and expiry dates
+- System SHALL implement referral program with referrer and referee rewards configuration
+- System SHALL support targeted promotions based on user segments, behavior, and acquisition channel
+- System SHALL enforce promotion budget limits with automatic deactivation when reached
+- System SHALL track promotion performance metrics including redemptions, revenue impact, and ROI
+- System SHALL prevent promotion stacking unless explicitly configured
+
+### FR10: Feature Flags and Experiments
+- System SHALL maintain feature flag records with flag type (boolean, percentage, targeted)
+- System SHALL support targeting rules using user attributes, cohort membership, and custom properties
+- System SHALL implement percentage rollout with consistent user bucketing using hash functions
+- System SHALL provide kill switch capability for immediate feature disable across all users
+- System SHALL support experiment configuration with control and multiple treatment variants
+- System SHALL implement random user assignment to experiment variants with configurable traffic split
+- System SHALL calculate statistical metrics including conversion rates, confidence intervals, and p-values
+- System SHALL support experiment lifecycle management (draft, running, paused, concluded)
+
+### FR11: Operational Dashboards
+- System SHALL provide real-time dashboard with key operational metrics updated within 1 minute
+- System SHALL support customizable dashboard layouts with widget selection and arrangement
+- System SHALL implement drill-down navigation from summary metrics to detailed views
+- System SHALL provide trend visualization with configurable time ranges and comparison periods
+- System SHALL support metric alerting with threshold-based rules and notification channels
+- System SHALL enable dashboard sharing with role-based access controls
+- System SHALL support dashboard export in PDF and CSV formats
+
+### FR12: Audit and Compliance
+- System SHALL log all administrative actions in immutable AdminAction audit log
+- System SHALL capture admin ID, timestamp, action type, target entity, before/after values, and IP address
+- System SHALL support audit log search and filtering by admin, action type, entity, and date range
+- System SHALL retain audit logs for configurable period (default: 7 years) for compliance
+- System SHALL generate audit reports for compliance reviews and incident investigations
+- System SHALL implement tamper detection for audit log integrity verification
+
+## Non-Functional Requirements
+
+### NFR1: Performance
+- Admin search queries shall return results within 2 seconds for datasets up to 10 million records
+- Dashboard widgets shall load within 3 seconds with data freshness within 1 minute
+- Bulk operations shall process 1000 records within 30 seconds
+- Feature flag evaluation shall complete within 10ms at the 99th percentile
+- Configuration lookup shall complete within 5ms using distributed cache
+- Concurrent admin users: support 500 simultaneous admin sessions
+
+### NFR2: Scalability
+- System SHALL scale horizontally to handle growing administrative workload
+- System SHALL partition audit logs by time for efficient storage and querying
+- System SHALL use read replicas for reporting queries to reduce primary database load
+- System SHALL implement caching layers for configuration and feature flag data
+- System SHALL support geographic distribution of admin console for global operations teams
+
+### NFR3: Reliability
+- Admin console availability target: 99.9% uptime during business hours
+- System SHALL implement graceful degradation when dependent services are unavailable
+- System SHALL queue failed operations for retry with exponential backoff
+- System SHALL maintain operation history for recovery from partial failures
+- System SHALL replicate critical configuration data across availability zones
+
+### NFR4: Security
+- System SHALL implement role-based access control (RBAC) with granular permissions
+- System SHALL require multi-factor authentication for admin console access
+- System SHALL encrypt sensitive configuration values at rest using AES-256
+- System SHALL implement IP allowlisting for admin console access
+- System SHALL enforce session timeout after 30 minutes of inactivity
+- System SHALL mask sensitive data (PII, payment details) based on admin role
+- System SHALL implement rate limiting on admin operations (1000 operations/hour per admin)
+- System SHALL require approval workflows for high-impact operations (bulk deletes, pricing changes)
+
+### NFR5: Auditability
+- System SHALL maintain complete audit trail of all administrative actions
+- System SHALL support audit log export in standard formats (JSON, CSV)
+- System SHALL implement log integrity verification using cryptographic checksums
+- System SHALL separate audit logs from operational data for independent access control
+- System SHALL support compliance reporting for SOC 2, GDPR, and industry regulations
+
+## Integration Points
+
+- **Auth Domain**: Validates admin user authentication and authorization; receives admin role and permission assignments for access control decisions
+
+- **User Profile Domain**: Provides user profile data for admin console viewing and editing; receives profile update requests from admin operations
+
+- **Listing Domain**: Provides listing data for moderation and management; receives listing status updates and moderation decisions
+
+- **Lead Management Domain**: Provides lead data for viewing and allocation; receives lead assignment changes and allocation rule configurations
+
+- **Payment Domain**: Provides transaction data for payment management; receives refund requests and payment status updates
+
+- **Notification Domain**: Publishes events for sending operational alerts, partner communications, and admin notifications
+
+- **Analytics Domain**: Provides data for operational dashboards and reports; receives tracking events for admin activity analytics
+
+- **All Platform Domains**: Provides feature flag evaluation service and configuration values consumed by all platform components
+
+## Dependencies
+
+- PostgreSQL or equivalent relational database for operational data and configuration storage
+- Redis or equivalent distributed cache for feature flags, configuration, and session management
+- Elasticsearch or equivalent search engine for fast admin searches across large datasets
+- Time-series database (InfluxDB, TimescaleDB) for metrics and dashboard data
+- Message queue (Kafka, RabbitMQ) for audit log streaming and async operations
+- Object storage (S3, GCS) for audit log archival and report storage
+- Identity provider integration for admin SSO and MFA
+
+## Success Metrics
+
+- **Admin Task Completion Time**: Average time to complete common admin tasks (target: <2 minutes for user lookup, <5 minutes for issue resolution)
+- **Search Performance**: P95 search response time (target: <2 seconds)
+- **Feature Flag Evaluation Latency**: P99 evaluation time (target: <10ms)
+- **Configuration Cache Hit Rate**: Percentage of config lookups served from cache (target: >99%)
+- **RM Lead Assignment Time**: Average time from lead creation to RM assignment (target: <5 minutes)
+- **Partner Onboarding Time**: Average time from application to active status (target: <48 hours)
+- **Promotion Redemption Rate**: Percentage of issued promotions redeemed (target varies by campaign)
+- **Experiment Velocity**: Number of experiments concluded per month (target: >10)
+- **Admin Console Uptime**: Availability during business hours (target: >99.9%)
+- **Audit Compliance Score**: Percentage of required audit fields captured (target: 100%)

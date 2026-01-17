@@ -6,6 +6,7 @@ Always use mishka_chelekom components library for UI components, if there is no 
 
 Components are located in lib/my_sqrft_web/components
 Layout are located in lib/my_sqrft_web/components/layouts
+Create new layouts when needed and always use liveview for creating the webpages
 
 
 # Design System
