@@ -10,11 +10,18 @@ defmodule MySqrft.AuthFixtures do
   alias MySqrft.Auth.Scope
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
-  def valid_user_password, do: "hello world!"
+
+  def unique_mobile_number,
+    do: "+1#{String.pad_leading(:rand.uniform(999_999_999) |> Integer.to_string(), 9, "0")}"
+
+  def valid_user_password, do: "HelloWorld123!"
 
   def valid_user_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
-      email: unique_user_email()
+      email: unique_user_email(),
+      firstname: "Test",
+      lastname: "User",
+      mobile_number: unique_mobile_number()
     })
   end
 

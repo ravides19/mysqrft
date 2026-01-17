@@ -1,0 +1,30 @@
+---
+description: When building UI related work always use these rules
+alwaysApply: false
+---
+Always use mishka_chelekom components library for UI components, if there is no relevant component exisiting then compose one from the exisiting components or try to create a new component following the design of the existing components.
+
+Components are located in lib/my_sqrft_web/components
+Layout are located in lib/my_sqrft_web/components/layouts
+Create new layouts when needed and always use liveview for creating the webpages
+
+
+# Design System
+
+## Typography
+Typography of MySqrft library design system offers a comprehensive set of carefully designed text styles, ensuring consistency and readability across your application. From headings to body text, each typography element has been crafted with attention to font size, weight, and spacing. Values are extra_small, small, medium, large, extra_large, double_large, triple_large, and quadruple_large
+
+## Size values
+
+MySqrft UI offers predefined size options: extra_small, small, medium, large, extra_large which can be easily applied to components. In some components, we also offer larger sizes, such as double_large, triple_large, and quadruple_large.
+
+These predefined values cover borders, text sizes, border radius, and other properties. For each element, you can refer to the documentation of the desired component to find the correct sizes for each property.
+
+
+## Shadow Values
+Mishka Chelekom offers predefined size options: extra_small, small, medium, large, extra_large which can be easily applied to components. In some components, we also offer larger sizes, such as double_large, triple_large, and quadruple_large.
+
+## Font Weights
+Font weight control in Mishka Chelekom is straightforward - simply add any Tailwind font weight class to your components by using font_weight prop to adjust text thickness. Available classes include font-text-thin, font-light, font-normal, font-medium, font-semibold, font-bold, and font-extrabold.
+
+

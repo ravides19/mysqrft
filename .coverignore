@@ -1,0 +1,9 @@
+# Ignore Storybook files from test coverage
+# This file is used by custom coverage scripts to filter out storybook-related modules
+
+# Storybook story files and generated modules
+storybook/
+Elixir.Storybook.
+Elixir.Mix.Tasks.MySqrft.Storybook.
+MySqrftWeb.Storybook
+Storybook.*

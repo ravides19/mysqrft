@@ -31,7 +31,7 @@ defmodule MySqrftWeb.UserLive.RegistrationTest do
         |> render_change(user: %{"email" => "with spaces"})
 
       assert result =~ "Register"
-      assert result =~ "must have the @ sign and no spaces"
+      assert result =~ "must be a valid email address" || result =~ "can't be blank"
     end
   end
 

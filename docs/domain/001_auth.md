@@ -6,10 +6,11 @@
 |-------|-------|
 | **Domain** | Auth |
 | **Version** | 1.0 |
-| **Status** | Complete |
+| **Status** | Complete - Tasks Created |
 | **Owner** | Product Team |
 | **Last Updated** | January 2026 |
 | **Platform** | MySqrft |
+| **EPIC** | [my_sqrft-fan](beads:my_sqrft-fan) |
 
 ---
 
@@ -215,6 +216,73 @@ The Auth domain operates as a critical dependency for all other MySqrft domains,
 - SMS gateway provider (Twilio, AWS SNS) for OTP delivery
 - Cryptographic libraries for password hashing (bcrypt), token generation (JWT), and TOTP implementation
 - Time synchronization service (NTP) for accurate TOTP validation
+
+## Implementation Tasks
+
+### EPIC
+- **[EPIC: Auth Domain Implementation](beads:my_sqrft-fan)** - Phase 1, Priority: Critical
+
+### Features
+- **[F1: Identity Verification & User Registration](beads:my_sqrft-8kg)** - Phase 1, Priority: Critical
+- **[F2: Multi-Method Authentication](beads:my_sqrft-qou)** - Phase 1, Priority: Critical
+- **[F3: Session and Token Management](beads:my_sqrft-7vx)** - Phase 1, Priority: Critical
+- **[F4: Account Security and Recovery](beads:my_sqrft-e19)** - Phase 1, Priority: High
+- **[F5: Device Management](beads:my_sqrft-mdb)** - Phase 1, Priority: High
+- **[F6: Security Event Logging](beads:my_sqrft-e3c)** - Phase 1, Priority: High
+
+### User Stories
+- **[US-1: User Registration](beads:my_sqrft-ee7)** → F1
+  - [T1.1: User Registration Schema & Context](beads:my_sqrft-2r2)
+  - [T1.2: Registration Form & Validation](beads:my_sqrft-t6j)
+  - [T1.3: Email/Phone Verification](beads:my_sqrft-9d0)
+  - [T1.4: Test: User Registration](beads:my_sqrft-i3x)
+
+- **[US-2: Magic Link Authentication](beads:my_sqrft-43p)** → F2
+  - [T-PW1: Password-Based Authentication](beads:my_sqrft-b79)
+  - [T-PW2: Test: Password Authentication](beads:my_sqrft-o1l)
+  - [T2.1: Magic Link Token Generation & Storage](beads:my_sqrft-0qz)
+  - [T2.2: Magic Link Email Delivery](beads:my_sqrft-6dl)
+  - [T2.3: Magic Link Validation & Session Creation](beads:my_sqrft-8d8)
+  - [T2.4: Test: Magic Link Authentication](beads:my_sqrft-uaw)
+
+- **[US-3: Multi-Factor Authentication](beads:my_sqrft-v01)** → F2
+  - [T3.1: TOTP Setup & QR Code Generation](beads:my_sqrft-8qg)
+  - [T3.2: TOTP Validation](beads:my_sqrft-2bj)
+  - [T3.3: OTP via SMS/Email](beads:my_sqrft-6jd)
+  - [T3.4: Recovery Codes Generation](beads:my_sqrft-vyt)
+  - [T3.5: Test: Multi-Factor Authentication](beads:my_sqrft-61q)
+
+- **[US-4: Remember Me / Trusted Devices](beads:my_sqrft-s0v)** → F5
+  - [T4.1: Device Fingerprinting](beads:my_sqrft-2rz)
+  - [T4.2: Trusted Device Tracking](beads:my_sqrft-vmd)
+  - [T4.3: Remember Me Token Extension](beads:my_sqrft-dw1)
+  - [T4.4: Test: Remember Me / Trusted Devices](beads:my_sqrft-uq6)
+
+- **[US-5: Password Reset](beads:my_sqrft-7iw)** → F4
+  - [T5.1: Password Reset Token Generation](beads:my_sqrft-phd)
+  - [T5.2: Password Reset via Email](beads:my_sqrft-x1g)
+  - [T5.3: Password Reset via SMS OTP](beads:my_sqrft-8n9)
+  - [T5.4: Account Unlock](beads:my_sqrft-99y)
+  - [T5.5: Test: Password Reset](beads:my_sqrft-j8o)
+
+- **[US-6: Device Management](beads:my_sqrft-7lx)** → F5
+  - [T6.1: Session List & Display](beads:my_sqrft-ilx)
+  - [T6.2: Individual Session Revocation](beads:my_sqrft-5k8)
+  - [T6.3: Bulk Logout (All Devices)](beads:my_sqrft-3lr)
+  - [T6.4: New Device Notifications](beads:my_sqrft-8e2)
+  - [T6.5: Test: Device Management](beads:my_sqrft-m73)
+
+- **[US-7: Authentication Audit Logging](beads:my_sqrft-3t7)** → F6
+  - [T7.1: Security Event Schema & Context](beads:my_sqrft-af8)
+  - [T7.2: Authentication Event Logging](beads:my_sqrft-21a)
+  - [T7.3: Suspicious Pattern Detection](beads:my_sqrft-189)
+  - [T7.4: Audit Log Export](beads:my_sqrft-rj7)
+  - [T7.5: Test: Audit Logging](beads:my_sqrft-brb)
+
+### Core Infrastructure Tasks
+- **[T-SM1: Session Schema & Management](beads:my_sqrft-rlr)** - Session lifecycle management
+- **[T-SM2: Token Refresh & Revocation](beads:my_sqrft-3zc)** - Token refresh and logout
+- **[T-SM3: Test: Session Management](beads:my_sqrft-jnj)** - Session management tests
 
 ## Success Metrics
 

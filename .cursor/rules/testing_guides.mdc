@@ -1,0 +1,1106 @@
+---
+alwaysApply: true
+---
+
+# Phoenix Testing Guidelines
+
+This document provides comprehensive testing guidelines for Phoenix applications, based on the official Phoenix testing documentation.
+
+## Overview
+
+Phoenix uses **ExUnit** as its built-in testing framework. When generating a new Phoenix application, test infrastructure is automatically set up including:
+- Test directory structure (`test/`)
+- Support files (`test/support/`) with `ConnCase`, `DataCase`, and `ChannelCase`
+- Test helper (`test/test_helper.exs`)
+- Example tests for controllers and views
+
+**References:**
+- [Phoenix Testing Guide](https://hexdocs.pm/phoenix/testing.html)
+- [Testing Contexts](https://hexdocs.pm/phoenix/testing_contexts.html)
+- [Testing Controllers](https://hexdocs.pm/phoenix/testing_controllers.html)
+- [Testing Channels](https://hexdocs.pm/phoenix/testing_channels.html)
+- [Phoenix.LiveViewTest](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.html)
+- [Phoenix.LiveViewTest.Element](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.Element.html)
+- [Phoenix.LiveViewTest.Upload](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.Upload.html)
+- [Phoenix.LiveViewTest.View](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.View.html)
+
+---
+
+## Running Tests
+
+### Basic Commands
+
+- **Run all tests**: `mix test`
+- **Run specific directory**: `mix test test/my_app_web/controllers/`
+- **Run specific file**: `mix test test/my_app/blog_test.exs`
+- **Run single test**: `mix test test/my_app/blog_test.exs:42` (line number)
+- **Run failed tests only**: `mix test --failed`
+
+### Test Filtering
+
+- **Include tags**: `mix test --only tag_name` or `mix test --only tag_name:value`
+- **Exclude tags**: `mix test --exclude tag_name` or `mix test --exclude tag_name:value`
+- **Combine filters**: `mix test --exclude slow --include integration`
+
+### Test Randomization
+
+- Tests run in random order by default to detect test dependencies
+- **Reproduce failures**: `mix test --seed 401472` (use seed from previous run)
+- Randomization helps identify tests that depend on execution order
+
+### Test Partitioning (CI)
+
+For parallel test execution in CI environments:
+
+```bash
+MIX_TEST_PARTITION=1 mix test --partitions 4
+MIX_TEST_PARTITION=2 mix test --partitions 4
+MIX_TEST_PARTITION=3 mix test --partitions 4
+MIX_TEST_PARTITION=4 mix test --partitions 4
+```
+
+Each partition uses a separate database (configured via `MIX_TEST_PARTITION` in `config/test.exs`).
+
+---
+
+## Test Structure & Organization
+
+### Test Case Modules
+
+Phoenix provides three main test case modules:
+
+#### 1. ConnCase (`test/support/conn_case.ex`)
+
+Used for **controller and view tests**. Provides:
+- A `conn` struct via `%{conn: conn}` in test context
+- Imports: `Phoenix.ConnTest`, `Plug.Conn`
+- Sets `@endpoint` module attribute
+- Enables verified routes (`~p` syntax)
+- Sets up SQL Sandbox
+
+**Usage:**
+```elixir
+defmodule MyAppWeb.PageControllerTest do
+  use MyAppWeb.ConnCase
+
+  test "GET /", %{conn: conn} do
+    conn = get(conn, ~p"/")
+    assert html_response(conn, 200) =~ "Expected content"
+  end
+end
+```
+
+#### 2. DataCase (`test/support/data_case.ex`)
+
+Used for **context and schema tests**. Provides:
+- SQL Sandbox setup (database transactions rolled back after each test)
+- Imports: `Ecto`, `Ecto.Query`, `MyApp.DataCase`
+- Helper functions like `errors_on/2` for changeset validation testing
+- Database isolation for concurrent tests
+
+**Usage:**
+```elixir
+defmodule MyApp.BlogTest do
+  use MyApp.DataCase, async: true
+
+  alias MyApp.Blog
+
+  test "list_posts/0 returns all posts" do
+    post = post_fixture()
+    assert Blog.list_posts() == [post]
+  end
+end
+```
+
+#### 3. ChannelCase (`test/support/channel_case.ex`)
+
+Used for **channel tests**. Provides:
+- Imports: `Phoenix.ChannelTest`
+- Sets `@endpoint` module attribute
+- SQL Sandbox setup
+- Channel-specific testing helpers
+
+**Usage:**
+```elixir
+defmodule MyAppWeb.RoomChannelTest do
+  use MyAppWeb.ChannelCase
+
+  setup do
+    {:ok, _, socket} =
+      socket(MyAppWeb.UserSocket, "user_id", %{some: :assign})
+      |> subscribe_and_join(MyAppWeb.RoomChannel, "room:lobby")
+
+    {:ok, socket: socket}
+  end
+
+  test "ping replies with status ok", %{socket: socket} do
+    ref = push(socket, "ping", %{"hello" => "there"})
+    assert_reply ref, :ok, %{"hello" => "there"}
+  end
+end
+```
+
+### Async Testing
+
+- Use `async: true` when tests don't share mutable state
+- **Safe for async**: Schema tests, context tests (with SQL Sandbox), view tests
+- **Not safe for async**: Tests that modify shared external resources, certain controller tests
+- SQL Sandbox enables concurrent database tests safely
+
+**Example:**
+```elixir
+defmodule MyApp.BlogTest do
+  use MyApp.DataCase, async: true  # Safe to run concurrently
+  # ...
+end
+```
+
+### Test Tags
+
+Use tags to categorize and control test execution:
+
+**Module-level tags:**
+```elixir
+defmodule MyApp.SlowTest do
+  use MyApp.DataCase
+  @moduletag :slow
+  # ...
+end
+```
+
+**Test-level tags:**
+```elixir
+@tag :integration
+test "external API call" do
+  # ...
+end
+```
+
+**Configure default exclusions** in `test/test_helper.exs`:
+```elixir
+ExUnit.start(exclude: [slow: true])
+```
+
+---
+
+## Testing Contexts & Schemas
+
+### Context Testing
+
+**Purpose**: Test business logic and database operations in context modules.
+
+**Location**: `test/<app>/<context>_test.exs`
+
+**Key Principles:**
+- Test all public functions: `list_*`, `get_*`, `create_*`, `update_*`, `delete_*`
+- Use fixtures for test data setup
+- Test both success and failure paths
+- Verify database state changes
+
+**Example:**
+```elixir
+defmodule MyApp.BlogTest do
+  use MyApp.DataCase, async: true
+  alias MyApp.Blog
+
+  describe "list_posts/0" do
+    test "returns all posts" do
+      post = post_fixture()
+      assert Blog.list_posts() == [post]
+    end
+  end
+
+  describe "create_post/1" do
+    test "with valid data creates a post" do
+      valid_attrs = %{title: "some title", body: "some body"}
+
+      assert {:ok, %Post{} = post} = Blog.create_post(valid_attrs)
+      assert post.title == "some title"
+      assert post.body == "some body"
+    end
+
+    test "with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Blog.create_post(%{})
+    end
+  end
+end
+```
+
+### Schema Testing
+
+**Purpose**: Test side-effect-free logic: validations, changesets, pure functions.
+
+**Key Principles:**
+- Test validation rules (required fields, length, format, etc.)
+- Test changeset functions
+- Test default values
+- Use `errors_on/2` helper from DataCase
+
+**Example:**
+```elixir
+defmodule MyApp.Blog.PostTest do
+  use MyApp.DataCase, async: true
+  alias MyApp.Blog.Post
+
+  test "changeset with valid attributes" do
+    changeset = Post.changeset(%Post{}, %{title: "title", body: "body"})
+    assert changeset.valid?
+  end
+
+  test "changeset requires title" do
+    changeset = Post.changeset(%Post{}, %{})
+    refute changeset.valid?
+    assert "can't be blank" in errors_on(changeset).title
+  end
+end
+```
+
+### Fixtures
+
+Create fixture modules to reduce repetition:
+
+**Location**: `test/support/fixtures/<context>_fixtures.ex`
+
+**Example:**
+```elixir
+defmodule MyApp.BlogFixtures do
+  @moduledoc """
+  This module defines test helpers for creating
+  entities via the `MyApp.Blog` context.
+  """
+
+  @doc """
+  Generate a post.
+  """
+  def post_fixture(attrs \\ %{}) do
+    {:ok, post} =
+      attrs
+      |> Enum.into(%{
+        body: "some body",
+        title: "some title"
+      })
+      |> MyApp.Blog.create_post()
+
+    post
+  end
+end
+```
+
+**Usage in tests:**
+```elixir
+alias MyApp.BlogFixtures
+
+test "something" do
+  post = BlogFixtures.post_fixture()
+  # ...
+end
+```
+
+---
+
+## Testing Controllers
+
+### HTML Controllers
+
+**Purpose**: Test HTTP request/response cycle, routing, rendering, redirects.
+
+**Key Principles:**
+- Test both success and failure paths
+- Verify status codes, redirects, and rendered content
+- Don't duplicate validation logic (covered in schema/context tests)
+- Focus on integration-level behavior
+
+**Example:**
+```elixir
+defmodule MyAppWeb.PostControllerTest do
+  use MyAppWeb.ConnCase
+
+  alias MyApp.Blog
+
+  @create_attrs %{body: "some body", title: "some title"}
+  @update_attrs %{body: "some updated body", title: "some updated title"}
+  @invalid_attrs %{body: nil, title: nil}
+
+  describe "index" do
+    test "lists all posts", %{conn: conn} do
+      post = post_fixture()
+      conn = get(conn, ~p"/posts")
+      assert html_response(conn, 200) =~ "Listing Posts"
+      assert html_response(conn, 200) =~ post.title
+    end
+  end
+
+  describe "create post" do
+    test "redirects to show when data is valid", %{conn: conn} do
+      conn = post(conn, ~p"/posts", post: @create_attrs)
+      assert %{id: id} = redirected_params(conn)
+      assert redirected_to(conn) == ~p"/posts/#{id}"
+
+      conn = get(conn, ~p"/posts/#{id}")
+      assert html_response(conn, 200) =~ "Post #{id}"
+    end
+
+    test "renders errors when data is invalid", %{conn: conn} do
+      conn = post(conn, ~p"/posts", post: @invalid_attrs)
+      assert html_response(conn, 200) =~ "New Post"
+      assert html_response(conn, 200) =~ "can&#39;t be blank"
+    end
+  end
+
+  describe "delete post" do
+    test "deletes chosen post", %{conn: conn} do
+      post = post_fixture()
+      conn = delete(conn, ~p"/posts/#{post}")
+      assert redirected_to(conn) == ~p"/posts"
+
+      assert_error_sent 404, fn ->
+        get(conn, ~p"/posts/#{post}")
+      end
+    end
+  end
+end
+```
+
+### JSON Controllers
+
+**Purpose**: Test JSON API endpoints, status codes, response structure.
+
+**Key Principles:**
+- Test JSON response structure and status codes
+- Verify location headers for created resources
+- Test error responses (422 for validation, 404 for not found)
+- Use `action_fallback` for error handling
+
+**Example:**
+```elixir
+defmodule MyAppWeb.PostControllerTest do
+  use MyAppWeb.ConnCase
+
+  describe "create post" do
+    test "renders post when data is valid", %{conn: conn} do
+      conn = post(conn, ~p"/api/posts", post: @create_attrs)
+      assert %{"id" => id} = json_response(conn, 201)["data"]
+
+      conn = get(conn, ~p"/api/posts/#{id}")
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+    end
+
+    test "renders errors when data is invalid", %{conn: conn} do
+      conn = post(conn, ~p"/api/posts", post: @invalid_attrs)
+      assert json_response(conn, 422)["errors"] != %{}
+    end
+  end
+
+  describe "delete post" do
+    test "deletes chosen post", %{conn: conn} do
+      post = post_fixture()
+      conn = delete(conn, ~p"/api/posts/#{post}")
+      assert response(conn, 204)
+
+      assert_error_sent 404, fn ->
+        get(conn, ~p"/api/posts/#{post}")
+      end
+    end
+  end
+end
+```
+
+### Controller Test Helpers
+
+**Available functions** (from `Phoenix.ConnTest`):
+- `get(conn, path)` - GET request
+- `post(conn, path, params)` - POST request
+- `put(conn, path, params)` - PUT request
+- `patch(conn, path, params)` - PATCH request
+- `delete(conn, path)` - DELETE request
+- `html_response(conn, status)` - Assert HTML response
+- `json_response(conn, status)` - Assert JSON response
+- `response(conn, status)` - Assert response status
+- `redirected_to(conn)` - Get redirect location
+- `redirected_params(conn)` - Get redirect params
+- `assert_error_sent(status, fun)` - Assert error response
+
+---
+
+## Testing Channels
+
+### Channel Test Structure
+
+**Purpose**: Test real-time features, WebSocket communication, PubSub broadcasts.
+
+**Key Principles:**
+- Test synchronous replies (`handle_in` with `{:reply, ...}`)
+- Test broadcasts (`broadcast/3`, `broadcast_from/3`)
+- Test server pushes (`handle_out/3`)
+- Test channel lifecycle (join, leave, close)
+
+### Setup
+
+**Join a channel in setup:**
+```elixir
+defmodule MyAppWeb.RoomChannelTest do
+  use MyAppWeb.ChannelCase
+
+  setup do
+    {:ok, _, socket} =
+      socket(MyAppWeb.UserSocket, "user_id", %{user_id: 1})
+      |> subscribe_and_join(MyAppWeb.RoomChannel, "room:lobby")
+
+    {:ok, socket: socket}
+  end
+
+  test "ping replies with status ok", %{socket: socket} do
+    ref = push(socket, "ping", %{"hello" => "there"})
+    assert_reply ref, :ok, %{"hello" => "there"}
+  end
+end
+```
+
+### Testing Synchronous Replies
+
+**When channel returns `{:reply, ...}`:**
+```elixir
+test "shout replies with status ok", %{socket: socket} do
+  ref = push(socket, "shout", %{"hello" => "all"})
+  assert_reply ref, :ok, %{"hello" => "all"}
+end
+```
+
+### Testing Broadcasts
+
+**Test PubSub broadcasts:**
+```elixir
+test "broadcasts are pushed to the client", %{socket: socket} do
+  broadcast_from!(socket, "broadcast", %{"some" => "data"})
+  assert_push "broadcast", %{"some" => "data"}
+end
+```
+
+**Test broadcasts to all subscribers:**
+```elixir
+test "shout broadcasts to room:lobby", %{socket: socket} do
+  push(socket, "shout", %{"hello" => "all"})
+  assert_broadcast "shout", %{"hello" => "all"}
+end
+```
+
+### Testing Channel Lifecycle
+
+**Test joining:**
+```elixir
+test "join accepts valid token", %{socket: socket} do
+  assert {:ok, _, _socket} =
+    socket(MyAppWeb.UserSocket, "user_id", %{})
+    |> subscribe_and_join(MyAppWeb.RoomChannel, "room:lobby", %{"token" => "valid"})
+end
+
+test "join rejects invalid token" do
+  assert {:error, %{reason: "unauthorized"}} =
+    socket(MyAppWeb.UserSocket, "user_id", %{})
+    |> subscribe_and_join(MyAppWeb.RoomChannel, "room:lobby", %{"token" => "invalid"})
+end
+```
+
+**Test leaving:**
+```elixir
+test "handle_info/2 after leave", %{socket: socket} do
+  leave(socket)
+  assert_push "presence_diff", %{}
+end
+```
+
+### Channel Test Helpers
+
+**Available functions** (from `Phoenix.ChannelTest`):
+- `socket(UserSocket, socket_id, assigns)` - Create socket
+- `subscribe_and_join(socket, channel, topic, payload)` - Join channel
+- `push(socket, event, payload)` - Push event to channel
+- `assert_reply(ref, status, payload)` - Assert synchronous reply
+- `assert_broadcast(event, payload)` - Assert broadcast
+- `assert_push(event, payload)` - Assert push to client
+- `broadcast_from(socket, event, payload)` - Broadcast from channel
+- `broadcast_from!(socket, event, payload)` - Broadcast and wait
+- `leave(socket)` - Leave channel
+- `close(socket)` - Close socket
+
+---
+
+## Testing LiveView
+
+### Overview
+
+**Purpose**: Test LiveViews, LiveComponents, and function components with interactive behavior.
+
+**Key Principles:**
+- Use `Phoenix.LiveViewTest` for LiveView testing
+- Test both disconnected and connected mount states
+- Test user interactions via DOM events
+- Use element selectors to find and interact with UI elements
+- Test form submissions and file uploads
+- Test navigation (patches, redirects)
+
+### Test Setup
+
+LiveView tests use `ConnCase` and import `Phoenix.LiveViewTest`:
+
+```elixir
+defmodule MyAppWeb.PostLiveTest do
+  use MyAppWeb.ConnCase
+  import Phoenix.LiveViewTest
+
+  test "disconnected and connected mount", %{conn: conn} do
+    conn = get(conn, ~p"/posts")
+    assert html_response(conn, 200) =~ "Posts"
+
+    {:ok, _view, html} = live(conn)
+    assert html =~ "Posts"
+  end
+end
+```
+
+### Testing Function Components
+
+**Two approaches** for testing function components:
+
+#### 1. Using `render_component/3`
+
+```elixir
+import Phoenix.LiveViewTest
+
+def greet(assigns) do
+  ~H"""
+  <div>Hello, {@name}!</div>
+  """
+end
+
+test "greets" do
+  assert render_component(&MyComponents.greet/1, name: "Mary") ==
+           "<div>Hello, Mary!</div>"
+end
+```
+
+#### 2. Using `rendered_to_string/1` with `~H`
+
+```elixir
+import Phoenix.Component
+import Phoenix.LiveViewTest
+
+test "greets" do
+  assigns = %{}
+  assert rendered_to_string(~H"""
+         <MyComponents.greet name="Mary" />
+         """) ==
+           "<div>Hello, Mary!</div>"
+end
+```
+
+### Testing LiveViews
+
+#### Mounting LiveViews
+
+**Test disconnected mount** (initial HTTP request):
+```elixir
+test "disconnected mount", %{conn: conn} do
+  conn = get(conn, ~p"/thermo")
+  assert html_response(conn, 200) =~ "The temperature is: 30℉"
+end
+```
+
+**Test connected mount** (stateful process):
+```elixir
+test "connected mount", %{conn: conn} do
+  {:ok, _view, html} = live(conn, ~p"/thermo")
+  assert html =~ "The temperature is: 30℉"
+end
+```
+
+**Test both** (if you need the disconnected HTML first):
+```elixir
+test "disconnected and connected mount", %{conn: conn} do
+  conn = get(conn, ~p"/thermo")
+  assert html_response(conn, 200) =~ "The temperature is: 30℉"
+
+  {:ok, _view, html} = live(conn)
+  assert html =~ "The temperature is: 30℉"
+end
+```
+
+**Test redirects during mount:**
+```elixir
+test "redirected mount", %{conn: conn} do
+  assert {:error, {:redirect, %{to: "/somewhere"}}} = live(conn, ~p"/my-path")
+end
+```
+
+### Testing Events
+
+Use `render_*` functions to simulate user interactions:
+
+#### Click Events
+
+```elixir
+{:ok, view, _html} = live(conn, ~p"/thermo")
+
+assert view
+       |> element("button#inc")
+       |> render_click() =~ "The temperature is: 31℉"
+```
+
+**Direct event trigger** (bypass element lookup):
+```elixir
+assert render_click(view, :inc, %{}) =~ "The temperature is: 31℉"
+```
+
+**Prefer element style** - it validates that the element actually has `phx-click` and matches the event name.
+
+#### Form Events
+
+**Submit:**
+```elixir
+{:ok, view, _html} = live(conn, ~p"/thermo")
+
+assert view
+       |> form("form", %{deg: 123})
+       |> render_submit() =~ "123 exceeds limits"
+```
+
+**Change:**
+```elixir
+assert view
+       |> form("form", %{name: "John"})
+       |> render_change() =~ "Name updated"
+```
+
+**Important**: Use `form/3` with data for visible input fields. Only use the `value` parameter in `render_submit` for hidden inputs or hook events.
+
+**Anti-pattern** - Don't bypass form validation:
+```elixir
+# BAD - values not checked against form inputs
+view |> form("form") |> render_submit(%{name: "hello"})
+
+# GOOD - values validated against form structure
+view |> form("form", %{name: "hello"}) |> render_submit()
+```
+
+#### Other Events
+
+- `render_focus(view, event, value)` - Focus events
+- `render_blur(element)` - Blur events
+- `render_keydown(element)` - Keydown events
+- `render_keyup(element)` - Keyup events
+- `render_hook(view, event, value)` - Hook events
+
+### Testing Forms
+
+**Building and submitting forms:**
+
+```elixir
+{:ok, view, _html} = live(conn, ~p"/posts/new")
+
+# Build form with data
+form = form(view, "#post-form", post: %{title: "My Post", body: "Content"})
+
+# Submit the form
+assert render_submit(form) =~ "Post created"
+```
+
+**Using `put_submitter/2`** for specific submit buttons:
+```elixir
+assert view
+       |> form("#term", user: %{name: "hello"})
+       |> put_submitter("button[name=example_action]")
+       |> render_submit() =~ "Action taken"
+```
+
+**Submitting to plug pipeline** (for non-LiveView form submissions):
+```elixir
+form = form(live_view, selector, %{"form" => "data"})
+conn = submit_form(form, conn)
+assert conn.method == "POST"
+assert conn.params == %{"form" => "data"}
+```
+
+### Testing File Uploads
+
+**Setup file input:**
+```elixir
+{:ok, view, _html} = live(conn, ~p"/upload")
+
+avatar = file_input(view, "#my-form-id", :avatar, [
+  %{
+    last_modified: 1_594_171_879_000,
+    name: "myfile.jpeg",
+    content: File.read!("myfile.jpg"),
+    size: 1_396_009,
+    type: "image/jpeg"
+  }
+])
+```
+
+**Render upload** (simulate upload progress):
+```elixir
+assert render_upload(avatar, "myfile.jpeg") =~ "100%"
+```
+
+**Chunked uploads** (test progress):
+```elixir
+assert render_upload(avatar, "myfile.jpeg", 49) =~ "49%"
+assert render_upload(avatar, "myfile.jpeg", 51) =~ "100%"
+```
+
+**Submit after upload:**
+```elixir
+render_upload(avatar, "myfile.jpeg")
+assert render_submit(view, "#my-form-id") =~ "File uploaded"
+```
+
+**Handle upload redirects:**
+```elixir
+# For patches, the view will be patched automatically
+# For navigates, returns {:error, {:live_redirect, %{to: url}}}
+# For redirects, returns {:error, {:redirect, %{to: url}}}
+result = render_upload(upload, "file.jpeg")
+
+case result do
+  {:error, {:live_redirect, %{to: url}}} ->
+    {:ok, view, _html} = follow_redirect(result, conn)
+    # continue with patched view
+
+  {:error, {:redirect, %{to: url}}} ->
+    conn = follow_redirect(result, conn)
+    # continue with redirected conn
+
+  html ->
+    # normal upload result
+end
+```
+
+### Testing LiveComponents
+
+**Two approaches:**
+
+#### 1. Using `render_component/3` (single render)
+
+```elixir
+assert render_component(MyComponent, id: 123, user: %User{}) =~
+         "some markup in component"
+```
+
+This mounts and renders once, without testing events.
+
+#### 2. Through parent LiveView (with DOM events)
+
+```elixir
+{:ok, view, html} = live(conn, ~p"/users")
+
+# Scope events to component via DOM selector
+html = view |> element("#user-13 a", "Delete") |> render_click()
+refute html =~ "user-13"
+refute view |> element("#user-13") |> has_element?()
+```
+
+LiveView automatically uses `phx-target` to route events to the correct component.
+
+**Targeting multiple components:**
+```elixir
+view
+|> with_target("#user-1,#user-2")
+|> render_click("Hide", %{})
+```
+
+### Testing Navigation
+
+**Assert patches:**
+```elixir
+assert_patch(view, ~p"/posts/123")
+assert_patched(view, ~p"/posts/123")
+```
+
+**Assert redirects:**
+```elixir
+assert_redirect(view, ~p"/posts")
+assert_redirected(view, ~p"/posts")
+```
+
+**Follow redirects:**
+```elixir
+{:error, {:redirect, %{to: "/posts"}}} = render_click(view, "delete", %{})
+{:ok, view, _html} = follow_redirect(view, conn)
+```
+
+**Follow trigger actions** (for forms that trigger actions):
+```elixir
+{:error, {:redirect, %{to: "/posts"}}} = render_submit(form)
+{:ok, view, _html} = follow_trigger_action(form, conn)
+```
+
+### Testing Regular Messages
+
+LiveViews are GenServers, so you can send messages directly:
+
+```elixir
+send(view.pid, {:set_temp, 50})
+assert render(view) =~ "The temperature is: 50℉"
+```
+
+### Element Helpers
+
+**Finding elements:**
+```elixir
+# Find by selector
+element(view, "button#inc")
+
+# Find by selector with text
+element(view, "a.delete", "Delete Post")
+
+# Check if element exists
+assert has_element?(view, "#post-123")
+refute has_element?(view, "#post-456")
+```
+
+**Element structs** provide metadata:
+- `Element.selector/1` - Get the CSS selector
+- `Element.text/1` - Get the element's text content
+
+### View Helpers
+
+**Accessing view state:**
+```elixir
+# Get the LiveView PID
+view.pid
+
+# Render current state
+render(view)
+
+# Check current path
+assert_patched(view, ~p"/posts")
+```
+
+**View structs** provide metadata:
+- `View.pid/1` - Get the LiveView process ID
+- `View.redirected/1` - Check if redirected
+- `View.redirected_to/1` - Get redirect target
+
+### Upload Helpers
+
+**Upload structs** provide metadata:
+- `Upload.entries/1` - Get upload entries
+- `Upload.progress/1` - Get upload progress
+- `Upload.accepted/1` - Get accepted files
+- `Upload.rejected/1` - Get rejected files
+
+**Preflight for external uploads:**
+```elixir
+{:ok, %{max_file_size: max}} = preflight_upload(upload)
+assert max == 5_000_000
+```
+
+### LiveView Test Helpers Summary
+
+**Mounting:**
+- `live(conn, path)` - Mount LiveView in connected state
+- `live_isolated(conn, LiveView, opts)` - Mount isolated LiveView
+
+**Rendering:**
+- `render(view)` - Get current HTML
+- `render_component(component, assigns)` - Render function component
+- `rendered_to_string(template)` - Convert template to string
+
+**Events:**
+- `render_click(element)` - Click event
+- `render_submit(form)` - Form submit
+- `render_change(form)` - Form change
+- `render_focus(view, event, value)` - Focus event
+- `render_blur(element)` - Blur event
+- `render_keydown(element)` - Keydown event
+- `render_keyup(element)` - Keyup event
+- `render_hook(view, event, value)` - Hook event
+
+**Forms:**
+- `form(view, selector, data)` - Build form
+- `put_submitter(form, selector)` - Set submit button
+
+**Uploads:**
+- `file_input(view, form_selector, field, entries)` - Create file input
+- `render_upload(upload, entry_name, percent)` - Simulate upload
+- `preflight_upload(upload)` - Preflight check
+
+**Elements:**
+- `element(view, selector, text)` - Find element
+- `has_element?(view, selector, text)` - Check existence
+
+**Navigation:**
+- `assert_patch(view, path)` - Assert patch will happen
+- `assert_patched(view, path)` - Assert patch occurred
+- `assert_redirect(view, path)` - Assert redirect will happen
+- `assert_redirected(view, path)` - Assert redirect occurred
+- `follow_redirect(view, conn)` - Follow redirect
+- `follow_trigger_action(form, conn)` - Follow trigger action
+
+**Targeting:**
+- `with_target(view, selector)` - Set event target
+
+**Messages:**
+- `push_event(view, event, payload)` - Push event to client
+- `assert_push_event(view, event, payload)` - Assert push event
+
+---
+
+## Best Practices
+
+### Test Organization
+
+1. **Group related tests** with `describe` blocks
+2. **Use fixtures** to reduce duplication
+3. **Keep tests focused** - one assertion per test when possible
+4. **Name tests clearly** - describe what is being tested
+
+### Test Scope
+
+| Test Type | Focus On | Don't Overdo |
+|-----------|----------|--------------|
+| **Schema Tests** | Validations, changesets, pure functions | HTTP requests, rendering, controller logic |
+| **Context Tests** | Business logic, database operations | HTTP layer, templates, UI details |
+| **Controller Tests** | Request/response cycle, routing, status codes | Validating every schema constraint |
+| **Channel Tests** | Messaging behavior, broadcasts, lifecycle | Internal implementation details |
+| **LiveView Tests** | User interactions, dynamic behavior, forms, uploads, navigation | Internal implementation details, JS-specific behavior |
+
+### Test Isolation
+
+1. **Use SQL Sandbox** - ensures database state is rolled back
+2. **Use async: true** when safe - improves test speed
+3. **Avoid shared state** - each test should be independent
+4. **Clean up resources** - use `start_supervised!/1` for processes
+
+### Error Handling
+
+1. **Test error paths** - not just happy paths
+2. **Use `assert_error_sent`** for Phoenix error responses
+3. **Test fallback controllers** for JSON APIs
+4. **Verify error messages** are user-friendly
+
+### Performance
+
+1. **Run tests in parallel** when possible (`async: true`)
+2. **Use tags** to exclude slow tests during development
+3. **Use test partitioning** in CI for parallel execution
+4. **Keep tests fast** - avoid external API calls, use mocks when needed
+
+### Maintenance
+
+1. **Update tests when changing code** - tests should reflect current behavior
+2. **Remove obsolete tests** - don't keep tests for removed features
+3. **Refactor test code** - apply DRY principles with fixtures and helpers
+4. **Document complex tests** - add comments explaining non-obvious test logic
+
+---
+
+## Common Patterns
+
+### Testing Authentication
+
+```elixir
+defmodule MyAppWeb.PostControllerTest do
+  use MyAppWeb.ConnCase
+
+  setup %{conn: conn} do
+    user = user_fixture()
+    conn = log_in_user(conn, user)
+    {:ok, conn: conn, user: user}
+  end
+
+  test "requires authentication", %{conn: conn} do
+    conn = build_conn()
+    conn = get(conn, ~p"/posts")
+    assert redirected_to(conn) == ~p"/users/log_in"
+  end
+end
+```
+
+### Testing Authorization
+
+```elixir
+test "does not delete another user's post", %{conn: conn, user: user} do
+  other_user = user_fixture()
+  post = post_fixture(%{user_id: other_user.id})
+  
+  assert_error_sent 404, fn ->
+    delete(conn, ~p"/posts/#{post}")
+  end
+end
+```
+
+### Testing Pagination
+
+```elixir
+test "paginates results", %{conn: conn} do
+  # Create more items than page size
+  Enum.each(1..25, fn _ -> post_fixture() end)
+  
+  conn = get(conn, ~p"/posts?page=2")
+  assert html_response(conn, 200) =~ "Page 2"
+end
+```
+
+### Testing Search/Filtering
+
+```elixir
+test "filters posts by title", %{conn: conn} do
+  post1 = post_fixture(%{title: "Elixir"})
+  post2 = post_fixture(%{title: "Phoenix"})
+  
+  conn = get(conn, ~p"/posts?search=Elixir")
+  assert html_response(conn, 200) =~ post1.title
+  refute html_response(conn, 200) =~ post2.title
+end
+```
+
+---
+
+## Troubleshooting
+
+### Tests Failing Intermittently
+
+1. **Check for shared state** - ensure tests are isolated
+2. **Run with same seed** - `mix test --seed <seed>` to reproduce
+3. **Check async safety** - remove `async: true` if tests conflict
+4. **Verify SQL Sandbox** - ensure it's set up correctly
+
+### Database Issues
+
+1. **Reset database**: `mix ecto.reset`
+2. **Check migrations**: `mix ecto.migrate`
+3. **Verify test config**: Check `config/test.exs` for database settings
+4. **Check SQL Sandbox**: Ensure `DataCase.setup_sandbox/1` is called
+
+### Channel Test Issues
+
+1. **Verify socket setup** - ensure socket is created correctly
+2. **Check PubSub** - ensure PubSub is configured in test environment
+3. **Verify topic names** - ensure topic matches between test and channel
+4. **Check async safety** - channel tests may need to run serially
+
+### LiveView Test Issues
+
+1. **Element not found** - ensure selector matches actual DOM structure
+2. **Events not triggering** - verify element has correct `phx-*` attributes
+3. **Form validation errors** - use `form/3` with data, not `render_submit` with values
+4. **Upload issues** - ensure file input is set up before calling `render_upload`
+5. **Redirect handling** - use `follow_redirect` or `follow_trigger_action` for redirects
+6. **Test isolation** - LiveView processes must be properly cleaned up between tests
+
+---
+
+## References
+
+- [Phoenix Testing Guide](https://hexdocs.pm/phoenix/testing.html)
+- [Testing Contexts](https://hexdocs.pm/phoenix/testing_contexts.html)
+- [Testing Controllers](https://hexdocs.pm/phoenix/testing_controllers.html)
+- [Testing Channels](https://hexdocs.pm/phoenix/testing_channels.html)
+- [Phoenix.LiveViewTest](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.html)
+- [Phoenix.LiveViewTest.Element](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.Element.html)
+- [Phoenix.LiveViewTest.Upload](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.Upload.html)
+- [Phoenix.LiveViewTest.View](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveViewTest.View.html)
+- [ExUnit Documentation](https://hexdocs.pm/ex_unit/ExUnit.html)
+- [Phoenix.ConnTest](https://hexdocs.pm/phoenix/Phoenix.ConnTest.html)
+- [Phoenix.ChannelTest](https://hexdocs.pm/phoenix/Phoenix.ChannelTest.html)

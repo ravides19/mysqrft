@@ -80,6 +80,10 @@ config :logger, :default_formatter,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Configure bcrypt cost factor (log_rounds)
+# Cost factor 12 means 2^12 = 4096 iterations
+config :bcrypt_elixir, :log_rounds, 12
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

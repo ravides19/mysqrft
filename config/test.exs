@@ -29,6 +29,9 @@ config :my_sqrft, MySqrft.Mailer, adapter: Swoosh.Adapters.Test
 # Disable swoosh api client as it is only required for production adapters
 config :swoosh, :api_client, false
 
+# Enable test routes for component integration testing
+config :my_sqrft, :test_routes, true
+
 # Print only warnings and errors during test
 config :logger, level: :warning
 

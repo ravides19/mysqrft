@@ -147,7 +147,8 @@ defmodule MySqrftWeb.Components.Accordion do
     slot_open_items =
       items
       |> Enum.filter(&(&1[:open] == true))
-      |> Enum.map(& &1.id)
+      |> Enum.map(& &1[:id])
+      |> Enum.reject(&is_nil/1)
 
     cond do
       length(initial_open) > 0 -> Enum.join(initial_open, ",")

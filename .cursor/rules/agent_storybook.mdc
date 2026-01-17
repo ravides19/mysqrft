@@ -1,12 +1,1 @@
----
-description: Use this while using storybook or building storybook ui
-alwaysApply: false
----
-Create a new Story
-https://hexdocs.pm/phoenix_storybook/PhoenixStorybook.Story.html
-Display components using Variations
-https://hexdocs.pm/phoenix_storybook/PhoenixStorybook.Stories.Variation.html
-Group components using VariationGroups
-https://hexdocs.pm/phoenix_storybook/PhoenixStorybook.Stories.VariationGroup.html
-Organize the sidebar with Index files
-https://hexdocs.pm/phoenix_storybook/PhoenixStorybook.Index.html
+/Users/ravides/Projects/my_sqrft/docs/ai_docs/agent_storybook.mdc

@@ -11,7 +11,25 @@ defmodule MySqrft.MixProject do
       aliases: aliases(),
       deps: deps(),
       compilers: [:phoenix_live_view] ++ Mix.compilers(),
-      listeners: [Phoenix.CodeReloader]
+      listeners: [Phoenix.CodeReloader],
+      test_coverage: [
+        tool: Mix.Tasks.Test.Coverage,
+        ignore_modules: [
+          # Storybook modules
+          ~r/^Storybook\./,
+          ~r/^MySqrftWeb\.Storybook\./,
+          ~r/^Mix\.Tasks\.MySqrft\.Storybook\./,
+          # Infrastructure modules (not typically unit tested)
+          MySqrft.Repo,
+          MySqrftWeb.ErrorHTML,
+          MySqrftWeb.ConnCase,
+          MySqrftWeb.Router,
+          MySqrft.Application,
+          MySqrftWeb.Telemetry,
+          MySqrft.AuthFixtures,
+          MySqrftWeb.Storybook
+        ]
+      ]
     ]
   end
 

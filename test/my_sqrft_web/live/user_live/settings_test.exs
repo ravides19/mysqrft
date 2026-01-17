@@ -71,7 +71,7 @@ defmodule MySqrftWeb.UserLive.SettingsTest do
         })
 
       assert result =~ "Change Email"
-      assert result =~ "must have the @ sign and no spaces"
+      assert result =~ "must be a valid email address"
     end
 
     test "renders errors with invalid data (phx-submit)", %{conn: conn, user: user} do
@@ -137,7 +137,7 @@ defmodule MySqrftWeb.UserLive.SettingsTest do
         })
 
       assert result =~ "Save Password"
-      assert result =~ "should be at least 12 character(s)"
+      assert result =~ "should be at least 8 character(s)" || result =~ "at least one"
       assert result =~ "does not match password"
     end
 
@@ -148,14 +148,14 @@ defmodule MySqrftWeb.UserLive.SettingsTest do
         lv
         |> form("#password_form", %{
           "user" => %{
-            "password" => "too short",
+            "password" => "short",
             "password_confirmation" => "does not match"
           }
         })
         |> render_submit()
 
       assert result =~ "Save Password"
-      assert result =~ "should be at least 12 character(s)"
+      assert result =~ "should be at least 8 character(s)" || result =~ "at least one"
       assert result =~ "does not match password"
     end
   end

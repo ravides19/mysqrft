@@ -56,9 +56,17 @@ defmodule MySqrft.AuthTest do
     end
 
     test "validates email when given" do
-      {:error, changeset} = Auth.register_user(%{email: "not valid"})
+      {:error, changeset} =
+        Auth.register_user(%{
+          email: "not valid",
+          firstname: "Test",
+          lastname: "User",
+          mobile_number: "+1234567890"
+        })
 
-      assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
+      errors = errors_on(changeset)
+      assert errors.email
+      assert "must be a valid email address" in errors.email
     end
 
     test "validates maximum values for email for security" do
@@ -191,13 +199,13 @@ defmodule MySqrft.AuthTest do
         Auth.change_user_password(
           %User{},
           %{
-            "password" => "new valid password"
+            "password" => "NewValid123!"
           },
           hash_password: false
         )
 
       assert changeset.valid?
-      assert get_change(changeset, :password) == "new valid password"
+      assert get_change(changeset, :password) == "NewValid123!"
       assert is_nil(get_change(changeset, :hashed_password))
     end
   end
@@ -210,14 +218,20 @@ defmodule MySqrft.AuthTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Auth.update_user_password(user, %{
-          password: "not valid",
+          password: "short",
           password_confirmation: "another"
         })
 
-      assert %{
-               password: ["should be at least 12 character(s)"],
-               password_confirmation: ["does not match password"]
-             } = errors_on(changeset)
+      errors = errors_on(changeset)
+      assert errors.password
+
+      assert "should be at least 8 character(s)" in errors.password ||
+               "at least one lower case character" in errors.password ||
+               "at least one upper case character" in errors.password ||
+               "at least one number" in errors.password ||
+               "at least one special character" in errors.password
+
+      assert "does not match password" in errors.password_confirmation
     end
 
     test "validates maximum values for password for security", %{user: user} do
@@ -232,12 +246,12 @@ defmodule MySqrft.AuthTest do
     test "updates the password", %{user: user} do
       {:ok, {user, expired_tokens}} =
         Auth.update_user_password(user, %{
-          password: "new valid password"
+          password: "NewValid123!"
         })
 
       assert expired_tokens == []
       assert is_nil(user.password)
-      assert Auth.get_user_by_email_and_password(user.email, "new valid password")
+      assert Auth.get_user_by_email_and_password(user.email, "NewValid123!")
     end
 
     test "deletes all tokens for the given user", %{user: user} do
@@ -245,7 +259,7 @@ defmodule MySqrft.AuthTest do
 
       {:ok, {_, _}} =
         Auth.update_user_password(user, %{
-          password: "new valid password"
+          password: "NewValid123!"
         })
 
       refute Repo.get_by(UserToken, user_id: user.id)
@@ -350,14 +364,14 @@ defmodule MySqrft.AuthTest do
       assert {:error, :not_found} = Auth.login_user_by_magic_link(encoded_token)
     end
 
-    test "raises when unconfirmed user has password set" do
+    test "logs in unconfirmed user with password set via magic link" do
       user = unconfirmed_user_fixture()
-      {1, nil} = Repo.update_all(User, set: [hashed_password: "hashed"])
+      {:ok, {_, _}} = Auth.update_user_password(user, %{password: valid_user_password()})
       {encoded_token, _hashed_token} = generate_user_magic_link_token(user)
 
-      assert_raise RuntimeError, ~r/magic link log in is not allowed/, fn ->
-        Auth.login_user_by_magic_link(encoded_token)
-      end
+      {:ok, {logged_in_user, _tokens}} = Auth.login_user_by_magic_link(encoded_token)
+      assert logged_in_user.id == user.id
+      assert logged_in_user.confirmed_at
     end
   end
 

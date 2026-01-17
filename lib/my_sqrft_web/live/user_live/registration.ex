@@ -24,13 +24,42 @@ defmodule MySqrftWeb.UserLive.Registration do
 
         <.form for={@form} id="registration_form" phx-submit="save" phx-change="validate">
           <.input
+            field={@form[:firstname]}
+            type="text"
+            label="First Name"
+            autocomplete="given-name"
+            required
+            phx-mounted={JS.focus()}
+          />
+
+          <.input
+            field={@form[:lastname]}
+            type="text"
+            label="Last Name"
+            autocomplete="family-name"
+            required
+          />
+
+          <.input
             field={@form[:email]}
             type="email"
             label="Email"
             autocomplete="username"
             required
-            phx-mounted={JS.focus()}
           />
+
+          <.input
+            field={@form[:mobile_number]}
+            type="tel"
+            label="Mobile Number"
+            autocomplete="tel"
+            placeholder="+1234567890"
+            required
+          />
+
+          <p class="mt-4 text-sm text-zinc-600">
+            We'll send you a magic link to log in. You can set up a password later in your account settings if you prefer.
+          </p>
 
           <.button phx-disable-with="Creating account..." class="btn btn-primary w-full">
             Create an account
@@ -48,7 +77,7 @@ defmodule MySqrftWeb.UserLive.Registration do
   end
 
   def mount(_params, _session, socket) do
-    changeset = Auth.change_user_email(%User{}, %{}, validate_unique: false)
+    changeset = User.registration_changeset(%User{}, %{}, validate_unique: false)
 
     {:ok, assign_form(socket, changeset), temporary_assigns: [form: nil]}
   end
@@ -77,8 +106,12 @@ defmodule MySqrftWeb.UserLive.Registration do
   end
 
   def handle_event("validate", %{"user" => user_params}, socket) do
-    changeset = Auth.change_user_email(%User{}, user_params, validate_unique: false)
-    {:noreply, assign_form(socket, Map.put(changeset, :action, :validate))}
+    changeset =
+      %User{}
+      |> User.registration_changeset(user_params, validate_unique: false)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign_form(socket, changeset)}
   end
 
   defp assign_form(socket, %Ecto.Changeset{} = changeset) do

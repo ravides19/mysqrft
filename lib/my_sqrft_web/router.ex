@@ -78,4 +78,31 @@ defmodule MySqrftWeb.Router do
     post "/users/log-in", UserSessionController, :create
     delete "/users/log-out", UserSessionController, :delete
   end
+
+  # Test-only routes for component integration testing
+  if Application.compile_env(:my_sqrft, :test_routes) do
+    scope "/test", MySqrftWeb.Test do
+      pipe_through [:browser]
+
+      live_session :test_components,
+        on_mount: [{MySqrftWeb.UserAuth, :mount_current_scope}] do
+        live "/components/modal", ModalTestLive, :index
+        live "/components/navbar", NavbarTestLive, :index
+        live "/components/button", ButtonTestLive, :index
+        live "/components/alert", AlertTestLive, :index
+        live "/components/input-field", InputFieldTestLive, :index
+        live "/components/accordion", AccordionTestLive, :index
+        live "/components/avatar", AvatarTestLive, :index
+        live "/components/badge", BadgeTestLive, :index
+        live "/components/banner", BannerTestLive, :index
+        live "/components/blockquote", BlockquoteTestLive, :index
+        live "/components/breadcrumb", BreadcrumbTestLive, :index
+        live "/components/card", CardTestLive, :index
+        live "/components/carousel", CarouselTestLive, :index
+        live "/components/chat", ChatTestLive, :index
+        live "/components/checkbox-card", CheckboxCardTestLive, :index
+        live "/components/checkbox-field", CheckboxFieldTestLive, :index
+      end
+    end
+  end
 end

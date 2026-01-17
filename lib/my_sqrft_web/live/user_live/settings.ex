@@ -12,9 +12,44 @@ defmodule MySqrftWeb.UserLive.Settings do
       <div class="text-center">
         <.header>
           Account Settings
-          <:subtitle>Manage your account email address and password settings</:subtitle>
+          <:subtitle>Manage your account information, email address, and password settings</:subtitle>
         </.header>
       </div>
+
+      <.form
+        for={@profile_form}
+        id="profile_form"
+        phx-submit="update_profile"
+        phx-change="validate_profile"
+      >
+        <.input
+          field={@profile_form[:firstname]}
+          type="text"
+          label="First Name"
+          autocomplete="given-name"
+          required
+        />
+        <.input
+          field={@profile_form[:lastname]}
+          type="text"
+          label="Last Name"
+          autocomplete="family-name"
+          required
+        />
+        <.input
+          field={@profile_form[:mobile_number]}
+          type="tel"
+          label="Mobile Number"
+          autocomplete="tel"
+          placeholder="+1234567890"
+          required
+        />
+        <.button variant="primary" phx-disable-with="Saving...">
+          Update Profile
+        </.button>
+      </.form>
+
+      <div class="divider" />
 
       <.form for={@email_form} id="email_form" phx-submit="update_email" phx-change="validate_email">
         <.input
@@ -82,12 +117,14 @@ defmodule MySqrftWeb.UserLive.Settings do
 
   def mount(_params, _session, socket) do
     user = socket.assigns.current_scope.user
+    profile_changeset = Auth.change_user_profile(user, %{}, validate_unique: false)
     email_changeset = Auth.change_user_email(user, %{}, validate_unique: false)
     password_changeset = Auth.change_user_password(user, %{}, hash_password: false)
 
     socket =
       socket
       |> assign(:current_email, user.email)
+      |> assign(:profile_form, to_form(profile_changeset))
       |> assign(:email_form, to_form(email_changeset))
       |> assign(:password_form, to_form(password_changeset))
       |> assign(:trigger_submit, false)
@@ -96,6 +133,41 @@ defmodule MySqrftWeb.UserLive.Settings do
   end
 
   @impl true
+  def handle_event("validate_profile", params, socket) do
+    %{"user" => user_params} = params
+
+    profile_form =
+      socket.assigns.current_scope.user
+      |> Auth.change_user_profile(user_params, validate_unique: false)
+      |> Map.put(:action, :validate)
+      |> to_form()
+
+    {:noreply, assign(socket, profile_form: profile_form)}
+  end
+
+  def handle_event("update_profile", params, socket) do
+    %{"user" => user_params} = params
+    user = socket.assigns.current_scope.user
+    true = Auth.sudo_mode?(user)
+
+    case Auth.update_user_profile(user, user_params) do
+      {:ok, updated_user} ->
+        # Reload the updated user to get fresh data
+        updated_user = Auth.get_user!(updated_user.id)
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Profile updated successfully.")
+         |> assign(
+           :profile_form,
+           to_form(Auth.change_user_profile(updated_user, %{}, validate_unique: false))
+         )}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, profile_form: to_form(changeset))}
+    end
+  end
+
   def handle_event("validate_email", params, socket) do
     %{"user" => user_params} = params
 
