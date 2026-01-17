@@ -9,31 +9,31 @@
 
 ### Documentation Status Overview
 
-| Domain | PRD Status | Implementation Status | Phase |
-|--------|-----------|---------------------|-------|
-| Auth | ✅ Complete | Not Started | Phase 1 |
-| KYC | ✅ Complete | Not Started | Phase 1 |
-| UserManagement | ✅ Complete | Not Started | Phase 1 |
-| Authorization | ✅ Complete | Not Started | Phase 1 |
-| Inventory | ✅ Complete | Not Started | Phase 1 |
-| Search | ✅ Complete | Not Started | Phase 1 |
-| Leads | ✅ Complete | Not Started | Phase 1 |
-| CRM | ✅ Complete | Not Started | Phase 3 |
-| Sales | ✅ Complete | Not Started | Phase 2 |
-| Marketing | ✅ Complete | Not Started | Phase 2+ |
-| Billing | ✅ Complete | Not Started | Phase 2 |
-| Entitlements | ✅ Complete | Not Started | Phase 2 |
-| Communications | ✅ Complete | Not Started | Phase 1 |
-| Scheduling | ✅ Complete | Not Started | Phase 3 |
-| LegalDocs | ✅ Complete | Not Started | Phase 4 |
-| HomeServices | ✅ Complete | Not Started | Phase 4 |
-| PropertyManagement | ✅ Complete | Not Started | Phase 4 |
-| Society | ✅ Complete | Not Started | Phase 5 |
-| FinancialServices | ✅ Complete | Not Started | Phase 5 |
-| Support | ✅ Complete | Not Started | Phase 6 |
-| TrustSafety | ✅ Complete | Not Started | Phase 6 |
-| Ops | ✅ Complete | Not Started | Phase 6 |
-| Analytics | ✅ Complete | Not Started | Phase 6 |
+| # | Domain | PRD Status | Implementation Status | Phase |
+|---|--------|-----------|---------------------|-------|
+| 001 | Auth | ✅ Complete | Not Started | Phase 1 |
+| 002 | KYC | ✅ Complete | Not Started | Phase 1 |
+| 003 | UserManagement | ✅ Complete | Not Started | Phase 1 |
+| 004 | Authorization | ✅ Complete | Not Started | Phase 1 |
+| 005 | Inventory | ✅ Complete | Not Started | Phase 1 |
+| 006 | Search | ✅ Complete | Not Started | Phase 1 |
+| 007 | Leads | ✅ Complete | Not Started | Phase 1 |
+| 008 | Communications | ✅ Complete | Not Started | Phase 1 |
+| 009 | Entitlements | ✅ Complete | Not Started | Phase 2 |
+| 010 | Billing | ✅ Complete | Not Started | Phase 2 |
+| 011 | Sales | ✅ Complete | Not Started | Phase 2 |
+| 012 | Marketing | ✅ Complete | Not Started | Phase 2+ |
+| 013 | Scheduling | ✅ Complete | Not Started | Phase 3 |
+| 014 | CRM | ✅ Complete | Not Started | Phase 3 |
+| 015 | LegalDocs | ✅ Complete | Not Started | Phase 4 |
+| 016 | HomeServices | ✅ Complete | Not Started | Phase 4 |
+| 017 | PropertyManagement | ✅ Complete | Not Started | Phase 4 |
+| 018 | Society | ✅ Complete | Not Started | Phase 5 |
+| 019 | FinancialServices | ✅ Complete | Not Started | Phase 5 |
+| 020 | Support | ✅ Complete | Not Started | Phase 6 |
+| 021 | TrustSafety | ✅ Complete | Not Started | Phase 6 |
+| 022 | Ops | ✅ Complete | Not Started | Phase 6 |
+| 023 | Analytics | ✅ Complete | Not Started | Phase 6 |
 
 **Legend:**
 - ✅ Complete: Product Requirements Document completed
@@ -69,10 +69,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ## Core Domains
 
-### 1. Auth
+### 001. Auth
 **Primary Goal:** Login + Identity Proof  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/auth.md`](docs/domain/auth.md)
+**PRD:** [`docs/domain/001_auth.md`](docs/domain/001_auth.md)
 
 **Responsibilities:**
 - User registration with required fields (firstname, lastname, email, mobile_number)
@@ -94,10 +94,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 **Key Entities:** User, Session, Device, OTP, AuthProvider, AuthToken, LoginAttempt, SecurityEvent
 
-### 1.1 KYC
+### 002. KYC
 **Primary Goal:** User Identity Verification + Compliance  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/kyc.md`](docs/domain/kyc.md)
+**PRD:** [`docs/domain/002_kyc.md`](docs/domain/002_kyc.md)
 
 **Responsibilities:**
 - Email and phone number verification (basic, self-service)
@@ -120,10 +120,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 2. UserManagement
+### 003. UserManagement
 **Primary Goal:** Profiles + Roles + Lifecycle  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/user-management.md`](docs/domain/user-management.md)
+**PRD:** [`docs/domain/003_user-management.md`](docs/domain/003_user-management.md)
 
 **Responsibilities:**
 - User profile management across all roles:
@@ -170,10 +170,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 3. Authorization
+### 004. Authorization
 **Primary Goal:** Access Control Everywhere  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/authorization.md`](docs/domain/authorization.md)
+**PRD:** [`docs/domain/004_authorization.md`](docs/domain/004_authorization.md)
 
 **Responsibilities:**
 - Role-Based Access Control (RBAC) with hierarchical role inheritance
@@ -207,10 +207,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 4. Inventory
+### 005. Inventory
 **Primary Goal:** Property Supply + Lifecycle  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/inventory.md`](docs/domain/inventory.md)
+**PRD:** [`docs/domain/005_inventory.md`](docs/domain/005_inventory.md)
 
 **Responsibilities:**
 - Listing creation, editing, pause, expiration, relisting
@@ -224,10 +224,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 5. Search
+### 006. Search
 **Primary Goal:** Discovery Experience  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/search.md`](docs/domain/search.md)
+**PRD:** [`docs/domain/006_search.md`](docs/domain/006_search.md)
 
 **Responsibilities:**
 - Property search with filters and sorting
@@ -242,10 +242,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 6. Leads
+### 007. Leads
 **Primary Goal:** Direct Connect + Lead Lifecycle (Core Marketplace Engine)  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/leads.md`](docs/domain/leads.md)
+**PRD:** [`docs/domain/007_leads.md`](docs/domain/007_leads.md)
 
 **Responsibilities:**
 - Lead creation ("contact owner", "request callback")
@@ -262,10 +262,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 7. CRM
+### 014. CRM
 **Primary Goal:** Relationship Management + Pipeline  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/crm.md`](docs/domain/crm.md)
+**PRD:** [`docs/domain/014_crm.md`](docs/domain/014_crm.md)
 
 **Responsibilities:**
 - Unified contact timeline (calls, chats, visits, notes)
@@ -279,10 +279,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 8. Sales
+### 011. Sales
 **Primary Goal:** Monetization Conversion + Assisted Selling  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/sales.md`](docs/domain/sales.md)
+**PRD:** [`docs/domain/011_sales.md`](docs/domain/011_sales.md)
 
 **Responsibilities:**
 - Plan upsell flows (tenant/owner subscription plans)
@@ -296,10 +296,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 9. Marketing
+### 012. Marketing
 **Primary Goal:** Growth Loops + Lifecycle Campaigns  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/marketing.md`](docs/domain/marketing.md)
+**PRD:** [`docs/domain/012_marketing.md`](docs/domain/012_marketing.md)
 
 **Responsibilities:**
 - Referral program with credits and fraud detection
@@ -313,10 +313,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 10. Billing
+### 010. Billing
 **Primary Goal:** Money Movement + Invoices  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/billing.md`](docs/domain/billing.md)
+**PRD:** [`docs/domain/010_billing.md`](docs/domain/010_billing.md)
 
 **Responsibilities:**
 - Checkout flows (UPI/cards/netbanking)
@@ -331,10 +331,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 11. Entitlements
+### 009. Entitlements
 **Primary Goal:** Plan-Based Access Control  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/entitlements.md`](docs/domain/entitlements.md)
+**PRD:** [`docs/domain/009_entitlements.md`](docs/domain/009_entitlements.md)
 
 **Responsibilities:**
 - Plan catalog and add-on management
@@ -350,10 +350,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 12. Communications
+### 008. Communications
 **Primary Goal:** Messaging + Calling + Notifications  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/communications.md`](docs/domain/communications.md)
+**PRD:** [`docs/domain/008_communications.md`](docs/domain/008_communications.md)
 
 **Responsibilities:**
 - In-app chat (optional)
@@ -368,10 +368,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 13. Scheduling
+### 013. Scheduling
 **Primary Goal:** Visits + Appointments  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/scheduling.md`](docs/domain/scheduling.md)
+**PRD:** [`docs/domain/013_scheduling.md`](docs/domain/013_scheduling.md)
 
 **Responsibilities:**
 - Visit scheduling and confirmations
@@ -385,10 +385,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 14. LegalDocs
+### 015. LegalDocs
 **Primary Goal:** Rental Agreement + Documentation  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/legal-docs.md`](docs/domain/legal-docs.md)
+**PRD:** [`docs/domain/015_legal-docs.md`](docs/domain/015_legal-docs.md)
 
 **Responsibilities:**
 - Rental agreement generation from templates
@@ -402,10 +402,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 15. HomeServices
+### 016. HomeServices
 **Primary Goal:** Movers/Painting/Cleaning + Fulfillment  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/home-services.md`](docs/domain/home-services.md)
+**PRD:** [`docs/domain/016_home-services.md`](docs/domain/016_home-services.md)
 
 **Responsibilities:**
 - Service catalog, quotes, and bookings
@@ -420,10 +420,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 16. PropertyManagement
+### 017. PropertyManagement
 **Primary Goal:** Recurring Owner Services  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/property-management.md`](docs/domain/property-management.md)
+**PRD:** [`docs/domain/017_property-management.md`](docs/domain/017_property-management.md)
 
 **Responsibilities:**
 - Property management onboarding and contracts
@@ -439,10 +439,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 17. Society
+### 018. Society
 **Primary Goal:** Community Management SaaS (NoBrokerHood)  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/society.md`](docs/domain/society.md)
+**PRD:** [`docs/domain/018_society.md`](docs/domain/018_society.md)
 
 **Responsibilities:**
 - Role management (admin/committee/resident/guard/vendor)
@@ -457,10 +457,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 18. FinancialServices
+### 019. FinancialServices
 **Primary Goal:** Loan/Finance Referrals  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/financial-services.md`](docs/domain/financial-services.md)
+**PRD:** [`docs/domain/019_financial-services.md`](docs/domain/019_financial-services.md)
 
 **Responsibilities:**
 - Loan eligibility capture and assessment
@@ -474,10 +474,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 19. Support
+### 020. Support
 **Primary Goal:** Customer Support + Dispute Resolution  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/support.md`](docs/domain/support.md)
+**PRD:** [`docs/domain/020_support.md`](docs/domain/020_support.md)
 
 **Responsibilities:**
 - Ticket creation and categorization
@@ -492,10 +492,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 20. TrustSafety
+### 021. TrustSafety
 **Primary Goal:** Platform Integrity  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/trust-safety.md`](docs/domain/trust-safety.md)
+**PRD:** [`docs/domain/021_trust-safety.md`](docs/domain/021_trust-safety.md)
 
 **Responsibilities:**
 - Content moderation queues (listings/users/media)
@@ -510,10 +510,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 21. Ops
+### 022. Ops
 **Primary Goal:** Internal Admin + Partner Operations  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/ops.md`](docs/domain/ops.md)
+**PRD:** [`docs/domain/022_ops.md`](docs/domain/022_ops.md)
 
 **Responsibilities:**
 - Admin console (users/listings/leads/payments management)
@@ -529,10 +529,10 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
-### 22. Analytics
+### 023. Analytics
 **Primary Goal:** Measurement + Decision Support  
 **Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
-**PRD:** [`docs/domain/analytics.md`](docs/domain/analytics.md)
+**PRD:** [`docs/domain/023_analytics.md`](docs/domain/023_analytics.md)
 
 **Responsibilities:**
 - Funnel analysis (search → lead → visit → close → revenue)

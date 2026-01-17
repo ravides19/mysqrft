@@ -14,41 +14,41 @@ Create new layouts when needed and always use liveview for creating the webpages
 All domain PRDs are located in `docs/domain/` directory. Each domain has a comprehensive Product Requirements Document:
 
 **Core Foundation Domains (Phase 1 - MVP):**
-- [`docs/domain/auth.md`](docs/domain/auth.md) - Authentication & Identity Proof
-- [`docs/domain/kyc.md`](docs/domain/kyc.md) - User Identity Verification & Compliance
-- [`docs/domain/user-management.md`](docs/domain/user-management.md) - Profiles, Roles & Lifecycle
-- [`docs/domain/authorization.md`](docs/domain/authorization.md) - Access Control Everywhere
-- [`docs/domain/inventory.md`](docs/domain/inventory.md) - Property Supply & Lifecycle
-- [`docs/domain/search.md`](docs/domain/search.md) - Discovery Experience
-- [`docs/domain/leads.md`](docs/domain/leads.md) - Direct Connect & Lead Lifecycle
-- [`docs/domain/communications.md`](docs/domain/communications.md) - Messaging, Calling & Notifications
+- [`docs/domain/001_auth.md`](docs/domain/001_auth.md) - 001. Authentication & Identity Proof
+- [`docs/domain/002_kyc.md`](docs/domain/002_kyc.md) - 002. User Identity Verification & Compliance
+- [`docs/domain/003_user-management.md`](docs/domain/003_user-management.md) - 003. Profiles, Roles & Lifecycle
+- [`docs/domain/004_authorization.md`](docs/domain/004_authorization.md) - 004. Access Control Everywhere
+- [`docs/domain/005_inventory.md`](docs/domain/005_inventory.md) - 005. Property Supply & Lifecycle
+- [`docs/domain/006_search.md`](docs/domain/006_search.md) - 006. Discovery Experience
+- [`docs/domain/007_leads.md`](docs/domain/007_leads.md) - 007. Direct Connect & Lead Lifecycle
+- [`docs/domain/008_communications.md`](docs/domain/008_communications.md) - 008. Messaging, Calling & Notifications
 
 **Monetization Domains (Phase 2):**
-- [`docs/domain/entitlements.md`](docs/domain/entitlements.md) - Plan-Based Access Control
-- [`docs/domain/billing.md`](docs/domain/billing.md) - Money Movement & Invoices
-- [`docs/domain/sales.md`](docs/domain/sales.md) - Monetization Conversion & Assisted Selling
+- [`docs/domain/009_entitlements.md`](docs/domain/009_entitlements.md) - 009. Plan-Based Access Control
+- [`docs/domain/010_billing.md`](docs/domain/010_billing.md) - 010. Money Movement & Invoices
+- [`docs/domain/011_sales.md`](docs/domain/011_sales.md) - 011. Monetization Conversion & Assisted Selling
 
 **Assisted Sales Domains (Phase 3):**
-- [`docs/domain/crm.md`](docs/domain/crm.md) - Relationship Management & Pipeline
-- [`docs/domain/scheduling.md`](docs/domain/scheduling.md) - Visits & Appointments
+- [`docs/domain/013_scheduling.md`](docs/domain/013_scheduling.md) - 013. Visits & Appointments
+- [`docs/domain/014_crm.md`](docs/domain/014_crm.md) - 014. Relationship Management & Pipeline
 
 **Service Expansion Domains (Phase 4):**
-- [`docs/domain/legal-docs.md`](docs/domain/legal-docs.md) - Rental Agreement & Documentation
-- [`docs/domain/home-services.md`](docs/domain/home-services.md) - Movers/Painting/Cleaning & Fulfillment
-- [`docs/domain/property-management.md`](docs/domain/property-management.md) - Recurring Owner Services
+- [`docs/domain/015_legal-docs.md`](docs/domain/015_legal-docs.md) - 015. Rental Agreement & Documentation
+- [`docs/domain/016_home-services.md`](docs/domain/016_home-services.md) - 016. Movers/Painting/Cleaning & Fulfillment
+- [`docs/domain/017_property-management.md`](docs/domain/017_property-management.md) - 017. Recurring Owner Services
 
 **Platform Expansion Domains (Phase 5):**
-- [`docs/domain/society.md`](docs/domain/society.md) - Community Management SaaS
-- [`docs/domain/financial-services.md`](docs/domain/financial-services.md) - Loan/Finance Referrals
+- [`docs/domain/018_society.md`](docs/domain/018_society.md) - 018. Community Management SaaS
+- [`docs/domain/019_financial-services.md`](docs/domain/019_financial-services.md) - 019. Loan/Finance Referrals
 
 **Operations & Scale Domains (Phase 6):**
-- [`docs/domain/support.md`](docs/domain/support.md) - Customer Support & Dispute Resolution
-- [`docs/domain/trust-safety.md`](docs/domain/trust-safety.md) - Platform Integrity
-- [`docs/domain/ops.md`](docs/domain/ops.md) - Internal Admin & Partner Operations
-- [`docs/domain/analytics.md`](docs/domain/analytics.md) - Measurement & Decision Support
+- [`docs/domain/020_support.md`](docs/domain/020_support.md) - 020. Customer Support & Dispute Resolution
+- [`docs/domain/021_trust-safety.md`](docs/domain/021_trust-safety.md) - 021. Platform Integrity
+- [`docs/domain/022_ops.md`](docs/domain/022_ops.md) - 022. Internal Admin & Partner Operations
+- [`docs/domain/023_analytics.md`](docs/domain/023_analytics.md) - 023. Measurement & Decision Support
 
 **Supporting Domains:**
-- [`docs/domain/marketing.md`](docs/domain/marketing.md) - Growth Loops & Lifecycle Campaigns
+- [`docs/domain/012_marketing.md`](docs/domain/012_marketing.md) - 012. Growth Loops & Lifecycle Campaigns
 
 ### Documentation Guidelines
 - **Product Requirements Template**: See `.cursor/rules/product-agent.mdc` for PRD generation guidelines and standards
