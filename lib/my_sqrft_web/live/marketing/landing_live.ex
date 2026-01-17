@@ -10,6 +10,11 @@ defmodule MySqrftWeb.Marketing.LandingLive do
   import MySqrftWeb.Components.Carousel
   import MySqrftWeb.Components.Badge
   import MySqrftWeb.Components.Icon
+  import MySqrftWeb.Components.NativeSelect
+  import MySqrftWeb.Components.SearchField
+  import MySqrftWeb.Components.Typography
+  import MySqrftWeb.Components.Rating
+  import MySqrftWeb.Components.Avatar
 
   @impl true
   def mount(_params, _session, socket) do
@@ -131,22 +136,26 @@ defmodule MySqrftWeb.Marketing.LandingLive do
      |> assign(:features, [
        %{
          title: "Verified Listings",
-         description: "Every property undergoes rigorous verification. Photos, ownership documents, and amenities - all verified by our team.",
+         description:
+           "Every property undergoes rigorous verification. Photos, ownership documents, and amenities - all verified by our team.",
          icon: "hero-shield-check"
        },
        %{
          title: "Direct Owner Connect",
-         description: "No middlemen, no hidden fees. Connect directly with property owners and negotiate on your terms.",
+         description:
+           "No middlemen, no hidden fees. Connect directly with property owners and negotiate on your terms.",
          icon: "hero-phone"
        },
        %{
          title: "Smart Matching",
-         description: "Our AI-powered matching algorithm finds properties that fit your lifestyle, budget, and preferences perfectly.",
+         description:
+           "Our AI-powered matching algorithm finds properties that fit your lifestyle, budget, and preferences perfectly.",
          icon: "hero-sparkles"
        },
        %{
          title: "Legal Assistance",
-         description: "From rental agreements to police verification, we handle all the paperwork so you can focus on moving in.",
+         description:
+           "From rental agreements to police verification, we handle all the paperwork so you can focus on moving in.",
          icon: "hero-document-check"
        }
      ])
@@ -231,113 +240,164 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           >
             <div class="bg-white/95 dark:bg-stone-900/95 backdrop-blur-md rounded-2xl p-6 md:p-8 max-w-md shadow-2xl">
               <div class="flex items-center gap-2 mb-3">
-                <div class="w-12 h-12 bg-gradient-to-br from-[#FF385C] to-[#FF5A5F] rounded-lg flex items-center justify-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-primary-light to-primary-dark rounded-lg flex items-center justify-center">
                   <.icon name="hero-home" class="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 class="font-display text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                  <.h3 class="text-xl md:text-2xl" color="base">
                     {slide.title}
-                  </h3>
-                  <p class="text-xs text-gray-600 dark:text-gray-400">
+                  </.h3>
+                  <.p class="text-xs" color="base">
                     {slide.rera}
-                  </p>
+                  </.p>
                 </div>
               </div>
-              <p class="text-gray-700 dark:text-gray-300 mb-4 text-sm md:text-base">
+              <.p class="mb-4 text-sm md:text-base" color="base">
                 {slide.area}
-              </p>
+              </.p>
               <.button_link
                 navigate="/users/register"
-                variant="default"
-                color="warning"
+                variant="gradient"
+                color="primary"
                 size="large"
-                class="w-full !bg-gradient-to-r !from-[#FF385C] !to-[#FF5A5F] hover:!from-[#FF5A5F] hover:!to-[#FF385C]"
+                class="w-full"
               >
-                Explore Now
-                <.icon name="hero-arrow-right" class="w-5 h-5 ml-2" />
+                Explore Now <.icon name="hero-arrow-right" class="w-5 h-5 ml-2" />
               </.button_link>
             </div>
           </:slide>
         </.carousel>
       </section>
-
-      <!-- Search Bar Section (inspired by Airbnb) -->
+      
+    <!-- Search Bar Section (inspired by Airbnb) -->
       <section class="relative -mt-16 md:-mt-20 z-20">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-2">
-            <!-- Tabs -->
-            <div class="flex flex-wrap gap-2 mb-4 px-2">
-              <button class="px-4 py-2 text-sm font-semibold text-[#FF385C] dark:text-[#FF385C] border-b-2 border-[#FF385C]">
+            <!-- Navigation Tabs -->
+            <div class="flex flex-wrap items-center gap-2 mb-4 px-2">
+              <.button
+                variant="transparent"
+                color="primary"
+                size="small"
+                class="!border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold"
+              >
                 Buy
-              </button>
-              <button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
+              </.button>
+              <.button
+                variant="transparent"
+                color="base"
+                size="small"
+                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+              >
                 Rent
-              </button>
-              <button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 relative">
+              </.button>
+              <.button
+                variant="transparent"
+                color="base"
+                size="small"
+                class="hover:!text-primary-light dark:hover:!text-primary-dark relative"
+              >
                 New Launch
-                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
+                <.badge
+                  variant="default"
+                  color="danger"
+                  size="extra_small"
+                  class="absolute top-1 right-1"
+                >
+                  •
+                </.badge>
+              </.button>
+              <.button
+                variant="transparent"
+                color="base"
+                size="small"
+                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+              >
                 PG / Co-living
-              </button>
-              <button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
+              </.button>
+              <.button
+                variant="transparent"
+                color="base"
+                size="small"
+                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+              >
                 Commercial
-              </button>
-              <button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
+              </.button>
+              <.button
+                variant="transparent"
+                color="base"
+                size="small"
+                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+              >
                 Plots/Land
-              </button>
-              <button class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200">
+              </.button>
+              <.button
+                variant="transparent"
+                color="base"
+                size="small"
+                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+              >
                 Projects
-              </button>
+              </.button>
               <.button_link
                 navigate="/users/register"
                 variant="default"
                 color="success"
                 size="medium"
-                class="ml-auto !bg-green-500 hover:!bg-green-600 text-white"
+                class="ml-auto"
               >
                 Post Property FREE
               </.button_link>
             </div>
-
-            <!-- Search Input -->
+            
+    <!-- Search Input -->
             <form phx-submit="search" class="flex flex-col md:flex-row gap-2">
               <div class="flex-1">
-                <select class="w-full px-4 py-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#FF385C]">
-                  <option>All Residential</option>
-                  <option>Apartments</option>
-                  <option>Houses</option>
-                  <option>Villas</option>
-                </select>
+                <.native_select
+                  name="property_type"
+                  color="primary"
+                  size="large"
+                  variant="base"
+                  class="w-full"
+                >
+                  <:option value="all">All Residential</:option>
+                  <:option value="apartments">Apartments</:option>
+                  <:option value="houses">Houses</:option>
+                  <:option value="villas">Villas</:option>
+                </.native_select>
               </div>
-              <div class="flex-1 flex items-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
-                <.icon name="hero-magnifying-glass" class="w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
+              <div class="flex-1">
+                <.search_field
                   name="query"
                   value={@search_query}
                   placeholder="Search 'Hyderabad'"
-                  class="flex-1 bg-transparent border-0 focus:outline-none text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
-                />
-                <.icon name="hero-map-pin" class="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#FF385C]" />
-                <.icon name="hero-microphone" class="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#FF385C]" />
+                  color="primary"
+                  size="large"
+                  search_button={true}
+                  class="w-full"
+                >
+                  <:end_section>
+                    <.icon
+                      name="hero-map-pin"
+                      class="w-5 h-5 cursor-pointer hover:text-primary-light"
+                    />
+                    <.icon
+                      name="hero-microphone"
+                      class="w-5 h-5 cursor-pointer hover:text-primary-light"
+                    />
+                  </:end_section>
+                </.search_field>
               </div>
-              <button
-                type="submit"
-                class="px-8 py-3 bg-gradient-to-r from-[#FF385C] to-[#FF5A5F] hover:from-[#FF5A5F] hover:to-[#FF385C] text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
-                Search
-              </button>
             </form>
-
-            <!-- Recent Searches -->
-            <div class="mt-3 px-2 flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-              <span>Recent searches:</span>
-              <button class="flex items-center gap-1 hover:text-[#FF385C] dark:hover:text-[#FF385C]">
+            
+    <!-- Recent Searches -->
+            <div class="mt-3 px-2 flex items-center gap-3 text-sm">
+              <.p class="text-sm" color="base">Recent searches:</.p>
+              <button class="flex items-center gap-1 hover:text-primary-light dark:hover:text-primary-dark">
                 <.icon name="hero-clock" class="w-4 h-4" />
                 <span>Buy in Neopolis + 3 localities, Hyderab...</span>
               </button>
-              <button class="flex items-center gap-1 hover:text-[#FF385C] dark:hover:text-[#FF385C]">
+              <button class="flex items-center gap-1 hover:text-primary-light dark:hover:text-primary-dark">
                 <.icon name="hero-clock" class="w-4 h-4" />
                 <span>View all searches</span>
               </button>
@@ -345,17 +405,24 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           </div>
         </div>
       </section>
-
-      <!-- Get Started With Exploring Real Estate Options Section -->
+      
+    <!-- Get Started With Exploring Real Estate Options Section -->
       <section class="py-8 md:py-12 bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wide">
+          <.h2
+            class="text-lg md:text-xl uppercase tracking-wide mb-6"
+            color="base"
+            font_weight="font-bold"
+          >
             GET STARTED WITH EXPLORING REAL ESTATE OPTIONS
-          </h2>
-
-          <!-- Horizontal Scrollable Cards -->
+          </.h2>
+          
+    <!-- Horizontal Scrollable Cards -->
           <div class="relative">
-            <div class="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide scroll-smooth" id="explore-options-scroll">
+            <div
+              class="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide scroll-smooth"
+              id="explore-options-scroll"
+            >
               <div class="flex gap-4 md:gap-6 min-w-max">
                 <.card
                   :for={option <- @explore_options}
@@ -382,24 +449,30 @@ defmodule MySqrftWeb.Marketing.LandingLive do
                       </.badge>
                     </div>
                     <div class="p-4">
-                      <h3 class="font-semibold text-gray-900 dark:text-white text-center group-hover:text-[#FF385C] dark:group-hover:text-[#FF385C] transition-colors">
+                      <.h3
+                        class="font-semibold text-center group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors"
+                        color="base"
+                      >
                         {option.title}
-                      </h3>
+                      </.h3>
                     </div>
                   </.link>
                 </.card>
               </div>
             </div>
-
-            <!-- Scroll Arrow -->
+            
+    <!-- Scroll Arrow -->
             <button
               phx-hook=".ScrollExplore"
               id="scroll-explore-btn"
               data-target="explore-options-scroll"
-              class="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-red-50 dark:hover:bg-gray-700 transition-colors z-10"
+              class="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-primary-bordered-bg-light dark:hover:bg-primary-bordered-bg-dark transition-colors z-10"
               aria-label="Scroll right"
             >
-              <.icon name="hero-chevron-right" class="w-6 h-6 text-gray-600 dark:text-gray-400" />
+              <.icon
+                name="hero-chevron-right"
+                class="w-6 h-6 text-base-text-light dark:text-base-text-dark"
+              />
             </button>
             <script :type={Phoenix.LiveView.ColocatedHook} name=".ScrollExplore">
               export default {
@@ -417,24 +490,23 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           </div>
         </div>
       </section>
-
-      <!-- Recommended Properties Section (inspired by Airbnb & 99acres) -->
+      
+    <!-- Recommended Properties Section (inspired by Airbnb & 99acres) -->
       <section class="py-12 md:py-16 bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between mb-6">
             <div>
-              <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              <.h2 class="mb-2" color="base" font_weight="font-bold">
                 Recommended Properties
-              </h2>
-              <p class="text-gray-600 dark:text-gray-400">Curated especially for you.</p>
+              </.h2>
+              <.p color="base">Curated especially for you.</.p>
             </div>
-            <button class="text-[#FF385C] dark:text-[#FF385C] font-semibold hover:text-[#FF5A5F] dark:hover:text-[#FF5A5F] flex items-center gap-1">
-              See all
-              <.icon name="hero-arrow-right" class="w-5 h-5" />
+            <button class="text-primary-light dark:text-primary-dark font-semibold hover:text-primary-hover-light dark:hover:text-primary-hover-dark flex items-center gap-1">
+              See all <.icon name="hero-arrow-right" class="w-5 h-5" />
             </button>
           </div>
-
-          <!-- Property Cards (Horizontal Scroll) -->
+          
+    <!-- Property Cards (Horizontal Scroll) -->
           <div class="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
             <div class="flex gap-6 min-w-max">
               <.card
@@ -466,30 +538,38 @@ defmodule MySqrftWeb.Marketing.LandingLive do
                 <div class="p-5">
                   <div class="flex items-start justify-between mb-3">
                     <div class="flex-1">
-                      <h3 class="font-display text-xl font-bold text-gray-900 dark:text-white mb-1 line-clamp-1">
+                      <.h3 class="mb-1 line-clamp-1" color="base" font_weight="font-bold">
                         {property.price}
-                      </h3>
-                      <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                      </.h3>
+                      <.p class="text-sm line-clamp-2" color="base">
                         {property.title}
-                      </p>
+                      </.p>
                     </div>
                   </div>
-                  <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mb-3">
-                    <span class="flex items-center gap-1">
+                  <div class="flex items-center gap-4 text-xs mb-3">
+                    <span
+                      class="flex items-center gap-1"
+                      class="text-base-text-light dark:text-base-text-dark"
+                    >
                       <.icon name="hero-map-pin" class="w-3 h-3" />
                       {property.location}
                     </span>
-                    <span class="flex items-center gap-1">
+                    <span
+                      class="flex items-center gap-1"
+                      class="text-base-text-light dark:text-base-text-dark"
+                    >
                       <.icon name="hero-square-3-stack-3d" class="w-3 h-3" />
                       {property.sqft}
                     </span>
                   </div>
                   <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
                     <div class="flex items-center gap-1">
-                      <.icon name="hero-star-solid" class="w-4 h-4 text-[#FF385C] fill-[#FF385C]" />
-                      <span class="text-sm font-semibold text-gray-900 dark:text-white">{property.rating}</span>
+                      <.rating color="primary" size="small" select={property.rating} count={5} />
+                      <span class="text-sm font-semibold text-base-text-light dark:text-base-text-dark">
+                        {property.rating}
+                      </span>
                     </div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                    <div class="text-xs text-base-text-light dark:text-base-text-dark">
                       {property.posted_by} · {property.posted_at}
                     </div>
                   </div>
@@ -499,17 +579,16 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           </div>
         </div>
       </section>
-
-      <!-- Recommended Projects Section -->
+      
+    <!-- Recommended Projects Section -->
       <section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="font-display text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+            <.h2 color="base" font_weight="font-bold">
               Recommended Projects
-            </h2>
-            <button class="text-[#FF385C] dark:text-[#FF385C] font-semibold hover:text-[#FF5A5F] dark:hover:text-[#FF5A5F] flex items-center gap-1">
-              See all
-              <.icon name="hero-arrow-right" class="w-5 h-5" />
+            </.h2>
+            <button class="text-primary-light dark:text-primary-dark font-semibold hover:text-primary-hover-light dark:hover:text-primary-hover-dark flex items-center gap-1">
+              See all <.icon name="hero-arrow-right" class="w-5 h-5" />
             </button>
           </div>
 
@@ -540,19 +619,19 @@ defmodule MySqrftWeb.Marketing.LandingLive do
                 </button>
               </div>
               <div class="p-5">
-                <h3 class="font-display text-xl font-bold text-gray-900 dark:text-white mb-2">
+                <.h3 class="mb-2" color="base" font_weight="font-bold">
                   {project.title}
-                </h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                </.h3>
+                <.p class="text-sm mb-3" color="base">
                   {project.location}
-                </p>
-                <p class="text-lg font-semibold text-[#FF385C] dark:text-[#FF385C] mb-4">
+                </.p>
+                <.p class="text-lg font-semibold text-primary-light dark:text-primary-dark mb-4">
                   {project.price}
-                </p>
+                </.p>
                 <.button_link
                   navigate="/users/register"
                   variant="outline"
-                  color="warning"
+                  color="primary"
                   size="medium"
                   class="w-full"
                 >
@@ -563,32 +642,36 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           </div>
         </div>
       </section>
-
-      <!-- Stats Section -->
+      
+    <!-- Stats Section -->
       <section class="py-16 md:py-24 bg-white dark:bg-gray-900 border-y border-red-100 dark:border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
             <div :for={stat <- @stats} class="text-center">
-              <div class="inline-flex items-center justify-center w-14 h-14 bg-red-100 dark:bg-red-900/30 rounded-2xl mb-4">
-                <.icon name={stat.icon} class="w-7 h-7 text-[#FF385C] dark:text-[#FF385C]" />
+              <div class="inline-flex items-center justify-center w-14 h-14 bg-primary-bordered-bg-light dark:bg-primary-bordered-bg-dark rounded-2xl mb-4">
+                <.icon name={stat.icon} class="w-7 h-7 text-primary-light dark:text-primary-dark" />
               </div>
-              <div class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white">{stat.value}</div>
-              <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">{stat.label}</div>
+              <div class="text-3xl md:text-4xl font-display font-bold text-base-text-light dark:text-base-text-dark">
+                {stat.value}
+              </div>
+              <div class="text-sm text-base-text-light dark:text-base-text-dark mt-1 opacity-70">
+                {stat.label}
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      <!-- Features Section -->
+      
+    <!-- Features Section -->
       <section class="py-20 md:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              Why Choose <span class="text-gradient">MySqrft</span>?
-            </h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300">
+            <.h2 class="mb-6" color="base" font_weight="font-bold">
+              Why Choose <span class="text-primary-light dark:text-primary-dark">MySqrft</span>?
+            </.h2>
+            <.p class="text-lg" color="base">
               We've reimagined the rental experience to make finding your perfect home simple, transparent, and trustworthy.
-            </p>
+            </.p>
           </div>
 
           <div class="grid md:grid-cols-2 gap-6 md:gap-8">
@@ -601,31 +684,34 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               class="group hover:border-red-300 dark:hover:border-red-600 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300 !bg-white dark:!bg-gray-800/50"
             >
               <div class="flex gap-5">
-                <div class="shrink-0 w-14 h-14 bg-gradient-to-br from-red-100 to-red-100 dark:from-red-900/30 dark:to-red-900/30 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <.icon name={feature.icon} class="w-7 h-7 text-[#FF385C] dark:text-[#FF385C]" />
+                <div class="shrink-0 w-14 h-14 bg-gradient-to-br from-primary-bordered-bg-light to-primary-bordered-bg-light dark:from-primary-bordered-bg-dark dark:to-primary-bordered-bg-dark rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <.icon
+                    name={feature.icon}
+                    class="w-7 h-7 text-primary-light dark:text-primary-dark"
+                  />
                 </div>
                 <div>
-                  <h3 class="font-display text-xl font-bold text-gray-900 dark:text-white mb-2">{feature.title}</h3>
-                  <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{feature.description}</p>
+                  <.h3 class="mb-2" color="base" font_weight="font-bold">{feature.title}</.h3>
+                  <.p class="leading-relaxed" color="base">{feature.description}</.p>
                 </div>
               </div>
             </.card>
           </div>
         </div>
       </section>
-
-      <!-- CTA Section -->
+      
+    <!-- CTA Section -->
       <section class="py-20 md:py-32 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-[#FF385C] to-[#FF5A5F]"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-light to-primary-dark"></div>
         <div class="absolute inset-0 geo-pattern opacity-20"></div>
 
         <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <.h2 class="mb-6" color="white" font_weight="font-bold">
             Ready to Find Your Dream Home?
-          </h2>
-          <p class="text-xl text-red-100 mb-10 max-w-2xl mx-auto">
+          </.h2>
+          <.p class="text-xl mb-10 max-w-2xl mx-auto" color="white" style="opacity: 0.9;">
             Join millions of Indians who found their perfect space through MySqrft. Start your journey today.
-          </p>
+          </.p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <.button_link
               navigate="/users/register"
@@ -633,7 +719,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               color="white"
               size="extra_large"
               rounded="large"
-              class="!bg-white !text-[#FF385C] hover:!bg-red-50 !shadow-xl !shadow-red-900/20"
+              class="!bg-white !text-primary-light hover:!bg-primary-bordered-bg-light !shadow-xl"
             >
               Create Free Account
             </.button_link>
@@ -643,24 +729,23 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               color="white"
               size="extra_large"
               rounded="large"
-              class="!border-white/50 !text-white hover:!bg-white/10"
             >
               Learn More
             </.button_link>
           </div>
         </div>
       </section>
-
-      <!-- Testimonials Preview -->
+      
+    <!-- Testimonials Preview -->
       <section class="py-20 md:py-32 bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center max-w-3xl mx-auto mb-16">
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+            <.h2 class="mb-6" color="base" font_weight="font-bold">
               Loved by Thousands
-            </h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300">
+            </.h2>
+            <.p class="text-lg" color="base">
               Don't just take our word for it. Here's what our users have to say.
-            </p>
+            </.p>
           </div>
 
           <div class="grid md:grid-cols-3 gap-8">
@@ -672,18 +757,18 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               class="!bg-white dark:!bg-gray-800"
             >
               <div class="flex mb-4">
-                <svg :for={_ <- 1..5} class="w-5 h-5 text-[#FF385C]" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
+                <.rating color="primary" size="small" select={5} count={5} />
               </div>
-              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              <.p class="mb-6 leading-relaxed" color="base">
                 "Found my perfect 2BHK in Indiranagar within a week! The verified listings saved me so much time. Highly recommend MySqrft."
-              </p>
+              </.p>
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-[#FF385C] to-[#FF5A5F] rounded-full flex items-center justify-center text-white font-bold">P</div>
+                <.avatar size="medium" color="primary" class="w-10 h-10">
+                  P
+                </.avatar>
                 <div>
-                  <div class="font-semibold text-gray-900 dark:text-white">Priya Sharma</div>
-                  <div class="text-sm text-gray-500 dark:text-gray-400">Bangalore</div>
+                  <.p class="font-semibold" color="base">Priya Sharma</.p>
+                  <.p class="text-sm" color="base" style="opacity: 0.7;">Bangalore</.p>
                 </div>
               </div>
             </.card>
@@ -696,18 +781,18 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               class="!bg-white dark:!bg-gray-800"
             >
               <div class="flex mb-4">
-                <svg :for={_ <- 1..5} class="w-5 h-5 text-[#FF385C]" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
+                <.rating color="primary" size="small" select={5} count={5} />
               </div>
-              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              <.p class="mb-6 leading-relaxed" color="base">
                 "As a property owner, listing on MySqrft was seamless. Got genuine tenants within days, and the agreement process was hassle-free."
-              </p>
+              </.p>
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">R</div>
+                <.avatar size="medium" color="info" class="w-10 h-10">
+                  R
+                </.avatar>
                 <div>
-                  <div class="font-semibold text-gray-900 dark:text-white">Rahul Mehta</div>
-                  <div class="text-sm text-gray-500 dark:text-gray-400">Mumbai</div>
+                  <.p class="font-semibold" color="base">Rahul Mehta</.p>
+                  <.p class="text-sm" color="base" style="opacity: 0.7;">Mumbai</.p>
                 </div>
               </div>
             </.card>
@@ -720,18 +805,18 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               class="!bg-white dark:!bg-gray-800"
             >
               <div class="flex mb-4">
-                <svg :for={_ <- 1..5} class="w-5 h-5 text-[#FF385C]" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
+                <.rating color="primary" size="small" select={5} count={5} />
               </div>
-              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              <.p class="mb-6 leading-relaxed" color="base">
                 "The rental agreement service was a lifesaver! Everything was handled professionally, and I could focus on settling into my new home."
-              </p>
+              </.p>
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold">A</div>
+                <.avatar size="medium" color="success" class="w-10 h-10">
+                  A
+                </.avatar>
                 <div>
-                  <div class="font-semibold text-gray-900 dark:text-white">Ananya Gupta</div>
-                  <div class="text-sm text-gray-500 dark:text-gray-400">Delhi NCR</div>
+                  <.p class="font-semibold" color="base">Ananya Gupta</.p>
+                  <.p class="text-sm" color="base" style="opacity: 0.7;">Delhi NCR</.p>
                 </div>
               </div>
             </.card>
