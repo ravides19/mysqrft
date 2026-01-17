@@ -112,6 +112,7 @@ defmodule MySqrftWeb.Components.MishkaComponents do
 
       import MySqrftWeb.Components.TelField, only: [tel_field: 1]
       import MySqrftWeb.Components.TextField, only: [text_field: 1]
+      import MySqrftWeb.Components.ThemeToggle, only: [theme_toggle: 1]
       import MySqrftWeb.Components.TextareaField, only: [textarea_field: 1]
       import MySqrftWeb.Components.Timeline, only: [timeline: 1, timeline_section: 1]
 

@@ -219,9 +219,12 @@ defmodule MySqrftWeb.Components.Carousel do
 
   defp slide_image(assigns) do
     ~H"""
-    <div class="relative">
+    <div class="relative w-full h-full">
       <.image
-        class={["max-w-full", @image_class]}
+        class={[
+          "w-full h-full object-cover",
+          @image_class
+        ]}
         src={@image}
         id={"#{@id}-carousel-slide-image-#{@index}"}
       />

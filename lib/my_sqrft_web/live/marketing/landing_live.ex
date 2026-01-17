@@ -30,7 +30,8 @@ defmodule MySqrftWeb.Marketing.LandingLive do
      ])
      |> assign(:hero_slides, [
        %{
-         image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200",
+         image:
+           "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&h=1080&fit=crop&crop=center",
          title: "Lakescape by Candeur",
          rera: "Rera No. - P02400005724",
          rera_url: "http://rerait.telangana.gov.in",
@@ -39,7 +40,8 @@ defmodule MySqrftWeb.Marketing.LandingLive do
          area: "1,909 - 2416 sq.ft. (177.35 - 224.45 sq.m.)"
        },
        %{
-         image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200",
+         image:
+           "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1920&h=1080&fit=crop&crop=center",
          title: "Skyline Residency",
          rera: "Rera No. - P01234567890",
          rera_url: "http://rerait.telangana.gov.in",
@@ -48,13 +50,34 @@ defmodule MySqrftWeb.Marketing.LandingLive do
          area: "1,200 - 1,800 sq.ft. (111.48 - 167.22 sq.m.)"
        },
        %{
-         image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200",
+         image:
+           "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1920&h=1080&fit=crop&crop=center",
          title: "Garden Estates",
          rera: "Rera No. - P09876543210",
          rera_url: "http://rerait.telangana.gov.in",
          headline: "LUXURY SURROUNDED BY NATURE",
          details: "4 & 5 BHK | ₹2.5 Cr* Onwards | Jubilee Hills, Hyderabad",
          area: "2,500 - 3,200 sq.ft. (232.26 - 297.29 sq.m.)"
+       },
+       %{
+         image:
+           "https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=1920&h=1080&fit=crop&crop=center",
+         title: "Ocean View Towers",
+         rera: "Rera No. - P04567890123",
+         rera_url: "http://rerait.telangana.gov.in",
+         headline: "PREMIUM LIFESTYLE WITH PANORAMIC VIEWS",
+         details: "3 & 4 BHK | ₹2.0 Cr* Onwards | Gachibowli, Hyderabad",
+         area: "2,000 - 2,800 sq.ft. (185.81 - 259.93 sq.m.)"
+       },
+       %{
+         image:
+           "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1920&h=1080&fit=crop&crop=center",
+         title: "Green Valley Residency",
+         rera: "Rera No. - P05678901234",
+         rera_url: "http://rerait.telangana.gov.in",
+         headline: "SERENE LIVING IN URBAN PARADISE",
+         details: "2 & 3 BHK | ₹1.5 Cr* Onwards | Banjara Hills, Hyderabad",
+         area: "1,500 - 2,200 sq.ft. (139.35 - 204.39 sq.m.)"
        }
      ])
      |> assign(:recommended_properties, [
@@ -215,7 +238,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
     ~H"""
     <div class="relative overflow-hidden">
       <!-- Hero Carousel Section (inspired by 99acres) -->
-      <section class="relative h-[50vh] md:h-[60vh]">
+      <section class="relative h-[50vh] md:h-[60vh] lg:h-[70vh]">
         <.carousel
           id="hero-carousel"
           indicator={true}
@@ -231,6 +254,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           <:slide
             :for={slide <- @hero_slides}
             image={slide.image}
+            image_class="w-full h-full object-cover"
             title={slide.headline}
             description={slide.details}
             content_position="end"
