@@ -12,6 +12,7 @@ defmodule MySqrftWeb.Layouts do
   """
   attr :flash, :map, required: true, doc: "the map of flash messages"
   attr :current_scope, :map, default: nil, doc: "the current scope"
+  slot :inner_block, doc: "the content to render inside the layout"
 
   def marketing(assigns) do
     ~H"""
@@ -445,7 +446,11 @@ defmodule MySqrftWeb.Layouts do
 
     <!-- Main Content -->
     <main class="flex-1">
-      {@inner_content}
+      <%= if assigns[:inner_block] && @inner_block != [] do %>
+        {render_slot(@inner_block)}
+      <% else %>
+        {@inner_content}
+      <% end %>
     </main>
 
     <!-- Footer -->
@@ -592,38 +597,72 @@ defmodule MySqrftWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <header class="navbar px-4 sm:px-6 lg:px-8">
-      <div class="flex-1">
-        <a href="/" class="flex-1 flex w-fit items-center gap-2">
-          <img src={~p"/images/logo.svg"} width="36" />
-          <span class="text-sm font-semibold">v{Application.spec(:phoenix, :vsn)}</span>
-        </a>
-      </div>
-      <div class="flex-none">
-        <ul class="flex flex-column px-1 space-x-4 items-center">
-          <li>
-            <a href="https://phoenixframework.org/" class="btn btn-ghost">Website</a>
-          </li>
-          <li>
-            <a href="https://github.com/phoenixframework/phoenix" class="btn btn-ghost">GitHub</a>
-          </li>
-          <li>
-            <.theme_toggle />
-          </li>
-          <li>
-            <a href="https://hexdocs.pm/phoenix/overview.html" class="btn btn-primary">
-              Get Started <span aria-hidden="true">&rarr;</span>
-            </a>
-          </li>
-        </ul>
+    <header class="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto flex items-center justify-between h-16">
+        <div class="flex items-center gap-3">
+          <.link navigate="/" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 bg-gradient-to-br from-primary-light to-primary-dark rounded-xl flex items-center justify-center shadow-lg shadow-primary-light/20 group-hover:shadow-primary-light/40 transition-shadow duration-300">
+              <.icon name="hero-home" class="w-6 h-6 text-white" />
+            </div>
+            <span class="font-display text-xl font-bold text-primary-light dark:text-primary-dark">
+              MySqrft
+            </span>
+          </.link>
+        </div>
+        <nav class="flex items-center gap-6">
+          <.link
+            navigate="/"
+            class="text-base-text-light dark:text-base-text-dark hover:text-primary-light dark:hover:text-primary-dark font-medium transition-colors"
+          >
+            Home
+          </.link>
+          <.link
+            navigate="/about"
+            class="text-base-text-light dark:text-base-text-dark hover:text-primary-light dark:hover:text-primary-dark font-medium transition-colors"
+          >
+            About
+          </.link>
+          <.theme_toggle />
+          <%= if @current_scope do %>
+            <.link
+              href={~p"/users/settings"}
+              class="text-base-text-light dark:text-base-text-dark hover:text-primary-light dark:hover:text-primary-dark font-medium transition-colors"
+            >
+              Settings
+            </.link>
+          <% else %>
+            <.button_link
+              href={~p"/users/log-in"}
+              variant="outline"
+              color="primary"
+              size="small"
+              rounded="large"
+            >
+              Log in
+            </.button_link>
+          <% end %>
+        </nav>
       </div>
     </header>
 
-    <main class="px-4 py-20 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl space-y-4">
+    <main class="px-4 py-12 sm:px-6 lg:px-8 min-h-[calc(100vh-200px)] bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+      <div class="mx-auto max-w-4xl">
         {render_slot(@inner_block)}
       </div>
     </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-gray-900 dark:bg-gray-950 text-gray-400 py-8 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-gradient-to-br from-primary-light to-primary-dark rounded-lg flex items-center justify-center">
+            <.icon name="hero-home" class="w-4 h-4 text-white" />
+          </div>
+          <span class="font-display text-lg font-bold text-white">MySqrft</span>
+        </div>
+        <p class="text-sm">2026 MySqrft. All rights reserved.</p>
+      </div>
+    </footer>
 
     <.flash_group flash={@flash} />
     """

@@ -332,15 +332,18 @@ defmodule MySqrftWeb.Marketing.LandingLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="relative overflow-hidden">
-      <!-- Hero Carousel Section (inspired by 99acres) -->
-      <section class="relative h-[29vh] md:h-[34.5vh] lg:h-[40vh]">
+    <div class="relative overflow-hidden bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+      <!-- Hero Carousel Section - Refined Modern Design -->
+      <section class="relative h-[32vh] md:h-[42vh] lg:h-[50vh]">
+        <!-- Decorative gradient overlay for depth -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 z-10 pointer-events-none"></div>
+
         <.carousel
           id="hero-carousel"
           indicator={true}
           control={true}
           autoplay={true}
-          autoplay_interval={5000}
+          autoplay_interval={6000}
           size="extra_large"
           padding="extra_large"
           overlay="transparent"
@@ -350,48 +353,51 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           <:slide
             :for={slide <- @hero_slides}
             image={slide.image}
-            image_class="w-full h-full object-cover"
+            image_class="w-full h-full object-cover scale-105 animate-subtle-zoom"
             title={slide.headline}
             description={slide.details}
             content_position="end"
-            wrapper_class="flex flex-col justify-center items-end pr-8 md:pr-16"
+            wrapper_class="flex flex-col justify-center items-end pr-6 md:pr-12 lg:pr-20"
             title_class="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4 drop-shadow-lg"
             description_class="text-lg md:text-xl text-white/90 mb-6 drop-shadow-md"
           >
-            <div class="bg-white/95 dark:bg-stone-900/95 backdrop-blur-md rounded-2xl p-6 md:p-8 max-w-md shadow-2xl">
-              <div class="flex items-center gap-2 mb-3">
-                <div class="w-12 h-12 bg-gradient-to-br from-primary-light to-primary-dark rounded-lg flex items-center justify-center">
-                  <.icon name="hero-home" class="w-6 h-6 text-white" />
+            <div class="hero-card bg-white/98 dark:bg-gray-900/98 backdrop-blur-xl rounded-3xl p-5 md:p-7 max-w-sm md:max-w-md shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] border border-white/20 dark:border-gray-700/50 transform hover:scale-[1.02] transition-all duration-500">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-11 h-11 md:w-14 md:h-14 bg-gradient-to-br from-primary-light via-primary-light to-danger-light rounded-2xl flex items-center justify-center shadow-lg shadow-primary-light/30">
+                  <.icon name="hero-home" class="w-5 h-5 md:w-7 md:h-7 text-white" />
                 </div>
-                <div>
-                  <.h3 class="text-xl md:text-2xl" color="base">
+                <div class="flex-1 min-w-0">
+                  <.h3 class="text-lg md:text-xl truncate" color="base" font_weight="font-bold">
                     {slide.title}
                   </.h3>
-                  <.p class="text-xs" color="base">
+                  <.p class="text-xs opacity-60 truncate" color="base">
                     {slide.rera}
                   </.p>
                 </div>
               </div>
-              <.p class="mb-4 text-sm md:text-base" color="base">
+              <.p class="mb-5 text-sm md:text-base opacity-80" color="base">
                 {slide.area}
               </.p>
               <.button_link
                 navigate="/users/register"
-                variant="gradient"
+                variant="default"
                 color="primary"
                 size="large"
-                class="w-full"
+                class="w-full !rounded-xl !py-3 group"
               >
-                Explore Now <.icon name="hero-arrow-right" class="w-5 h-5 ml-2" />
+                <span class="flex items-center justify-center gap-2">
+                  Explore Now
+                  <.icon name="hero-arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </.button_link>
             </div>
           </:slide>
         </.carousel>
       </section>
       
-    <!-- Search Bar Section (inspired by Airbnb) -->
+    <!-- Search Bar Section - Modern Glassmorphism -->
       <section
-        class="relative -mt-16 md:-mt-20 z-20"
+        class="relative -mt-20 md:-mt-24 z-20"
         id="search-bar-section"
         data-test-id="search-bar-section"
       >
@@ -401,7 +407,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           data-test-id="search-section-container"
         >
           <div
-            class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-2"
+            class="search-bar-card bg-white/95 dark:bg-gray-900/95 backdrop-blur-2xl rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.4)] border border-gray-100/80 dark:border-gray-700/50 p-3 md:p-4"
             id="search-bar-card"
             data-test-id="search-bar-card"
           >
@@ -956,15 +962,22 @@ defmodule MySqrftWeb.Marketing.LandingLive do
       </section>
       
     <!-- Get Started With Exploring Real Estate Options Section -->
-      <section class="py-8 md:py-12 bg-white dark:bg-gray-900">
+      <section class="py-12 md:py-16 bg-gradient-to-b from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-950/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <.h2
-            class="text-lg md:text-xl uppercase tracking-wide mb-6"
-            color="base"
-            font_weight="font-bold"
-          >
-            GET STARTED WITH EXPLORING REAL ESTATE OPTIONS
-          </.h2>
+          <div class="flex items-center justify-between mb-8">
+            <div>
+              <.h2
+                class="text-xl md:text-2xl"
+                color="base"
+                font_weight="font-bold"
+              >
+                Explore Real Estate
+              </.h2>
+              <.p class="text-sm mt-1 opacity-70" color="base">
+                Find your perfect property type
+              </.p>
+            </div>
+          </div>
           
     <!-- Horizontal Scrollable Cards -->
           <div class="relative">
@@ -972,34 +985,36 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               class="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide scroll-smooth"
               id="explore-options-scroll"
             >
-              <div class="flex gap-4 md:gap-6 min-w-max">
+              <div class="flex gap-4 md:gap-5 min-w-max">
                 <.card
                   :for={option <- @explore_options}
                   variant="bordered"
                   color="natural"
-                  rounded="large"
-                  class="min-w-[200px] md:min-w-[240px] !bg-white dark:!bg-gray-800 hover:shadow-xl transition-all duration-300 group cursor-pointer overflow-hidden"
+                  rounded="extra_large"
+                  class="explore-card min-w-[180px] md:min-w-[220px] !bg-white dark:!bg-gray-800/80 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] transition-all duration-500 group cursor-pointer overflow-hidden border-gray-100 dark:border-gray-700/50 hover:border-primary-light/30 dark:hover:border-primary-dark/30 hover:-translate-y-1"
                 >
                   <.link navigate={option.navigate} class="block">
-                    <div class="relative">
+                    <div class="relative overflow-hidden">
                       <img
                         src={option.image}
                         alt={option.title}
-                        class="w-full h-40 md:h-48 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"
+                        class="w-full h-36 md:h-44 object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                       />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <.badge
                         :if={option[:badge]}
                         variant="default"
                         color="danger"
                         size="small"
-                        class="absolute top-2 left-2"
+                        rounded="large"
+                        class="absolute top-3 left-3 !px-2.5 !py-1 text-xs font-semibold"
                       >
                         {option.badge}
                       </.badge>
                     </div>
                     <div class="p-4">
                       <.h3
-                        class="font-semibold text-center group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors"
+                        class="text-sm md:text-base font-semibold text-center group-hover:text-primary-light dark:group-hover:text-primary-dark transition-colors duration-300"
                         color="base"
                       >
                         {option.title}
@@ -1040,79 +1055,83 @@ defmodule MySqrftWeb.Marketing.LandingLive do
         </div>
       </section>
       
-    <!-- Recommended Properties Section (inspired by Airbnb & 99acres) -->
-      <section class="py-12 md:py-16 bg-white dark:bg-gray-900">
+    <!-- Recommended Properties Section - Enhanced Modern Design -->
+      <section class="py-14 md:py-20 bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center justify-between mb-8 md:mb-10">
             <div>
-              <.h2 class="mb-2" color="base" font_weight="font-bold">
+              <.h2 class="text-2xl md:text-3xl mb-2" color="base" font_weight="font-bold">
                 Recommended Properties
               </.h2>
-              <.p color="base">Curated especially for you.</.p>
+              <.p class="opacity-70" color="base">Curated especially for you</.p>
             </div>
-            <button class="cursor-pointer text-primary-light dark:text-primary-dark font-semibold hover:text-primary-hover-light dark:hover:text-primary-hover-dark flex items-center gap-1">
-              See all <.icon name="hero-arrow-right" class="w-5 h-5" />
-            </button>
+            <.button_link
+              navigate="/search"
+              variant="outline"
+              color="primary"
+              size="medium"
+              class="!rounded-full !px-5 group hidden sm:inline-flex"
+            >
+              <span class="flex items-center gap-2">
+                See all
+                <.icon name="hero-arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </.button_link>
           </div>
           
     <!-- Property Cards (Horizontal Scroll) -->
-          <div class="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
-            <div class="flex gap-6 min-w-max">
+          <div class="overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide">
+            <div class="flex gap-5 md:gap-6 min-w-max">
               <.card
                 :for={property <- @recommended_properties}
                 variant="bordered"
                 color="natural"
                 rounded="extra_large"
-                class="min-w-[320px] md:min-w-[380px] !bg-white dark:!bg-gray-800 hover:shadow-xl transition-all duration-300 group"
+                class="property-card min-w-[300px] md:min-w-[360px] !bg-white dark:!bg-gray-800/90 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all duration-500 group border-gray-100 dark:border-gray-700/50 hover:border-transparent hover:-translate-y-2"
               >
-                <div class="relative">
+                <div class="relative overflow-hidden rounded-t-xl">
                   <img
                     src={property.image}
                     alt={property.title}
-                    class="w-full h-64 object-cover rounded-t-xl"
+                    class="w-full h-56 md:h-64 object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                   <.badge
                     :if={property.verified}
                     variant="default"
                     color="success"
                     size="small"
-                    class="absolute top-3 left-3"
+                    rounded="large"
+                    class="absolute top-4 left-4 !bg-success-light/90 backdrop-blur-sm"
                   >
-                    ✓ Verified
+                    <span class="flex items-center gap-1">
+                      <.icon name="hero-check-badge" class="w-3.5 h-3.5" /> Verified
+                    </span>
                   </.badge>
-                  <button class="cursor-pointer absolute top-3 right-3 w-10 h-10 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 transition-colors">
-                    <.icon name="hero-heart" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  <button class="cursor-pointer absolute top-4 right-4 w-10 h-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transition-all duration-300 shadow-lg">
+                    <.icon name="hero-heart" class="w-5 h-5 text-gray-500 dark:text-gray-400 hover:text-danger-light transition-colors" />
                   </button>
+                  <!-- Price tag overlay -->
+                  <div class="absolute bottom-4 left-4">
+                    <span class="text-2xl font-bold text-white drop-shadow-lg">{property.price}</span>
+                  </div>
                 </div>
                 <div class="p-5">
-                  <div class="flex items-start justify-between mb-3">
-                    <div class="flex-1">
-                      <.h3 class="mb-1 line-clamp-1" color="base" font_weight="font-bold">
-                        {property.price}
-                      </.h3>
-                      <.p class="text-sm line-clamp-2" color="base">
-                        {property.title}
-                      </.p>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-4 text-xs mb-3">
-                    <span
-                      class="flex items-center gap-1"
-                      class="text-base-text-light dark:text-base-text-dark"
-                    >
-                      <.icon name="hero-map-pin" class="w-3 h-3" />
+                  <.p class="text-base font-medium line-clamp-2 mb-3" color="base">
+                    {property.title}
+                  </.p>
+                  <div class="flex items-center gap-4 text-sm mb-4 opacity-70">
+                    <span class="flex items-center gap-1.5 text-base-text-light dark:text-base-text-dark">
+                      <.icon name="hero-map-pin" class="w-4 h-4" />
                       {property.location}
                     </span>
-                    <span
-                      class="flex items-center gap-1"
-                      class="text-base-text-light dark:text-base-text-dark"
-                    >
-                      <.icon name="hero-square-3-stack-3d" class="w-3 h-3" />
+                    <span class="flex items-center gap-1.5 text-base-text-light dark:text-base-text-dark">
+                      <.icon name="hero-square-3-stack-3d" class="w-4 h-4" />
                       {property.sqft}
                     </span>
                   </div>
-                  <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
-                    <div class="flex items-center gap-1">
+                  <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700/50">
+                    <div class="flex items-center gap-2">
                       <.rating
                         id={"property-rating-#{property.id}"}
                         color="primary"
@@ -1124,7 +1143,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
                         {property.rating}
                       </span>
                     </div>
-                    <div class="text-xs text-base-text-light dark:text-base-text-dark">
+                    <div class="text-xs text-base-text-light dark:text-base-text-dark opacity-60">
                       {property.posted_by} · {property.posted_at}
                     </div>
                   </div>
@@ -1135,62 +1154,83 @@ defmodule MySqrftWeb.Marketing.LandingLive do
         </div>
       </section>
       
-    <!-- Recommended Projects Section -->
-      <section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-950">
+    <!-- Recommended Projects Section - Modern Grid -->
+      <section class="py-14 md:py-20 bg-gradient-to-b from-gray-50 to-gray-100/50 dark:from-gray-950 dark:to-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between mb-6">
-            <.h2 color="base" font_weight="font-bold">
-              Recommended Projects
-            </.h2>
-            <button class="cursor-pointer text-primary-light dark:text-primary-dark font-semibold hover:text-primary-hover-light dark:hover:text-primary-hover-dark flex items-center gap-1">
-              See all <.icon name="hero-arrow-right" class="w-5 h-5" />
-            </button>
+          <div class="flex items-center justify-between mb-8 md:mb-10">
+            <div>
+              <.h2 class="text-2xl md:text-3xl mb-2" color="base" font_weight="font-bold">
+                Featured Projects
+              </.h2>
+              <.p class="opacity-70" color="base">New developments worth exploring</.p>
+            </div>
+            <.button_link
+              navigate="/projects"
+              variant="outline"
+              color="primary"
+              size="medium"
+              class="!rounded-full !px-5 group hidden sm:inline-flex"
+            >
+              <span class="flex items-center gap-2">
+                See all
+                <.icon name="hero-arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </.button_link>
           </div>
 
-          <div class="grid md:grid-cols-3 gap-6">
+          <div class="grid md:grid-cols-3 gap-5 md:gap-6">
             <.card
               :for={project <- @recommended_projects}
               variant="bordered"
               color="natural"
               rounded="extra_large"
-              class="!bg-white dark:!bg-gray-800 hover:shadow-xl transition-all duration-300 group overflow-hidden"
+              class="project-card !bg-white dark:!bg-gray-800/90 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] transition-all duration-500 group overflow-hidden border-gray-100 dark:border-gray-700/50 hover:border-transparent hover:-translate-y-2"
             >
-              <div class="relative">
+              <div class="relative overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
-                  class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  class="w-full h-56 md:h-64 object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 <.badge
                   variant="default"
                   color="primary"
                   size="small"
-                  class="absolute top-3 left-3"
+                  rounded="large"
+                  class="absolute top-4 left-4 !bg-primary-light/90 backdrop-blur-sm"
                 >
-                  RERA
+                  <span class="flex items-center gap-1">
+                    <.icon name="hero-shield-check" class="w-3.5 h-3.5" /> RERA Approved
+                  </span>
                 </.badge>
-                <button class="cursor-pointer absolute top-3 right-3 w-10 h-10 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 transition-colors">
-                  <.icon name="hero-heart" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                <button class="cursor-pointer absolute top-4 right-4 w-10 h-10 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transition-all duration-300 shadow-lg">
+                  <.icon name="hero-heart" class="w-5 h-5 text-gray-500 dark:text-gray-400 hover:text-danger-light transition-colors" />
                 </button>
+                <!-- Price overlay -->
+                <div class="absolute bottom-4 left-4 right-4">
+                  <span class="text-xl font-bold text-white drop-shadow-lg">{project.price}</span>
+                </div>
               </div>
               <div class="p-5">
-                <.h3 class="mb-2" color="base" font_weight="font-bold">
+                <.h3 class="text-lg mb-2" color="base" font_weight="font-bold">
                   {project.title}
                 </.h3>
-                <.p class="text-sm mb-3" color="base">
+                <.p class="text-sm mb-4 flex items-center gap-1.5 opacity-70" color="base">
+                  <.icon name="hero-map-pin" class="w-4 h-4" />
                   {project.location}
-                </.p>
-                <.p class="text-lg font-semibold text-primary-light dark:text-primary-dark mb-4">
-                  {project.price}
                 </.p>
                 <.button_link
                   navigate="/users/register"
                   variant="outline"
                   color="primary"
                   size="medium"
-                  class="w-full"
+                  class="w-full !rounded-xl group/btn"
                 >
-                  View Details
+                  <span class="flex items-center justify-center gap-2">
+                    View Details
+                    <.icon name="hero-arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                  </span>
                 </.button_link>
               </div>
             </.card>
@@ -1198,18 +1238,22 @@ defmodule MySqrftWeb.Marketing.LandingLive do
         </div>
       </section>
       
-    <!-- Stats Section -->
-      <section class="py-16 md:py-24 bg-white dark:bg-gray-900 border-y border-red-100 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            <div :for={stat <- @stats} class="text-center">
-              <div class="inline-flex items-center justify-center w-14 h-14 bg-primary-bordered-bg-light dark:bg-primary-bordered-bg-dark rounded-2xl mb-4">
-                <.icon name={stat.icon} class="w-7 h-7 text-primary-light dark:text-primary-dark" />
+    <!-- Stats Section - Refined Modern -->
+      <section class="py-16 md:py-24 bg-gradient-to-br from-gray-50 via-white to-primary-bordered-bg-light/20 dark:from-gray-900 dark:via-gray-900 dark:to-primary-bordered-bg-dark/10 relative overflow-hidden">
+        <!-- Decorative background elements -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-light/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-light/5 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            <div :for={stat <- @stats} class="stat-card text-center p-6 md:p-8 rounded-3xl bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm border border-gray-100/80 dark:border-gray-700/30 hover:bg-white dark:hover:bg-gray-800/60 hover:shadow-xl hover:shadow-primary-light/5 transition-all duration-500 group">
+              <div class="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-primary-light to-primary-dark rounded-2xl mb-4 shadow-lg shadow-primary-light/20 group-hover:scale-110 transition-transform duration-300">
+                <.icon name={stat.icon} class="w-7 h-7 md:w-8 md:h-8 text-white" />
               </div>
-              <div class="text-3xl md:text-4xl font-display font-bold text-base-text-light dark:text-base-text-dark">
+              <div class="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-base-text-light dark:text-base-text-dark mb-1">
                 {stat.value}
               </div>
-              <div class="text-sm text-base-text-light dark:text-base-text-dark mt-1 opacity-70">
+              <div class="text-sm md:text-base text-base-text-light dark:text-base-text-dark opacity-60">
                 {stat.label}
               </div>
             </div>
@@ -1217,37 +1261,40 @@ defmodule MySqrftWeb.Marketing.LandingLive do
         </div>
       </section>
       
-    <!-- Features Section -->
-      <section class="py-20 md:py-32">
+    <!-- Features Section - Elegant Grid -->
+      <section class="py-20 md:py-28 bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center max-w-3xl mx-auto mb-16 md:mb-20">
-            <.h2 class="mb-6" color="base" font_weight="font-bold">
-              Why Choose <span class="text-primary-light dark:text-primary-dark">MySqrft</span>?
+          <div class="text-center max-w-3xl mx-auto mb-14 md:mb-20">
+            <.badge variant="bordered" color="primary" size="small" rounded="full" class="mb-4 !px-4 !py-1.5">
+              Why MySqrft
+            </.badge>
+            <.h2 class="text-3xl md:text-4xl mb-5" color="base" font_weight="font-bold">
+              The smarter way to find your <span class="text-primary-light dark:text-primary-dark">perfect home</span>
             </.h2>
-            <.p class="text-lg" color="base">
+            <.p class="text-lg opacity-70" color="base">
               We've reimagined the rental experience to make finding your perfect home simple, transparent, and trustworthy.
             </.p>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+          <div class="grid md:grid-cols-2 gap-5 md:gap-6">
             <.card
               :for={feature <- @features}
               variant="bordered"
               color="natural"
               rounded="extra_large"
               padding="extra_large"
-              class="group hover:border-red-300 dark:hover:border-red-600 hover:shadow-lg hover:shadow-red-500/5 transition-all duration-300 !bg-white dark:!bg-gray-800/50"
+              class="feature-card group hover:border-primary-light/30 dark:hover:border-primary-dark/30 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 !bg-gradient-to-br !from-white !to-gray-50/50 dark:!from-gray-800/80 dark:!to-gray-900/50 hover:-translate-y-1"
             >
               <div class="flex gap-5">
-                <div class="shrink-0 w-14 h-14 bg-gradient-to-br from-primary-bordered-bg-light to-primary-bordered-bg-light dark:from-primary-bordered-bg-dark dark:to-primary-bordered-bg-dark rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <div class="shrink-0 w-14 h-14 bg-gradient-to-br from-primary-light/10 to-primary-light/5 dark:from-primary-dark/20 dark:to-primary-dark/10 rounded-2xl flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary-light group-hover:to-primary-dark transition-all duration-500">
                   <.icon
                     name={feature.icon}
-                    class="w-7 h-7 text-primary-light dark:text-primary-dark"
+                    class="w-7 h-7 text-primary-light dark:text-primary-dark group-hover:text-white transition-colors duration-500"
                   />
                 </div>
-                <div>
-                  <.h3 class="mb-2" color="base" font_weight="font-bold">{feature.title}</.h3>
-                  <.p class="leading-relaxed" color="base">{feature.description}</.p>
+                <div class="flex-1">
+                  <.h3 class="text-lg mb-2" color="base" font_weight="font-bold">{feature.title}</.h3>
+                  <.p class="leading-relaxed opacity-70" color="base">{feature.description}</.p>
                 </div>
               </div>
             </.card>
@@ -1255,16 +1302,22 @@ defmodule MySqrftWeb.Marketing.LandingLive do
         </div>
       </section>
       
-    <!-- CTA Section -->
-      <section class="py-20 md:py-32 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-primary-light to-primary-dark"></div>
-        <div class="absolute inset-0 geo-pattern opacity-20"></div>
+    <!-- CTA Section - Premium Gradient -->
+      <section class="py-20 md:py-28 relative overflow-hidden">
+        <!-- Animated gradient background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-light via-primary-dark to-danger-light animate-gradient-shift"></div>
+        <!-- Decorative shapes -->
+        <div class="absolute top-0 left-0 w-full h-full">
+          <div class="absolute top-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+          <div class="absolute bottom-10 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl"></div>
+        </div>
 
         <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <.h2 class="mb-6" color="white" font_weight="font-bold">
+          <.h2 class="text-3xl md:text-4xl lg:text-5xl mb-6 !text-white" font_weight="font-bold">
             Ready to Find Your Dream Home?
           </.h2>
-          <.p class="text-xl mb-10 max-w-2xl mx-auto" color="white" style="opacity: 0.9;">
+          <.p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto !text-white/90">
             Join millions of Indians who found their perfect space through MySqrft. Start your journey today.
           </.p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -1273,17 +1326,21 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               variant="default"
               color="white"
               size="extra_large"
-              rounded="large"
-              class="!bg-white !text-primary-light hover:!bg-primary-bordered-bg-light !shadow-xl"
+              rounded="full"
+              class="!bg-white !text-primary-light hover:!bg-gray-100 !shadow-2xl !shadow-black/20 !px-8 group"
             >
-              Create Free Account
+              <span class="flex items-center gap-2">
+                Create Free Account
+                <.icon name="hero-arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </span>
             </.button_link>
             <.button_link
               navigate="/about"
               variant="outline"
               color="white"
               size="extra_large"
-              rounded="large"
+              rounded="full"
+              class="!border-white/30 !text-white hover:!bg-white/10 !px-8"
             >
               Learn More
             </.button_link>
@@ -1291,39 +1348,42 @@ defmodule MySqrftWeb.Marketing.LandingLive do
         </div>
       </section>
       
-    <!-- Testimonials Preview -->
-      <section class="py-20 md:py-32 bg-gray-50 dark:bg-gray-900">
+    <!-- Testimonials Preview - Modern Cards -->
+      <section class="py-20 md:py-28 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="text-center max-w-3xl mx-auto mb-16">
-            <.h2 class="mb-6" color="base" font_weight="font-bold">
-              Loved by Thousands
+          <div class="text-center max-w-3xl mx-auto mb-14">
+            <.badge variant="bordered" color="success" size="small" rounded="full" class="mb-4 !px-4 !py-1.5">
+              Testimonials
+            </.badge>
+            <.h2 class="text-3xl md:text-4xl mb-5" color="base" font_weight="font-bold">
+              Loved by <span class="text-primary-light dark:text-primary-dark">thousands</span>
             </.h2>
-            <.p class="text-lg" color="base">
+            <.p class="text-lg opacity-70" color="base">
               Don't just take our word for it. Here's what our users have to say.
             </.p>
           </div>
 
-          <div class="grid md:grid-cols-3 gap-8">
+          <div class="grid md:grid-cols-3 gap-6">
             <.card
               variant="bordered"
               color="natural"
               rounded="extra_large"
               padding="extra_large"
-              class="!bg-white dark:!bg-gray-800"
+              class="testimonial-card !bg-white dark:!bg-gray-800/80 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 border-gray-100 dark:border-gray-700/50 hover:-translate-y-1 group"
             >
-              <div class="flex mb-4">
+              <div class="flex mb-5">
                 <.rating id="testimonial-rating-1" color="primary" size="small" select={5} count={5} />
               </div>
-              <.p class="mb-6 leading-relaxed" color="base">
+              <.p class="mb-6 leading-relaxed text-base" color="base">
                 "Found my perfect 2BHK in Indiranagar within a week! The verified listings saved me so much time. Highly recommend MySqrft."
               </.p>
-              <div class="flex items-center gap-3">
-                <.avatar size="medium" color="primary" class="w-10 h-10">
+              <div class="flex items-center gap-3 pt-5 border-t border-gray-100 dark:border-gray-700/50">
+                <.avatar size="medium" color="primary" rounded="full" class="w-11 h-11 ring-2 ring-primary-light/20 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
                   P
                 </.avatar>
                 <div>
                   <.p class="font-semibold" color="base">Priya Sharma</.p>
-                  <.p class="text-sm" color="base" style="opacity: 0.7;">Bangalore</.p>
+                  <.p class="text-sm opacity-60" color="base">Bangalore</.p>
                 </div>
               </div>
             </.card>
@@ -1333,21 +1393,21 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               color="natural"
               rounded="extra_large"
               padding="extra_large"
-              class="!bg-white dark:!bg-gray-800"
+              class="testimonial-card !bg-white dark:!bg-gray-800/80 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 border-gray-100 dark:border-gray-700/50 hover:-translate-y-1 group md:-translate-y-4"
             >
-              <div class="flex mb-4">
+              <div class="flex mb-5">
                 <.rating id="testimonial-rating-2" color="primary" size="small" select={5} count={5} />
               </div>
-              <.p class="mb-6 leading-relaxed" color="base">
+              <.p class="mb-6 leading-relaxed text-base" color="base">
                 "As a property owner, listing on MySqrft was seamless. Got genuine tenants within days, and the agreement process was hassle-free."
               </.p>
-              <div class="flex items-center gap-3">
-                <.avatar size="medium" color="info" class="w-10 h-10">
+              <div class="flex items-center gap-3 pt-5 border-t border-gray-100 dark:border-gray-700/50">
+                <.avatar size="medium" color="info" rounded="full" class="w-11 h-11 ring-2 ring-info-light/20 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
                   R
                 </.avatar>
                 <div>
                   <.p class="font-semibold" color="base">Rahul Mehta</.p>
-                  <.p class="text-sm" color="base" style="opacity: 0.7;">Mumbai</.p>
+                  <.p class="text-sm opacity-60" color="base">Mumbai</.p>
                 </div>
               </div>
             </.card>
@@ -1357,21 +1417,21 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               color="natural"
               rounded="extra_large"
               padding="extra_large"
-              class="!bg-white dark:!bg-gray-800"
+              class="testimonial-card !bg-white dark:!bg-gray-800/80 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] transition-all duration-500 border-gray-100 dark:border-gray-700/50 hover:-translate-y-1 group"
             >
-              <div class="flex mb-4">
+              <div class="flex mb-5">
                 <.rating id="testimonial-rating-3" color="primary" size="small" select={5} count={5} />
               </div>
-              <.p class="mb-6 leading-relaxed" color="base">
+              <.p class="mb-6 leading-relaxed text-base" color="base">
                 "The rental agreement service was a lifesaver! Everything was handled professionally, and I could focus on settling into my new home."
               </.p>
-              <div class="flex items-center gap-3">
-                <.avatar size="medium" color="success" class="w-10 h-10">
+              <div class="flex items-center gap-3 pt-5 border-t border-gray-100 dark:border-gray-700/50">
+                <.avatar size="medium" color="success" rounded="full" class="w-11 h-11 ring-2 ring-success-light/20 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
                   A
                 </.avatar>
                 <div>
                   <.p class="font-semibold" color="base">Ananya Gupta</.p>
-                  <.p class="text-sm" color="base" style="opacity: 0.7;">Delhi NCR</.p>
+                  <.p class="text-sm opacity-60" color="base">Delhi NCR</.p>
                 </div>
               </div>
             </.card>
@@ -1381,6 +1441,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
     </div>
 
     <style>
+      /* Scrollbar Hide */
       .scrollbar-hide {
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -1388,6 +1449,8 @@ defmodule MySqrftWeb.Marketing.LandingLive do
       .scrollbar-hide::-webkit-scrollbar {
         display: none;
       }
+
+      /* Line Clamp Utilities */
       .line-clamp-1 {
         display: -webkit-box;
         -webkit-line-clamp: 1;
@@ -1399,6 +1462,109 @@ defmodule MySqrftWeb.Marketing.LandingLive do
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+      }
+
+      /* Hero Subtle Zoom Animation */
+      @keyframes subtle-zoom {
+        0%, 100% {
+          transform: scale(1.05);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+      .animate-subtle-zoom {
+        animation: subtle-zoom 20s ease-in-out infinite;
+      }
+
+      /* Gradient Shift Animation for CTA */
+      @keyframes gradient-shift {
+        0%, 100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+      .animate-gradient-shift {
+        background-size: 200% 200%;
+        animation: gradient-shift 8s ease infinite;
+      }
+
+      /* Fade In Up Animation */
+      @keyframes fade-in-up {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Card Hover Glow Effect */
+      .property-card::before,
+      .explore-card::before,
+      .feature-card::before,
+      .testimonial-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(135deg, transparent 40%, rgba(var(--color-primary-light), 0.1) 50%, transparent 60%);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      .property-card:hover::before,
+      .explore-card:hover::before,
+      .feature-card:hover::before,
+      .testimonial-card:hover::before {
+        opacity: 1;
+      }
+
+      /* Stat Card Number Counter Animation */
+      .stat-card {
+        position: relative;
+      }
+
+      /* Search Bar Card Glow */
+      .search-bar-card {
+        position: relative;
+      }
+      .search-bar-card::before {
+        content: '';
+        position: absolute;
+        inset: -1px;
+        border-radius: 1.5rem;
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(var(--color-primary-light), 0.2), transparent 50%, rgba(var(--color-primary-light), 0.1));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      /* Hero Card Entrance Animation */
+      .hero-card {
+        animation: fade-in-up 0.8s ease-out;
+      }
+
+      /* Smooth scroll behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Focus visible styles for accessibility */
+      button:focus-visible,
+      a:focus-visible {
+        outline: 2px solid var(--color-primary-light);
+        outline-offset: 2px;
       }
     </style>
     """
