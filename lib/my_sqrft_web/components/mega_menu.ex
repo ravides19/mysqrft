@@ -215,6 +215,7 @@ defmodule MySqrftWeb.Components.MegaMenu do
               transition: "duration-300"
             )
         }
+        onclick="event.stopPropagation();"
         class={[
           "mega-menu-content inset-x-0 top-full absolute z-20 transition-all ease-in-out delay-100 duration-500 w-full",
           "invisible opacity-0",

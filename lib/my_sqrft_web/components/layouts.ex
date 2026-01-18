@@ -31,7 +31,7 @@ defmodule MySqrftWeb.Layouts do
         content_position="between"
         nav_wrapper_class="md:grid md:grid-cols-3 md:items-center md:gap-4"
         list_wrapper_class="md:flex md:justify-center md:col-start-2 md:col-end-3"
-        class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-800/50 shadow-none transition-all duration-300 navbar-scroll-state"
+        class="bg-white/95 dark:bg-base-bg-dark/95 backdrop-blur-md border-b border-base-border-light/50 dark:border-base-border-dark/50 shadow-none transition-all duration-300 navbar-scroll-state"
       >
         <:start_content class="flex items-center gap-3 md:justify-start md:col-start-1 md:col-end-2">
           <.link navigate="/" class="flex items-center gap-3 group">
