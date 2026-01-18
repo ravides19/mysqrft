@@ -160,38 +160,164 @@ defmodule MySqrftWeb.Layouts do
       <script :type={Phoenix.LiveView.ColocatedHook} name=".NavbarScroll">
         export default {
           mounted() {
+            this.initScrollHandler();
+          },
+          updated() {
+            // Immediately re-apply scroll state synchronously to prevent flickering
             const header = this.el;
             const navbar = header.querySelector("#main-navbar");
-            const checkScroll = () => {
-              const scrolled = window.scrollY > 50;
-              if (scrolled) {
-                header.classList.add("navbar-scrolled");
-                header.classList.remove("navbar-top");
-                if (navbar) {
-                  navbar.classList.add("navbar-floating");
-                  navbar.classList.remove("navbar-full-width");
-                }
-              } else {
-                header.classList.remove("navbar-scrolled");
-                header.classList.add("navbar-top");
-                if (navbar) {
-                  navbar.classList.remove("navbar-floating");
-                  navbar.classList.add("navbar-full-width");
-                }
+
+            // Update references
+            this.header = header;
+            this.navbar = navbar;
+
+            // Get current scroll state before update
+            const currentScrollState = window.scrollY > 50;
+            const wasScrolled = header.classList.contains("navbar-scrolled");
+
+            // Only disable transitions if state is actually changing to prevent unnecessary flicker
+            if (currentScrollState !== wasScrolled) {
+              // Temporarily disable transitions to prevent flicker during update
+              header.style.transition = "none";
+              if (navbar) {
+                navbar.style.transition = "none";
+                navbar.style.animation = "none";
               }
-            };
-            checkScroll();
-            window.addEventListener("scroll", checkScroll, { passive: true });
-            this.handleScroll = checkScroll;
+            }
+
+            // Re-check and apply scroll state synchronously
+            const scrolled = window.scrollY > 50;
+
+            if (scrolled) {
+              header.classList.add("navbar-scrolled");
+              header.classList.remove("navbar-top");
+              if (navbar) {
+                navbar.classList.add("navbar-floating");
+                navbar.classList.remove("navbar-full-width");
+              }
+            } else {
+              header.classList.remove("navbar-scrolled");
+              header.classList.add("navbar-top");
+              if (navbar) {
+                navbar.classList.remove("navbar-floating");
+                navbar.classList.add("navbar-full-width");
+              }
+            }
+
+            // Re-enable transitions after DOM settles, allowing smooth morphing
+            if (currentScrollState !== wasScrolled) {
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  header.style.transition = "";
+                  if (navbar) {
+                    navbar.style.transition = "";
+                    navbar.style.animation = "";
+                  }
+                });
+              });
+            }
+
+            // Ensure scroll listener is still attached
+            if (!this.handleScroll) {
+              this.initScrollHandler();
+            }
           },
           destroyed() {
+            this.cleanup();
+          },
+          initScrollHandler() {
+            const header = this.el;
+            const navbar = header.querySelector("#main-navbar");
+
+            // Store references
+            this.header = header;
+            this.navbar = navbar;
+
+            // Use requestAnimationFrame to debounce and prevent flickering
+            let ticking = false;
+            let lastScrollState = null;
+
+            const checkScroll = () => {
+              if (!ticking) {
+                window.requestAnimationFrame(() => {
+                  const scrolled = window.scrollY > 50;
+
+                  // Only update if state actually changed to prevent unnecessary DOM manipulation
+                  if (lastScrollState !== scrolled) {
+                    // Ensure transitions are enabled for smooth morphing during scroll
+                    if (header.style.transition === "none") {
+                      header.style.transition = "";
+                    }
+                    if (navbar && navbar.style.transition === "none") {
+                      navbar.style.transition = "";
+                      navbar.style.animation = "";
+                    }
+
+                    if (scrolled) {
+                      header.classList.add("navbar-scrolled");
+                      header.classList.remove("navbar-top");
+                      if (navbar) {
+                        navbar.classList.add("navbar-floating");
+                        navbar.classList.remove("navbar-full-width");
+                      }
+                    } else {
+                      header.classList.remove("navbar-scrolled");
+                      header.classList.add("navbar-top");
+                      if (navbar) {
+                        navbar.classList.remove("navbar-floating");
+                        navbar.classList.add("navbar-full-width");
+                      }
+                    }
+                    lastScrollState = scrolled;
+                  }
+
+                  ticking = false;
+                });
+                ticking = true;
+              }
+            };
+
+            // Store the last scroll state
+            this.lastScrollState = () => lastScrollState;
+
+            // Initial check
+            checkScroll();
+
+            // Add scroll listener only if not already added
+            if (!this.handleScroll) {
+              window.addEventListener("scroll", checkScroll, { passive: true });
+              this.handleScroll = checkScroll;
+            }
+          },
+          cleanup() {
             if (this.handleScroll) {
               window.removeEventListener("scroll", this.handleScroll);
+              this.handleScroll = null;
             }
           }
         }
       </script>
       <style>
+        /* Base transitions for seamless morphing */
+        #navbar-header {
+          transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      padding-right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: top, padding;
+        }
+
+        #navbar-header #main-navbar {
+          transition: border-radius 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      margin-right 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      border-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: border-radius, max-width, margin, box-shadow, transform;
+        }
+
         /* Navbar at top - full width */
         #navbar-header.navbar-top {
           top: 0;
@@ -209,6 +335,8 @@ defmodule MySqrftWeb.Layouts do
           border-left-width: 0;
           border-right-width: 0;
           border-top-width: 0;
+          transform: scale(1);
+          opacity: 1;
         }
 
         /* Navbar when scrolled - floating with rounded borders */
@@ -239,6 +367,49 @@ defmodule MySqrftWeb.Layouts do
           margin-right: auto !important;
           box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
           border-width: 1px !important;
+          transform: scale(1);
+          opacity: 1;
+        }
+
+        /* Smooth morphing effect on state transition */
+        @keyframes navbar-morph-in {
+          0% {
+            transform: scale(0.98) translateY(-2px);
+            opacity: 0.96;
+          }
+          100% {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes navbar-morph-out {
+          0% {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(0.98) translateY(-2px);
+            opacity: 0.96;
+          }
+        }
+
+        /* Apply morph animation when transitioning to scrolled state */
+        #navbar-header.navbar-scrolled #main-navbar {
+          animation: navbar-morph-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Apply morph animation when transitioning to top state */
+        #navbar-header.navbar-top #main-navbar {
+          animation: navbar-morph-out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Enhanced backdrop blur transition for smoother morphing */
+        #navbar-header #main-navbar {
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          transition: backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                      -webkit-backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Three-section navbar layout on desktop */

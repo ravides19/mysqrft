@@ -22,6 +22,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
      socket
      |> assign(:page_title, "Home")
      |> assign(:search_query, "")
+     |> assign(:selected_tab, "buy")
      |> assign(:selected_property_types, MapSet.new())
      |> assign(:show_property_type_menu, false)
      |> assign(:budget, "any")
@@ -302,6 +303,11 @@ defmodule MySqrftWeb.Marketing.LandingLive do
   end
 
   @impl true
+  def handle_event("select_tab", %{"tab" => tab}, socket) do
+    {:noreply, assign(socket, :selected_tab, tab)}
+  end
+
+  @impl true
   def handle_event("scroll-explore-right", _params, socket) do
     {:noreply, socket}
   end
@@ -407,65 +413,124 @@ defmodule MySqrftWeb.Marketing.LandingLive do
             >
               <.button
                 variant="transparent"
-                color="primary"
+                color={if @selected_tab == "buy", do: "primary", else: "base"}
                 size="small"
-                class="!border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold"
+                phx-click="select_tab"
+                phx-value-tab="buy"
+                class={
+                  if(@selected_tab == "buy",
+                    do:
+                      "cursor-pointer transition-colors !border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold",
+                    else:
+                      "cursor-pointer transition-colors hover:!text-primary-light dark:hover:!text-primary-dark"
+                  )
+                }
               >
                 Buy
               </.button>
               <.button
                 variant="transparent"
-                color="base"
+                color={if @selected_tab == "rent", do: "primary", else: "base"}
                 size="small"
-                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+                phx-click="select_tab"
+                phx-value-tab="rent"
+                class={
+                  if(@selected_tab == "rent",
+                    do:
+                      "cursor-pointer transition-colors !border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold",
+                    else:
+                      "cursor-pointer transition-colors hover:!text-primary-light dark:hover:!text-primary-dark"
+                  )
+                }
               >
                 Rent
               </.button>
               <.button
                 variant="transparent"
-                color="base"
+                color={if @selected_tab == "new_launch", do: "primary", else: "base"}
                 size="small"
-                class="hover:!text-primary-light dark:hover:!text-primary-dark relative"
+                phx-click="select_tab"
+                phx-value-tab="new_launch"
+                class={
+                  if(@selected_tab == "new_launch",
+                    do:
+                      "cursor-pointer transition-colors relative !border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold pr-6",
+                    else:
+                      "cursor-pointer transition-colors relative hover:!text-primary-light dark:hover:!text-primary-dark pr-6"
+                  )
+                }
               >
                 New Launch
-                <.badge
-                  variant="default"
-                  color="danger"
-                  size="extra_small"
-                  class="absolute top-1 right-1"
-                >
-                  •
-                </.badge>
+                <.icon
+                  name="hero-sparkles"
+                  class="w-4 h-4 text-secondary-light dark:text-secondary-dark"
+                />
               </.button>
               <.button
                 variant="transparent"
-                color="base"
+                color={if @selected_tab == "pg_coliving", do: "primary", else: "base"}
                 size="small"
-                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+                phx-click="select_tab"
+                phx-value-tab="pg_coliving"
+                class={
+                  if(@selected_tab == "pg_coliving",
+                    do:
+                      "cursor-pointer transition-colors !border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold",
+                    else:
+                      "cursor-pointer transition-colors hover:!text-primary-light dark:hover:!text-primary-dark"
+                  )
+                }
               >
                 PG / Co-living
               </.button>
               <.button
                 variant="transparent"
-                color="base"
+                color={if @selected_tab == "commercial", do: "primary", else: "base"}
                 size="small"
-                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+                phx-click="select_tab"
+                phx-value-tab="commercial"
+                class={
+                  if(@selected_tab == "commercial",
+                    do:
+                      "cursor-pointer transition-colors !border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold",
+                    else:
+                      "cursor-pointer transition-colors hover:!text-primary-light dark:hover:!text-primary-dark"
+                  )
+                }
               >
                 Commercial
               </.button>
               <.button
                 variant="transparent"
-                color="base"
+                color={if @selected_tab == "plots_land", do: "primary", else: "base"}
                 size="small"
-                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+                phx-click="select_tab"
+                phx-value-tab="plots_land"
+                class={
+                  if(@selected_tab == "plots_land",
+                    do:
+                      "cursor-pointer transition-colors !border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold",
+                    else:
+                      "cursor-pointer transition-colors hover:!text-primary-light dark:hover:!text-primary-dark"
+                  )
+                }
               >
                 Plots/Land
               </.button>
               <.button
                 variant="transparent"
-                color="base"
+                color={if @selected_tab == "projects", do: "primary", else: "base"}
                 size="small"
-                class="hover:!text-primary-light dark:hover:!text-primary-dark"
+                phx-click="select_tab"
+                phx-value-tab="projects"
+                class={
+                  if(@selected_tab == "projects",
+                    do:
+                      "cursor-pointer transition-colors !border-b-2 !border-primary-light dark:!border-primary-dark !text-primary-light dark:!text-primary-dark font-semibold",
+                    else:
+                      "cursor-pointer transition-colors hover:!text-primary-light dark:hover:!text-primary-dark"
+                  )
+                }
               >
                 Projects
               </.button>
@@ -545,7 +610,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
                         <button
                           type="button"
                           phx-click="clear_all_filters"
-                          class="text-primary-light dark:text-primary-dark hover:text-primary-hover-light dark:hover:text-primary-hover-dark font-medium text-sm transition-colors"
+                          class="cursor-pointer text-primary-light dark:text-primary-dark hover:text-primary-hover-light dark:hover:text-primary-hover-dark font-medium text-sm transition-colors"
                           id="property-type-clear-button"
                           data-test-id="property-type-clear-button"
                         >
@@ -877,11 +942,11 @@ defmodule MySqrftWeb.Marketing.LandingLive do
     <!-- Recent Searches -->
             <div class="mt-3 px-2 flex items-center gap-3 text-sm">
               <.p class="text-sm" color="base">Recent searches:</.p>
-              <button class="flex items-center gap-1 hover:text-primary-light dark:hover:text-primary-dark">
+              <button class="cursor-pointer flex items-center gap-1 hover:text-primary-light dark:hover:text-primary-dark">
                 <.icon name="hero-clock" class="w-4 h-4" />
                 <span>Buy in Neopolis + 3 localities, Hyderab...</span>
               </button>
-              <button class="flex items-center gap-1 hover:text-primary-light dark:hover:text-primary-dark">
+              <button class="cursor-pointer flex items-center gap-1 hover:text-primary-light dark:hover:text-primary-dark">
                 <.icon name="hero-clock" class="w-4 h-4" />
                 <span>View all searches</span>
               </button>
@@ -950,7 +1015,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               phx-hook=".ScrollExplore"
               id="scroll-explore-btn"
               data-target="explore-options-scroll"
-              class="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-primary-bordered-bg-light dark:hover:bg-primary-bordered-bg-dark transition-colors z-10"
+              class="cursor-pointer absolute right-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center hover:bg-primary-bordered-bg-light dark:hover:bg-primary-bordered-bg-dark transition-colors z-10"
               aria-label="Scroll right"
             >
               <.icon
@@ -985,7 +1050,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
               </.h2>
               <.p color="base">Curated especially for you.</.p>
             </div>
-            <button class="text-primary-light dark:text-primary-dark font-semibold hover:text-primary-hover-light dark:hover:text-primary-hover-dark flex items-center gap-1">
+            <button class="cursor-pointer text-primary-light dark:text-primary-dark font-semibold hover:text-primary-hover-light dark:hover:text-primary-hover-dark flex items-center gap-1">
               See all <.icon name="hero-arrow-right" class="w-5 h-5" />
             </button>
           </div>
@@ -1015,7 +1080,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
                   >
                     ✓ Verified
                   </.badge>
-                  <button class="absolute top-3 right-3 w-10 h-10 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 transition-colors">
+                  <button class="cursor-pointer absolute top-3 right-3 w-10 h-10 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 transition-colors">
                     <.icon name="hero-heart" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
                   </button>
                 </div>
@@ -1077,7 +1142,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
             <.h2 color="base" font_weight="font-bold">
               Recommended Projects
             </.h2>
-            <button class="text-primary-light dark:text-primary-dark font-semibold hover:text-primary-hover-light dark:hover:text-primary-hover-dark flex items-center gap-1">
+            <button class="cursor-pointer text-primary-light dark:text-primary-dark font-semibold hover:text-primary-hover-light dark:hover:text-primary-hover-dark flex items-center gap-1">
               See all <.icon name="hero-arrow-right" class="w-5 h-5" />
             </button>
           </div>
@@ -1104,7 +1169,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
                 >
                   RERA
                 </.badge>
-                <button class="absolute top-3 right-3 w-10 h-10 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 transition-colors">
+                <button class="cursor-pointer absolute top-3 right-3 w-10 h-10 bg-white/90 dark:bg-gray-800/90 rounded-full flex items-center justify-center hover:bg-white dark:hover:bg-gray-700 transition-colors">
                   <.icon name="hero-heart" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
                 </button>
               </div>
