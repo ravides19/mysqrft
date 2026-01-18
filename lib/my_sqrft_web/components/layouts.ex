@@ -19,6 +19,7 @@ defmodule MySqrftWeb.Layouts do
     <header
       id="navbar-header"
       phx-hook=".NavbarScroll"
+      phx-update="ignore"
       class="sticky top-0 z-50 transition-all duration-300"
     >
       <.navbar
