@@ -63,6 +63,8 @@ defmodule MySqrft.MixProject do
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13"},
       {:postgrex, ">= 0.0.0"},
+      {:geo, "~> 3.6"},
+      {:geo_postgis, "~> 3.6"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1.0"},
@@ -87,7 +89,9 @@ defmodule MySqrft.MixProject do
       {:bandit, "~> 1.5"},
       {:mishka_chelekom, "~> 0.0.8", only: :dev},
       {:phoenix_storybook, "~> 0.9.3"},
-      {:tidewave, "~> 0.5.4", only: :dev}
+      {:tidewave, "~> 0.5.4", only: :dev},
+      {:mishka_developer_tools, "~> 0.1.9"},
+      {:live_debugger, "~> 0.5.1", only: :dev}
     ]
   end
 

@@ -4,7 +4,7 @@
 
 **Document Status:** Active  
 **Last Updated:** January 2026  
-**Total Domains:** 22  
+**Total Domains:** 23  
 **Implementation Phase:** Phase 1 - MVP Foundation
 
 ### Documentation Status Overview
@@ -34,6 +34,7 @@
 | 021 | TrustSafety | ✅ Complete | Not Started | Phase 6 |
 | 022 | Ops | ✅ Complete | Not Started | Phase 6 |
 | 023 | Analytics | ✅ Complete | Not Started | Phase 6 |
+| 024 | Geography | ✅ Complete | Not Started | Phase 1 |
 
 **Legend:**
 - ✅ Complete: Product Requirements Document completed
@@ -44,9 +45,9 @@
 
 ### Summary
 
-This document defines the 22 core domains for the MySqrft rental/real estate marketplace platform, organized by their primary business capabilities and suggested implementation phases. All domains have completed Product Requirements Documents (PRDs) located in `docs/domain/` directory.
+This document defines the 23 core domains for the MySqrft rental/real estate marketplace platform, organized by their primary business capabilities and suggested implementation phases. All domains have completed Product Requirements Documents (PRDs) located in `docs/domain/` directory.
 
-**Phase 1 (MVP Foundation)** includes 7 domains: Auth, UserManagement, Authorization, Inventory, Search, Leads, and Communications - forming the core marketplace functionality.
+**Phase 1 (MVP Foundation)** includes 8 domains: Auth, UserManagement, Authorization, Geography, Inventory, Search, Leads, and Communications - forming the core marketplace functionality.
 
 **Phase 2 (Monetization)** includes 3 domains: Entitlements, Billing, and Sales - enabling revenue generation.
 
@@ -547,6 +548,27 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ---
 
+### 024. Geography
+**Primary Goal:** Location Data + Geospatial Services  
+**Status:** ✅ PRD Complete | 📋 Implementation: Not Started  
+**PRD:** [`docs/domain/024_geography.md`](docs/domain/024_geography.md)
+
+**Responsibilities:**
+- Country, state, city, and locality hierarchy management
+- Geospatial data storage and indexing (coordinates, boundaries, polygons)
+- Location-based search and filtering (radius, proximity, boundaries)
+- Address validation and geocoding (address → coordinates)
+- Reverse geocoding (coordinates → address)
+- Locality metadata (pincodes, landmarks, neighborhoods)
+- Geographic boundary management (city limits, locality boundaries)
+- Location-based recommendations and insights
+- Multi-city and multi-country support
+- Geographic data import and synchronization
+
+**Key Entities:** Country, State, City, Locality, Address, Geocode, Boundary, Landmark, Pincode, GeographicHierarchy
+
+---
+
 ## Implementation Phases
 
 ### Phase 1: MVP Foundation
@@ -554,6 +576,7 @@ This document defines the 22 core domains for the rental/real estate marketplace
 - Auth
 - UserManagement
 - Authorization
+- Geography
 - Inventory
 - Search
 - Leads
@@ -596,12 +619,14 @@ This document defines the 22 core domains for the rental/real estate marketplace
 
 ### Critical Dependencies
 1. **Auth → UserManagement → Authorization** (foundation for all)
-2. **Inventory → Search → Leads** (core marketplace flow)
-3. **Entitlements → Billing** (monetization backbone)
-4. **Leads → CRM → Sales** (conversion pipeline)
-5. **Communications** (cross-cutting, needed by most domains)
+2. **Geography** (foundation for location-based features across all domains)
+3. **Inventory → Search → Leads** (core marketplace flow)
+4. **Entitlements → Billing** (monetization backbone)
+5. **Leads → CRM → Sales** (conversion pipeline)
+6. **Communications** (cross-cutting, needed by most domains)
 
 ### Integration Points
+- **Geography** provides location data to: Inventory, Search, Leads, UserManagement, Scheduling, Society, HomeServices
 - **Billing** integrates with: Sales, HomeServices, Society, FinancialServices
 - **Analytics** consumes events from: all domains
 - **Communications** serves: Leads, CRM, Scheduling, Support, Society

@@ -84,6 +84,14 @@ config :phoenix, :json_library, Jason
 # Cost factor 12 means 2^12 = 4096 iterations
 config :bcrypt_elixir, :log_rounds, 12
 
+# Configure Ola Maps Geocoding API
+# Get your API key from: https://maps.olakrutrim.com
+# Set OLA_MAPS_API_KEY environment variable or configure here
+config :my_sqrft, :ola_maps_api_key, System.get_env("OLA_MAPS_API_KEY")
+
+# Enable/disable Ola Maps geocoding (set to false to use only internal geocoding)
+config :my_sqrft, :ola_maps_enabled, true
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

@@ -343,7 +343,7 @@ defmodule MySqrftWeb.Marketing.LandingLive do
           autoplay_interval={5000}
           size="extra_large"
           padding="extra_large"
-          overlay="success"
+          overlay="transparent"
           text_position="center"
           class="h-full"
         >
