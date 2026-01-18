@@ -89,7 +89,7 @@ config :bcrypt_elixir, :log_rounds, 12
 # Set OLA_MAPS_API_KEY environment variable or configure here
 config :my_sqrft,
        :ola_maps_api_key,
-       System.get_env("OLA_MAPS_API_KEY") || "HS76piaC4Zp4VwyT7OpytAFAC2Y0yBDQjoX0yutE"
+       System.get_env("OLA_MAPS_API_KEY")
 
 # Enable/disable Ola Maps geocoding (set to false to use only internal geocoding)
 config :my_sqrft, :ola_maps_enabled, true
