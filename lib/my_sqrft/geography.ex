@@ -2,12 +2,35 @@ defmodule MySqrft.Geography do
   @moduledoc """
   The Geography context for managing geographic and geospatial data.
 
-  This context provides functions for:
+  This is a Phoenix context that provides high-level functions for geographic
+  operations. It handles map provider abstraction internally, so other contexts
+  can call these functions without knowing which provider is configured.
+
+  ## Features
+
   - Geographic hierarchy management (Country, State, City, Locality)
-  - Geocoding and reverse geocoding services
+  - Geocoding and reverse geocoding services (with provider abstraction)
   - Location-based search and filtering
   - Address validation
   - Geographic metadata management (pincodes, landmarks)
+
+  ## Provider Abstraction
+
+  Geocoding and reverse geocoding functions automatically use the configured
+  map provider (Ola Maps, Google Maps, etc.) as a fallback when internal
+  geocoding fails. To change providers, update `:map_provider` config.
+
+  For Places API functions, see `MySqrft.Geography.Places` context.
+
+  ## Example Usage
+
+      alias MySqrft.Geography
+
+      # Geocoding (uses internal DB first, then configured provider)
+      {:ok, result} = Geography.geocode_address("Koramangala, Bangalore")
+
+      # Reverse geocoding
+      {:ok, result} = Geography.reverse_geocode(12.9352, 77.6245)
   """
 
   import Ecto.Query, warn: false
@@ -646,29 +669,31 @@ defmodule MySqrft.Geography do
       {:error, _} ->
         case geocode_by_locality_name(address) do
           {:ok, result} -> {:ok, result}
-          {:error, _} -> geocode_with_ola_maps(address)
+          {:error, _} -> geocode_with_ola_maps(address, [])
         end
     end
   end
 
-  defp geocode_with_ola_maps(address) do
-    # Use Ola Maps as fallback if enabled
+  defp geocode_with_ola_maps(address, opts \\ []) do
+    # Use MapProvider abstraction as fallback if enabled
     if Application.get_env(:my_sqrft, :ola_maps_enabled, false) do
-      alias MySqrft.Geography.OlaMapsGeocoder
+      alias MySqrft.Geography.MapProvider
 
-      case OlaMapsGeocoder.geocode(address) do
+      provider = MapProvider.get_provider()
+
+      case provider.geocode(address, opts) do
         {:ok, result} ->
           # Persist Ola Maps result to database for frequently used items
           persist_ola_maps_geocoding(address, result)
 
-          # Convert Ola Maps result to our format
+          # Convert provider result to our format
           {:ok,
            %{
              latitude: result.latitude,
              longitude: result.longitude,
              formatted_address: result[:formatted_address],
              confidence_score: result[:confidence_score] || Decimal.new("80"),
-             source: "ola_maps"
+             source: result[:source] || "map_provider"
            }}
 
         error ->
@@ -1512,17 +1537,19 @@ defmodule MySqrft.Geography do
          source: "internal"
        }}
     else
-      # Fallback to Ola Maps if internal reverse geocoding fails
-      reverse_geocode_with_ola_maps(latitude, longitude)
+      # Fallback to MapProvider if internal reverse geocoding fails
+      reverse_geocode_with_ola_maps(latitude, longitude, [])
     end
   end
 
-  defp reverse_geocode_with_ola_maps(latitude, longitude) do
-    # Use Ola Maps as fallback if enabled
+  defp reverse_geocode_with_ola_maps(latitude, longitude, opts \\ []) do
+    # Use MapProvider abstraction as fallback if enabled
     if Application.get_env(:my_sqrft, :ola_maps_enabled, false) do
-      alias MySqrft.Geography.OlaMapsGeocoder
+      alias MySqrft.Geography.MapProvider
 
-      case OlaMapsGeocoder.reverse_geocode(latitude, longitude) do
+      provider = MapProvider.get_provider()
+
+      case provider.reverse_geocode(latitude, longitude, opts) do
         {:ok, result} ->
           # Persist reverse geocoding result to database
           persist_ola_maps_reverse_geocoding(latitude, longitude, result)
@@ -1530,7 +1557,7 @@ defmodule MySqrft.Geography do
           {:ok,
            %{
              formatted_address: result[:formatted_address],
-             source: "ola_maps"
+             source: result[:source] || "map_provider"
            }}
 
         error ->
