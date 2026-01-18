@@ -106,7 +106,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_autocomplete_endpoint}"
+      url = "#{get_places_base_url()}#{@places_autocomplete_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       params =
@@ -132,7 +132,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_details_endpoint}"
+      url = "#{get_places_base_url()}#{@places_details_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       params = %{
@@ -153,7 +153,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_details_advanced_endpoint}"
+      url = "#{get_places_base_url()}#{@places_details_advanced_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       params = %{
@@ -175,7 +175,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_nearby_search_endpoint}"
+      url = "#{get_places_base_url()}#{@places_nearby_search_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       # Note: location must be comma-separated "lat,lng" string
@@ -204,7 +204,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_nearby_search_advanced_endpoint}"
+      url = "#{get_places_base_url()}#{@places_nearby_search_advanced_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       # Note: location must be comma-separated "lat,lng" string
@@ -232,7 +232,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_text_search_endpoint}"
+      url = "#{get_places_base_url()}#{@places_text_search_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       # Note: API uses "input" parameter, not "query"
@@ -258,7 +258,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_address_validation_endpoint}"
+      url = "#{get_places_base_url()}#{@places_address_validation_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       params = %{
@@ -277,7 +277,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_photo_endpoint}"
+      url = "#{get_places_base_url()}#{@places_photo_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       params = %{
@@ -298,7 +298,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_geocode_endpoint}"
+      url = "#{get_places_base_url()}#{@places_geocode_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       params = %{
@@ -321,7 +321,7 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     if is_nil(api_key) do
       {:error, :api_key_not_configured}
     else
-      url = "#{@places_base_url}#{@places_reverse_geocode_endpoint}"
+      url = "#{get_places_base_url()}#{@places_reverse_geocode_endpoint}"
 
       # Build query parameters (Places API uses GET with query params, api_key in query string)
       # Note: API uses "latlng" parameter as comma-separated string
@@ -340,6 +340,10 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
   defp get_api_key do
     Application.get_env(:my_sqrft, :ola_maps_api_key) ||
       System.get_env("OLA_MAPS_API_KEY")
+  end
+
+  defp get_places_base_url do
+    Application.get_env(:my_sqrft, :ola_maps_places_base_url, @places_base_url)
   end
 
   defp build_headers(api_key) do
