@@ -99,7 +99,7 @@ This document identifies additional models and fields that can be extracted from
 
 ### 5. Viewport / Bounding Box
 
-**Current Status**: Not extracted
+**Current Status**: Extracted and used to populate boundaries and metadata
 
 **What to Extract**:
 - Northeast coordinates (viewport_ne_lat, viewport_ne_lng)
@@ -120,7 +120,7 @@ This document identifies additional models and fields that can be extracted from
 
 ### 6. Country Metadata Enrichment
 
-**Current Status**: We have fields but not extracting from API
+**Current Status**: Extracted from Ola Maps when countries are created/updated
 
 **What to Extract**:
 - Currency code (if not already set)
@@ -140,7 +140,7 @@ This document identifies additional models and fields that can be extracted from
 
 ### 7. City Metadata Enrichment
 
-**Current Status**: We have timezone field but not extracting
+**Current Status**: Timezone and boundary are populated from Ola Maps; other fields pending
 
 **What to Extract**:
 - Timezone (city-specific)
@@ -160,7 +160,7 @@ This document identifies additional models and fields that can be extracted from
 
 ### 8. Place Types / Categories
 
-**Current Status**: Not extracted
+**Current Status**: Extracted and stored in locality and landmark metadata
 
 **What to Extract**:
 - Array of place types (e.g., ["locality", "political"], ["establishment", "restaurant"])

@@ -704,7 +704,8 @@ defmodule MySqrft.Geography do
     end
   end
 
-  defp persist_ola_maps_geocoding(address, result) do
+  @doc false
+  def persist_ola_maps_geocoding(address, result) do
     # Try to match or create locality from Ola Maps result
     # This helps build our internal database with frequently used locations
     try do
@@ -782,6 +783,20 @@ defmodule MySqrft.Geography do
             updates
           end
 
+        # Set locality boundary from viewport if missing and viewport is available
+        updates =
+          if is_nil(existing_locality.boundary) and address_components[:viewport] do
+            case viewport_to_polygon(address_components[:viewport]) do
+              %Geo.Polygon{} = polygon ->
+                Map.put(updates, :boundary, polygon)
+
+              _ ->
+                updates
+            end
+          else
+            updates
+          end
+
         if map_size(updates) > 0 do
           update_locality(existing_locality, updates)
         end
@@ -803,15 +818,26 @@ defmodule MySqrft.Geography do
           # Build metadata with street data and administrative boundaries
           metadata = build_locality_metadata(address_components)
 
-          case create_locality(%{
-                 city_id: city.id,
-                 name: locality_name,
-                 latitude: lat,
-                 longitude: lon,
-                 location: point,
-                 status: "active",
-                 metadata: metadata
-               }) do
+          # Set locality boundary from viewport when available
+          boundary =
+            case address_components[:viewport] do
+              nil -> nil
+              viewport -> viewport_to_polygon(viewport)
+            end
+
+          locality_attrs =
+            %{
+              city_id: city.id,
+              name: locality_name,
+              latitude: lat,
+              longitude: lon,
+              location: point,
+              status: "active",
+              metadata: metadata
+            }
+            |> maybe_put_boundary(boundary)
+
+          case create_locality(locality_attrs) do
             {:ok, new_locality} ->
               # Create pincode if available
               if pincode_code = address_components[:pincode] do
@@ -1180,6 +1206,12 @@ defmodule MySqrft.Geography do
       end
 
     updates
+  end
+
+  defp maybe_put_boundary(attrs, nil), do: attrs
+
+  defp maybe_put_boundary(attrs, %Geo.Polygon{} = boundary) do
+    Map.put(attrs, :boundary, boundary)
   end
 
   defp add_street_metadata(metadata, components) do
