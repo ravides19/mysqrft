@@ -42,10 +42,41 @@ defmodule MySqrftWeb.Router do
     end
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", MySqrftWeb do
-  #   pipe_through :api
-  # end
+  # API routes
+  scope "/api/v1", MySqrftWeb.API.V1 do
+    pipe_through :api
+
+    # Profile routes
+    resources "/profiles", ProfileController, except: [:new, :edit] do
+      get "/me", ProfileController, :show, as: :me
+      get "/:id/completeness", ProfileController, :completeness, as: :completeness
+    end
+
+    # Photo routes
+    resources "/profiles/:profile_id/photos", PhotoController, except: [:new, :edit, :update] do
+      put "/:id/current", PhotoController, :set_current, as: :set_current
+    end
+
+    # Role routes
+    resources "/profiles/:profile_id/roles", RoleController, except: [:new, :edit]
+
+    # Address routes
+    resources "/profiles/:profile_id/addresses", AddressController, except: [:new, :edit]
+
+    # Preference routes
+    get "/profiles/:profile_id/preferences", PreferenceController, :index
+    get "/profiles/:profile_id/preferences/:category", PreferenceController, :show
+    put "/profiles/:profile_id/preferences/:category", PreferenceController, :update
+
+    # Consent routes
+    get "/profiles/:profile_id/consents", ConsentController, :index
+    put "/profiles/:profile_id/consents/:type", ConsentController, :update
+    get "/profiles/:profile_id/consents/history", ConsentController, :history
+
+    # Trust routes
+    get "/profiles/:profile_id/trust-score", TrustController, :trust_score
+    get "/profiles/:profile_id/badges", TrustController, :badges
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:my_sqrft, :dev_routes) do
@@ -73,6 +104,35 @@ defmodule MySqrftWeb.Router do
       on_mount: [{MySqrftWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
+
+      # Profile management
+      live "/profile", ProfileLive.Index, :index
+      live "/profile/new", ProfileLive.New, :new
+      live "/profile/edit", ProfileLive.Edit, :edit
+
+      # Address management
+      live "/addresses", AddressLive.Index, :index
+      live "/addresses/new", AddressLive.Form, :new
+      live "/addresses/:id/edit", AddressLive.Form, :edit
+
+      # Photo management
+      live "/photos", PhotoLive.Upload, :upload
+
+      # Role management
+      live "/roles", RoleLive.Index, :index
+      live "/roles/add", RoleLive.Add, :add
+
+      # Preferences
+      live "/preferences", PreferenceLive.Index, :index
+      live "/preferences/:category/edit", PreferenceLive.Edit, :edit
+
+      # Consent management
+      live "/consents", ConsentLive.Index, :index
+
+      # Emergency contacts
+      live "/emergency-contacts", EmergencyContactLive.Index, :index
+      live "/emergency-contacts/new", EmergencyContactLive.Form, :new
+      live "/emergency-contacts/:id/edit", EmergencyContactLive.Form, :edit
     end
 
     post "/users/update-password", UserSessionController, :update_password
