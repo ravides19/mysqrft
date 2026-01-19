@@ -5,13 +5,6 @@ defmodule MySqrft.Repo do
 
   # Configure Postgrex to use PostGIS types
   def init(_type, config) do
-    # Define custom Postgres types with PostGIS extension
-    Postgrex.Types.define(
-      MySqrft.PostgresTypes,
-      [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
-      json: Jason
-    )
-
     config =
       config
       |> Keyword.put(:types, MySqrft.PostgresTypes)

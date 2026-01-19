@@ -346,104 +346,6 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
     Application.get_env(:my_sqrft, :ola_maps_places_base_url, @places_base_url)
   end
 
-  defp build_headers(api_key) do
-    [
-      {"Authorization", "Bearer #{api_key}"},
-      {"Content-Type", "application/json"}
-    ]
-  end
-
-  defp make_request(url, body, headers, parser) do
-    Logger.debug("Ola Maps API request: POST #{url}")
-    Logger.debug("Request body: #{inspect(body, pretty: true, limit: 5)}")
-
-    case Req.post(url, json: body, headers: headers, receive_timeout: 5_000) do
-      {:ok, %{status: 200, body: response}} ->
-        parser.(response)
-
-      {:ok, %{status: 404}} ->
-        Logger.error("Ola Maps API endpoint not found: #{url}")
-        Logger.error("The endpoint might not be available yet. Check OLA Maps documentation.")
-        {:error, :endpoint_not_found}
-
-      {:ok, %{status: 429}} ->
-        Logger.warning("Ola Maps API rate limit exceeded")
-        {:error, :rate_limit_exceeded}
-
-      {:ok, %{status: status, body: body}} ->
-        Logger.error("Ola Maps API request failed: #{status}")
-        Logger.error("URL: #{url}")
-        # Truncate body for logging if it's HTML
-        body_preview =
-          if is_binary(body) and String.length(body) > 200,
-            do: String.slice(body, 0..200) <> "...",
-            else: body
-
-        Logger.error("Response body preview: #{inspect(body_preview)}")
-        {:error, {:api_error, status}}
-
-      {:error, reason} ->
-        Logger.error("Ola Maps API request error: #{inspect(reason)}")
-        {:error, :request_failed}
-    end
-  end
-
-  defp parse_geocoding_response(response) do
-    case response do
-      %{"latitude" => lat, "longitude" => lon} = data ->
-        address_components = extract_address_components(data)
-
-        {:ok,
-         %{
-           latitude: Decimal.from_float(lat),
-           longitude: Decimal.from_float(lon),
-           formatted_address: Map.get(data, "formatted_address") || Map.get(data, "address"),
-           confidence_score: Decimal.new(Map.get(data, "confidence_score", "85")),
-           source: "ola_maps",
-           metadata: Map.get(data, "metadata", %{}),
-           address_components: address_components
-         }}
-
-      %{"results" => [result | _]} ->
-        parse_geocoding_response(result)
-
-      _ ->
-        {:error, :invalid_response_format}
-    end
-  end
-
-  defp parse_reverse_geocoding_response(response) do
-    case response do
-      %{"formatted_address" => address} = data ->
-        address_components = extract_address_components(data)
-
-        {:ok,
-         %{
-           formatted_address: address,
-           source: "ola_maps",
-           metadata: Map.get(data, "metadata", %{}),
-           address_components: address_components
-         }}
-
-      %{"address" => address} = data ->
-        address_components = extract_address_components(data)
-
-        {:ok,
-         %{
-           formatted_address: address,
-           source: "ola_maps",
-           metadata: Map.get(data, "metadata", %{}),
-           address_components: address_components
-         }}
-
-      %{"results" => [result | _]} ->
-        parse_reverse_geocoding_response(result)
-
-      _ ->
-        {:error, :invalid_response_format}
-    end
-  end
-
   defp parse_autocomplete_response(response) do
     case response do
       # Handle successful response with predictions
@@ -1191,20 +1093,6 @@ defmodule MySqrft.Geography.Providers.OlaMapsProvider do
 
       _ ->
         params
-    end
-  end
-
-  defp maybe_add_type_to_params(params, opts) do
-    case Keyword.get(opts, :type) do
-      type when is_binary(type) -> Map.put(params, :type, type)
-      _ -> params
-    end
-  end
-
-  defp maybe_add_keyword_to_params(params, opts) do
-    case Keyword.get(opts, :keyword) do
-      keyword when is_binary(keyword) -> Map.put(params, :keyword, keyword)
-      _ -> params
     end
   end
 

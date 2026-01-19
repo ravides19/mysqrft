@@ -669,12 +669,14 @@ defmodule MySqrft.Geography do
       {:error, _} ->
         case geocode_by_locality_name(address) do
           {:ok, result} -> {:ok, result}
-          {:error, _} -> geocode_with_ola_maps(address, [])
+          {:error, _} -> geocode_with_ola_maps(address)
         end
     end
   end
 
-  defp geocode_with_ola_maps(address, opts \\ []) do
+  defp geocode_with_ola_maps(address), do: geocode_with_ola_maps(address, [])
+
+  defp geocode_with_ola_maps(address, opts) do
     # Use MapProvider abstraction as fallback if enabled
     if Application.get_env(:my_sqrft, :ola_maps_enabled, false) do
       alias MySqrft.Geography.MapProvider
@@ -1570,11 +1572,14 @@ defmodule MySqrft.Geography do
        }}
     else
       # Fallback to MapProvider if internal reverse geocoding fails
-      reverse_geocode_with_ola_maps(latitude, longitude, [])
+      reverse_geocode_with_ola_maps(latitude, longitude)
     end
   end
 
-  defp reverse_geocode_with_ola_maps(latitude, longitude, opts \\ []) do
+  defp reverse_geocode_with_ola_maps(latitude, longitude),
+    do: reverse_geocode_with_ola_maps(latitude, longitude, [])
+
+  defp reverse_geocode_with_ola_maps(latitude, longitude, opts) do
     # Use MapProvider abstraction as fallback if enabled
     if Application.get_env(:my_sqrft, :ola_maps_enabled, false) do
       alias MySqrft.Geography.MapProvider
