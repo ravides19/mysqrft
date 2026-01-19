@@ -174,10 +174,10 @@ defmodule MySqrftWeb.ProfileLive.New do
                     label="Gender"
                     prompt="Select..."
                     options={[
-                      {"male", "Male"},
-                      {"female", "Female"},
-                      {"other", "Other"},
-                      {"prefer_not_to_say", "Prefer not to say"}
+                      {"male", "male"},
+                      {"female", "female"},
+                      {"other", "other"},
+                      {"prefer_not_to_say", "prefer_not_to_say"}
                     ]}
                   />
                 </div>
