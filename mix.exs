@@ -95,7 +95,8 @@ defmodule MySqrft.MixProject do
       {:live_debugger, "~> 0.5.1", only: :dev},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
-      {:hackney, "~> 1.9"}
+      {:hackney, "~> 1.9"},
+      {:image, "~> 0.54"}
     ]
   end
 

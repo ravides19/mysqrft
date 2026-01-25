@@ -15,12 +15,15 @@ defmodule MySqrftWeb.PhotoLive.Upload do
 
       if profile do
         photos = UserManagement.list_profile_photos(profile)
+        # Generate presigned URLs for all photos
+        photos_with_urls = Enum.map(photos, &add_presigned_urls/1)
 
         socket =
           socket
           |> assign(:page_title, "Profile Photos")
           |> assign(:profile, profile)
-          |> assign(:photos, photos)
+          |> assign(:photos, photos_with_urls)
+          |> assign(:upload_in_progress, false)
           |> allow_upload(:photo,
             accept: ~w(.jpg .jpeg .png .webp),
             max_entries: 1,
@@ -46,75 +49,105 @@ defmodule MySqrftWeb.PhotoLive.Upload do
     {:noreply, socket}
   end
 
+  # Helper function to add presigned URLs to a photo struct
+  defp add_presigned_urls(photo) do
+    # Generate presigned URLs valid for 1 hour
+    {:ok, original_url} =
+      MySqrft.ObjectStorage.presigned_url(:get, photo.original_url, expires_in: 3600)
+
+    {:ok, thumbnail_url} =
+      MySqrft.ObjectStorage.presigned_url(:get, photo.thumbnail_url, expires_in: 3600)
+
+    {:ok, medium_url} =
+      MySqrft.ObjectStorage.presigned_url(:get, photo.medium_url, expires_in: 3600)
+
+    {:ok, large_url} =
+      MySqrft.ObjectStorage.presigned_url(:get, photo.large_url, expires_in: 3600)
+
+    %{
+      photo
+      | original_url: original_url,
+        thumbnail_url: thumbnail_url,
+        medium_url: medium_url,
+        large_url: large_url
+    }
+  end
+
   def handle_event("cancel-entry", %{"ref" => ref}, socket) do
     {:noreply, cancel_upload(socket, :photo, ref)}
   end
 
   def handle_event("save", _params, socket) do
-    case consume_uploaded_entries(socket, :photo, fn %{path: path}, entry ->
-           dest_dir = Path.join(:code.priv_dir(:my_sqrft), "static/uploads")
-           # Ensure directory exists
-           File.mkdir_p!(dest_dir)
-           filename = "#{entry.uuid}-#{entry.client_name}"
-           dest_path = Path.join(dest_dir, filename)
+    profile = socket.assigns.profile
 
-           IO.inspect(path, label: "Temp File Path")
-           IO.inspect(dest_path, label: "Destination Path")
-           File.cp!(path, dest_path)
+    uploaded_files =
+      consume_uploaded_entries(socket, :photo, fn %{path: path}, entry ->
+        # Read the file content
+        case File.read(path) do
+          {:ok, file_content} ->
+            # Generate unique key for Tigris
+            # Format: profiles/{user_id}/{uuid}.{ext}
+            ext = Path.extname(entry.client_name)
+            key = "profiles/#{profile.user_id}/#{entry.uuid}#{ext}"
 
-           url = "/uploads/#{filename}"
+            # Upload to Tigris
+            case MySqrft.ObjectStorage.put_object(key, file_content,
+                   content_type: entry.client_type
+                 ) do
+              {:ok, _response} ->
+                # Store the S3 key instead of full URL
+                # We'll generate presigned URLs when displaying
+                {:ok,
+                 %{
+                   original_url: key,
+                   thumbnail_url: key,
+                   medium_url: key,
+                   large_url: key
+                 }}
 
-           {:ok,
-            %{
-              original_url: url,
-              thumbnail_url: url,
-              medium_url: url,
-              large_url: url
-            }}
-         end) do
-      {[], []} ->
+              {:error, reason} ->
+                IO.inspect(reason, label: "Tigris Upload Error")
+                {:postpone, "Failed to upload to storage"}
+            end
+
+          {:error, reason} ->
+            IO.inspect(reason, label: "File Read Error")
+            {:postpone, "Failed to read file"}
+        end
+      end)
+
+    IO.inspect(uploaded_files, label: "Uploaded Files Result")
+
+    case uploaded_files do
+      [] ->
         {:noreply,
          socket
          |> put_flash(:error, "Please select a photo to upload")
-         |> assign(:photos, UserManagement.list_profile_photos(socket.assigns.profile))}
+         |> assign(:photos, UserManagement.list_profile_photos(profile))}
 
-      {urls, []} ->
-        [url_data | _] = urls
-        IO.inspect(url_data, label: "URL Data")
-
+      [url_data | _] ->
         attrs =
           Map.merge(url_data, %{
             is_current: true,
             moderation_status: "pending"
           })
 
-        case UserManagement.create_profile_photo(socket.assigns.profile, attrs) do
-          {:ok, photo} ->
-            IO.inspect(photo, label: "Created Photo")
-            photos = UserManagement.list_profile_photos(socket.assigns.profile)
-            IO.inspect(length(photos), label: "Photo Count")
+        case UserManagement.create_profile_photo(profile, attrs) do
+          {:ok, _photo} ->
+            photos = UserManagement.list_profile_photos(profile)
+            photos_with_urls = Enum.map(photos, &add_presigned_urls/1)
 
             {:noreply,
              socket
              |> put_flash(:info, "Photo uploaded successfully")
-             |> assign(:photos, photos)}
+             |> assign(:photos, photos_with_urls)}
 
-          {:error, changeset} ->
-            IO.inspect(changeset, label: "Create Error")
-
+          {:error, _changeset} ->
             {:noreply,
              socket
              |> put_flash(:error, "Failed to save photo")
-             |> assign(:photos, UserManagement.list_profile_photos(socket.assigns.profile))}
+             |> assign(:photos, UserManagement.list_profile_photos(profile))}
         end
-
-      {_urls, errors} ->
-        error_msg = Enum.map_join(errors, ", ", fn {entry, _error} -> entry.client_name end)
-
-        {:noreply,
-         socket
-         |> put_flash(:error, "Failed to upload: #{error_msg}")
-         |> assign(:photos, UserManagement.list_profile_photos(socket.assigns.profile))}
     end
   end
 
@@ -122,22 +155,43 @@ defmodule MySqrftWeb.PhotoLive.Upload do
     photo = UserManagement.get_profile_photo!(id)
     {:ok, _} = UserManagement.set_current_photo(photo)
     photos = UserManagement.list_profile_photos(socket.assigns.profile)
+    photos_with_urls = Enum.map(photos, &add_presigned_urls/1)
 
     {:noreply,
      socket
      |> put_flash(:info, "Photo set as current")
-     |> assign(:photos, photos)}
+     |> assign(:photos, photos_with_urls)}
   end
 
   def handle_event("delete", %{"id" => id}, socket) do
     photo = UserManagement.get_profile_photo!(id)
-    {:ok, _} = UserManagement.delete_profile_photo(photo)
-    photos = UserManagement.list_profile_photos(socket.assigns.profile)
 
-    {:noreply,
-     socket
-     |> put_flash(:info, "Photo deleted successfully")
-     |> assign(:photos, photos)}
+    # Delete from Tigris storage first
+    case MySqrft.ObjectStorage.delete_object(photo.original_url) do
+      {:ok, _} ->
+        # Successfully deleted from Tigris, now delete from database
+        {:ok, _} = UserManagement.delete_profile_photo(photo)
+        photos = UserManagement.list_profile_photos(socket.assigns.profile)
+        photos_with_urls = Enum.map(photos, &add_presigned_urls/1)
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Photo deleted successfully")
+         |> assign(:photos, photos_with_urls)}
+
+      {:error, reason} ->
+        # Log the error but still delete from database
+        # (Tigris file might already be deleted or not exist)
+        IO.inspect(reason, label: "Tigris Delete Error")
+        {:ok, _} = UserManagement.delete_profile_photo(photo)
+        photos = UserManagement.list_profile_photos(socket.assigns.profile)
+        photos_with_urls = Enum.map(photos, &add_presigned_urls/1)
+
+        {:noreply,
+         socket
+         |> put_flash(:warning, "Photo deleted from database (storage cleanup may have failed)")
+         |> assign(:photos, photos_with_urls)}
+    end
   end
 
   @impl true

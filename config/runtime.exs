@@ -122,7 +122,7 @@ if config_env() == :prod do
     access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
     secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY")
 
-  if tigris_bucket = System.get_env("TIGRIS_BUCKET") do
+  if tigris_bucket = System.get_env("AWS_BUCKET_NAME") do
     config :my_sqrft, :tigris_bucket, tigris_bucket
   end
 end

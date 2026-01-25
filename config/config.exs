@@ -99,7 +99,7 @@ config :ex_aws, :s3,
   host: "fly.storage.tigris.dev",
   region: "auto"
 
-config :my_sqrft, :tigris_bucket, "my-sqrft-dev"
+config :my_sqrft, :tigris_bucket, System.get_env("AWS_BUCKET_NAME") || "mysqrft-local-dev"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
