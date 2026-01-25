@@ -5,7 +5,6 @@ defmodule MySqrftWeb.API.V1.ProfileController do
   use MySqrftWeb, :controller
 
   alias MySqrft.UserManagement
-  alias MySqrft.UserManagement.Profile
 
   action_fallback MySqrftWeb.API.FallbackController
 

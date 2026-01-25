@@ -92,7 +92,7 @@ defmodule MySqrftWeb.AddressLive.Form do
     <Layouts.app flash={@flash} current_scope={@current_scope}>
       <div class="container mx-auto px-4 py-8">
         <div class="max-w-2xl mx-auto">
-          <h1 class="text-3xl font-bold mb-6"><%= @page_title %></h1>
+          <h1 class="text-3xl font-bold mb-6">{@page_title}</h1>
 
           <.form for={@form} phx-submit="save" phx-change="validate" id="address-form">
             <div class="bg-white rounded-lg shadow p-6 space-y-6">
@@ -102,9 +102,9 @@ defmodule MySqrftWeb.AddressLive.Form do
                   type="select"
                   label="Address Type"
                   options={[
-                    {"home", "Home"},
-                    {"work", "Work"},
-                    {"other", "Other"}
+                    {"Home", "home"},
+                    {"Work", "work"},
+                    {"Other", "other"}
                   ]}
                   required
                 />

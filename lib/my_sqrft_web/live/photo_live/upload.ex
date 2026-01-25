@@ -51,24 +51,25 @@ defmodule MySqrftWeb.PhotoLive.Upload do
   end
 
   def handle_event("save", _params, socket) do
-    case consume_uploaded_entries(socket, :photo, fn %{path: path}, entry ->
-      # In a real implementation, this would upload to S3/CDN
-      # For now, we'll create a placeholder URL
-      filename = "#{entry.uuid}-#{entry.client_name}"
-      # TODO: Upload to S3/CDN and get URLs
-      # For now, using placeholder URLs
-      original_url = "/uploads/#{filename}"
-      thumbnail_url = "/uploads/thumbnails/#{filename}"
-      medium_url = "/uploads/medium/#{filename}"
-      large_url = "/uploads/large/#{filename}"
+    case consume_uploaded_entries(socket, :photo, fn %{path: _path}, entry ->
+           # In a real implementation, this would upload to S3/CDN
+           # For now, we'll create a placeholder URL
+           filename = "#{entry.uuid}-#{entry.client_name}"
+           # TODO: Upload to S3/CDN and get URLs
+           # For now, using placeholder URLs
+           original_url = "/uploads/#{filename}"
+           thumbnail_url = "/uploads/thumbnails/#{filename}"
+           medium_url = "/uploads/medium/#{filename}"
+           large_url = "/uploads/large/#{filename}"
 
-      {:ok, %{
-        original_url: original_url,
-        thumbnail_url: thumbnail_url,
-        medium_url: medium_url,
-        large_url: large_url
-      }}
-    end) do
+           {:ok,
+            %{
+              original_url: original_url,
+              thumbnail_url: thumbnail_url,
+              medium_url: medium_url,
+              large_url: large_url
+            }}
+         end) do
       {[], []} ->
         {:noreply,
          socket
@@ -78,10 +79,11 @@ defmodule MySqrftWeb.PhotoLive.Upload do
       {urls, []} ->
         [url_data | _] = urls
 
-        attrs = Map.merge(url_data, %{
-          is_current: true,
-          moderation_status: "pending"
-        })
+        attrs =
+          Map.merge(url_data, %{
+            is_current: true,
+            moderation_status: "pending"
+          })
 
         case UserManagement.create_profile_photo(socket.assigns.profile, attrs) do
           {:ok, _photo} ->
@@ -92,7 +94,7 @@ defmodule MySqrftWeb.PhotoLive.Upload do
              |> put_flash(:info, "Photo uploaded successfully")
              |> assign(:photos, photos)}
 
-          {:error, changeset} ->
+          {:error, _changeset} ->
             {:noreply,
              socket
              |> put_flash(:error, "Failed to save photo")
@@ -101,6 +103,7 @@ defmodule MySqrftWeb.PhotoLive.Upload do
 
       {_urls, errors} ->
         error_msg = Enum.map_join(errors, ", ", fn {entry, _error} -> entry.client_name end)
+
         {:noreply,
          socket
          |> put_flash(:error, "Failed to upload: #{error_msg}")
@@ -146,9 +149,9 @@ defmodule MySqrftWeb.PhotoLive.Upload do
                 <div class="mb-4">
                   <div class="flex items-center gap-4">
                     <div class="flex-1">
-                      <p class="text-sm text-gray-600"><%= entry.client_name %></p>
+                      <p class="text-sm text-gray-600">{entry.client_name}</p>
                       <progress value={entry.progress} max="100" class="w-full mt-2">
-                        <%= entry.progress %>%
+                        {entry.progress}%
                       </progress>
                     </div>
                     <button
@@ -161,7 +164,7 @@ defmodule MySqrftWeb.PhotoLive.Upload do
                     </button>
                   </div>
                   <%= for err <- upload_errors(@uploads.photo, entry) do %>
-                    <p class="text-sm text-red-600 mt-1"><%= error_to_string(err) %></p>
+                    <p class="text-sm text-red-600 mt-1">{error_to_string(err)}</p>
                   <% end %>
                 </div>
               <% end %>
@@ -181,7 +184,11 @@ defmodule MySqrftWeb.PhotoLive.Upload do
                 <div class="bg-white rounded-lg shadow p-4">
                   <div class="aspect-square bg-gray-200 rounded mb-4 flex items-center justify-center">
                     <%= if photo.thumbnail_url do %>
-                      <img src={photo.thumbnail_url} alt="Profile photo" class="w-full h-full object-cover rounded" />
+                      <img
+                        src={photo.thumbnail_url}
+                        alt="Profile photo"
+                        class="w-full h-full object-cover rounded"
+                      />
                     <% else %>
                       <span class="text-gray-400">No image</span>
                     <% end %>
@@ -210,7 +217,7 @@ defmodule MySqrftWeb.PhotoLive.Upload do
                     </button>
                   </div>
                   <p class="text-xs text-gray-500 mt-2">
-                    Status: <%= String.capitalize(photo.moderation_status) %>
+                    Status: {String.capitalize(photo.moderation_status)}
                   </p>
                 </div>
               <% end %>
@@ -228,6 +235,9 @@ defmodule MySqrftWeb.PhotoLive.Upload do
 
   defp error_to_string(:too_large), do: "File is too large (max 5MB)"
   defp error_to_string(:too_many_files), do: "Too many files"
-  defp error_to_string(:not_accepted), do: "Invalid file type. Only JPG, PNG, and WebP are allowed"
+
+  defp error_to_string(:not_accepted),
+    do: "Invalid file type. Only JPG, PNG, and WebP are allowed"
+
   defp error_to_string(error), do: "Upload error: #{inspect(error)}"
 end

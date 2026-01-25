@@ -117,6 +117,14 @@ defmodule MySqrftWeb.Layouts do
                   <ul class="space-y-1">
                     <li>
                       <.link
+                        href={~p"/profile"}
+                        class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-base-text-light dark:text-base-text-dark hover:bg-primary-bordered-bg-light dark:hover:bg-primary-bordered-bg-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                      >
+                        <.icon name="hero-user" class="w-4 h-4" /> Profile
+                      </.link>
+                    </li>
+                    <li>
+                      <.link
                         href={~p"/users/settings"}
                         class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-base-text-light dark:text-base-text-dark hover:bg-primary-bordered-bg-light dark:hover:bg-primary-bordered-bg-dark hover:text-primary-light dark:hover:text-primary-dark transition-colors"
                       >

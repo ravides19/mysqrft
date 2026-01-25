@@ -49,7 +49,7 @@ defmodule MySqrftWeb.RoleLive.Add do
          |> put_flash(:info, "Role added successfully")
          |> push_navigate(to: ~p"/roles")}
 
-      {:error, changeset} ->
+      {:error, _changeset} ->
         {:noreply,
          socket
          |> put_flash(:error, "Failed to add role")
@@ -79,9 +79,9 @@ defmodule MySqrftWeb.RoleLive.Add do
             <div class="space-y-4">
               <%= for role <- @available_roles do %>
                 <div class="bg-white rounded-lg shadow p-6">
-                  <h3 class="text-xl font-semibold mb-2"><%= role.name %></h3>
+                  <h3 class="text-xl font-semibold mb-2">{role.name}</h3>
                   <%= if role.description do %>
-                    <p class="text-gray-600 mb-4"><%= role.description %></p>
+                    <p class="text-gray-600 mb-4">{role.description}</p>
                   <% end %>
                   <button
                     phx-click="add-role"

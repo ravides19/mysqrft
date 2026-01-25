@@ -50,19 +50,9 @@ defmodule MySqrftWeb.ProfileLive.Edit do
     {:noreply, assign(socket, form: to_form(changeset))}
   end
 
-  defp normalize_params(params) do
-    Enum.reduce(params, params, fn {key, value}, acc ->
-      if key in ["gender", "bio"] and value == "" do
-        Map.put(acc, key, nil)
-      else
-        acc
-      end
-    end)
-  end
-
   def handle_event("save", %{"profile" => profile_params}, socket) do
     case UserManagement.update_profile(socket.assigns.profile, profile_params) do
-      {:ok, profile} ->
+      {:ok, _profile} ->
         {:noreply,
          socket
          |> put_flash(:info, "Profile updated successfully")
@@ -71,6 +61,16 @@ defmodule MySqrftWeb.ProfileLive.Edit do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
+  end
+
+  defp normalize_params(params) do
+    Enum.reduce(params, params, fn {key, value}, acc ->
+      if key in ["gender", "bio"] and value == "" do
+        Map.put(acc, key, nil)
+      else
+        acc
+      end
+    end)
   end
 
   @impl true
@@ -154,10 +154,10 @@ defmodule MySqrftWeb.ProfileLive.Edit do
                     label="Gender"
                     prompt="Select..."
                     options={[
-                      {"male", "Male"},
-                      {"female", "Female"},
-                      {"other", "Other"},
-                      {"prefer_not_to_say", "Prefer not to say"}
+                      {"Male", "male"},
+                      {"Female", "female"},
+                      {"Other", "other"},
+                      {"Prefer not to say", "prefer_not_to_say"}
                     ]}
                   />
                 </div>
