@@ -79,6 +79,14 @@ defmodule MySqrftWeb.ProfileLive.Edit do
     <Layouts.app flash={@flash} current_scope={@current_scope}>
       <div class="container mx-auto px-4 py-8">
         <div class="max-w-2xl mx-auto">
+          <div class="mb-6">
+            <.link
+              navigate={~p"/profile"}
+              class="flex items-center text-sm text-gray-600 hover:text-gray-900"
+            >
+              <.icon name="hero-arrow-left" class="w-4 h-4 mr-1" /> Back to Profile
+            </.link>
+          </div>
           <h1 class="text-3xl font-bold mb-6">Edit Profile</h1>
 
           <.form for={@form} phx-submit="save" phx-change="validate" id="profile-form">

@@ -98,6 +98,15 @@ defmodule MySqrftWeb.AddressLive.Form do
             <div class="bg-white rounded-lg shadow p-6 space-y-6">
               <div>
                 <.input
+                  field={@form[:label]}
+                  type="text"
+                  label="Address Label (Optional)"
+                  placeholder="e.g. Main Office, Mom's House"
+                />
+              </div>
+
+              <div>
+                <.input
                   field={@form[:type]}
                   type="select"
                   label="Address Type"

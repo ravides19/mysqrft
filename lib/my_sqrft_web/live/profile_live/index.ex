@@ -276,7 +276,7 @@ defmodule MySqrftWeb.ProfileLive.Index do
                     <div class="mt-0.5"><.icon name="hero-home" class="w-5 h-5 text-gray-400" /></div>
                     <div>
                       <p class="text-sm font-medium text-gray-900">
-                        {String.capitalize(address.type || "home")}
+                        {address.label || String.capitalize(address.type || "home")}
                       </p>
                       <p class="text-xs text-gray-500 line-clamp-1">{address.line1}</p>
                     </div>

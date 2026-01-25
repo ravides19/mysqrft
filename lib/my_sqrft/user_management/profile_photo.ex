@@ -45,9 +45,13 @@ defmodule MySqrft.UserManagement.ProfilePhoto do
       :uploaded_at
     ])
     |> validate_inclusion(:moderation_status, ["pending", "approved", "rejected"])
-    |> validate_format(:original_url, ~r/^https?:\/\//, message: "must be a valid URL")
-    |> validate_format(:thumbnail_url, ~r/^https?:\/\//, message: "must be a valid URL")
-    |> validate_format(:medium_url, ~r/^https?:\/\//, message: "must be a valid URL")
-    |> validate_format(:large_url, ~r/^https?:\/\//, message: "must be a valid URL")
+    |> validate_format(:original_url, ~r/^(\/|https?:\/\/)/,
+      message: "must be a valid URL or path"
+    )
+    |> validate_format(:thumbnail_url, ~r/^(\/|https?:\/\/)/,
+      message: "must be a valid URL or path"
+    )
+    |> validate_format(:medium_url, ~r/^(\/|https?:\/\/)/, message: "must be a valid URL or path")
+    |> validate_format(:large_url, ~r/^(\/|https?:\/\/)/, message: "must be a valid URL or path")
   end
 end

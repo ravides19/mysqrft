@@ -44,9 +44,15 @@ defmodule MySqrftWeb.PreferenceLive.Edit do
   @impl true
   def handle_event("save", %{"preferences" => prefs}, socket) do
     # Save each preference
-    results = Enum.map(prefs, fn {key, value} ->
-      UserManagement.upsert_preference(socket.assigns.profile, socket.assigns.category, key, value)
-    end)
+    results =
+      Enum.map(prefs, fn {key, value} ->
+        UserManagement.upsert_preference(
+          socket.assigns.profile,
+          socket.assigns.category,
+          key,
+          value
+        )
+      end)
 
     if Enum.all?(results, fn {status, _} -> status == :ok end) do
       {:noreply,
@@ -66,11 +72,11 @@ defmodule MySqrftWeb.PreferenceLive.Edit do
     <Layouts.app flash={@flash} current_scope={@current_scope}>
       <div class="container mx-auto px-4 py-8">
         <div class="max-w-2xl mx-auto">
-          <h1 class="text-3xl font-bold mb-6"><%= @page_title %></h1>
+          <h1 class="text-3xl font-bold mb-6">{@page_title}</h1>
 
           <.form for={%{}} phx-submit="save" id="preferences-form">
             <div class="bg-white rounded-lg shadow p-6 space-y-6">
-              <%= render_category_form(assigns) %>
+              {render_category_form(assigns)}
 
               <div class="flex gap-4">
                 <.button type="submit" variant="primary" phx-disable-with="Saving...">
@@ -114,7 +120,9 @@ defmodule MySqrftWeb.PreferenceLive.Edit do
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Localities (comma-separated)</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Preferred Localities (comma-separated)
+          </label>
           <input
             type="text"
             name="preferences[preferred_localities]"
@@ -161,17 +169,141 @@ defmodule MySqrftWeb.PreferenceLive.Edit do
         </div>
         """
 
+      "lifestyle" ->
+        ~H"""
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Smoking</label>
+          <select
+            name="preferences[smoking]"
+            class="w-full px-3 py-2 border border-gray-300 rounded bg-white"
+          >
+            {Phoenix.HTML.Form.options_for_select(
+              ["No", "Yes", "Outside only"],
+              get_pref_value(assigns.preferences, "smoking")
+            )}
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Pets</label>
+          <select
+            name="preferences[pets]"
+            class="w-full px-3 py-2 border border-gray-300 rounded bg-white"
+          >
+            {Phoenix.HTML.Form.options_for_select(
+              ["No", "Yes", "Dog", "Cat", "Other"],
+              get_pref_value(assigns.preferences, "pets")
+            )}
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Dietary</label>
+          <select
+            name="preferences[dietary]"
+            class="w-full px-3 py-2 border border-gray-300 rounded bg-white"
+          >
+            {Phoenix.HTML.Form.options_for_select(
+              ["None", "Vegetarian", "Vegan", "Halal", "Kosher"],
+              get_pref_value(assigns.preferences, "dietary")
+            )}
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Drinking</label>
+          <select
+            name="preferences[drinking]"
+            class="w-full px-3 py-2 border border-gray-300 rounded bg-white"
+          >
+            {Phoenix.HTML.Form.options_for_select(
+              ["No", "Yes", "Socially"],
+              get_pref_value(assigns.preferences, "drinking")
+            )}
+          </select>
+        </div>
+        """
+
+      "notification" ->
+        ~H"""
+        <div class="space-y-4">
+          <p class="text-sm text-gray-500 mb-4">Select the types of notifications you want to receive.</p>
+
+          <div>
+            <label class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="preferences[new_match_alerts]"
+                checked={get_pref_value(assigns.preferences, "new_match_alerts") == "true"}
+                value="true"
+                class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <input type="hidden" name="preferences[new_match_alerts]" value="false" />
+              <span class="text-sm font-medium text-gray-700">New Match Alerts</span>
+            </label>
+            <p class="text-xs text-gray-500 ml-6">Get notified when you have a new match.</p>
+          </div>
+
+          <div>
+            <label class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="preferences[unread_message_reminders]"
+                checked={get_pref_value(assigns.preferences, "unread_message_reminders") == "true"}
+                value="true"
+                class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <input type="hidden" name="preferences[unread_message_reminders]" value="false" />
+              <span class="text-sm font-medium text-gray-700">Unread Message Reminders</span>
+            </label>
+            <p class="text-xs text-gray-500 ml-6">Receive reminders about unread messages.</p>
+          </div>
+
+          <div>
+            <label class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="preferences[marketing_promotions]"
+                checked={get_pref_value(assigns.preferences, "marketing_promotions") == "true"}
+                value="true"
+                class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <input type="hidden" name="preferences[marketing_promotions]" value="false" />
+              <span class="text-sm font-medium text-gray-700">Marketing & Promotions</span>
+            </label>
+            <p class="text-xs text-gray-500 ml-6">Receive updates about new features and promotions.</p>
+          </div>
+
+          <div>
+            <label class="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="preferences[system_updates]"
+                checked={get_pref_value(assigns.preferences, "system_updates") == "true"}
+                value="true"
+                class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+              />
+              <input type="hidden" name="preferences[system_updates]" value="false" />
+              <span class="text-sm font-medium text-gray-700">System Updates</span>
+            </label>
+            <p class="text-xs text-gray-500 ml-6">Important updates about the platform.</p>
+          </div>
+        </div>
+        """
+
       _ ->
         ~H"""
-        <p class="text-gray-600">Preference form for <%= assigns.category %> category.</p>
+        <p class="text-gray-600">Preference form for {assigns.category} category.</p>
         """
     end
   end
 
   defp get_pref_value(preferences, key) do
     case Enum.find(preferences, &(&1.key == key)) do
-      nil -> ""
-      pref -> if is_map(pref.value) or is_list(pref.value), do: Jason.encode!(pref.value), else: pref.value
+      nil ->
+        ""
+
+      pref ->
+        if is_map(pref.value) or is_list(pref.value),
+          do: Jason.encode!(pref.value),
+          else: pref.value
     end
   end
 end

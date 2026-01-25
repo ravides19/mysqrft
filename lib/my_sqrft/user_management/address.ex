@@ -9,6 +9,7 @@ defmodule MySqrft.UserManagement.Address do
   @foreign_key_type :binary_id
 
   schema "addresses" do
+    field :label, :string
     field :type, :string
     field :line1, :string
     field :line2, :string
@@ -32,6 +33,7 @@ defmodule MySqrft.UserManagement.Address do
     address
     |> cast(attrs, [
       :user_profile_id,
+      :label,
       :type,
       :line1,
       :line2,
@@ -45,9 +47,10 @@ defmodule MySqrft.UserManagement.Address do
       :longitude,
       :is_primary
     ])
-    |> normalize_empty_strings([:type, :line2, :locality, :landmark])
+    |> normalize_empty_strings([:label, :type, :line2, :locality, :landmark])
     |> validate_required([:user_profile_id, :type, :line1, :city, :pin_code, :state, :country])
     |> validate_inclusion(:type, ["home", "work", "other"])
+    |> validate_length(:label, max: 50)
     |> validate_length(:line1, min: 1, max: 200)
     |> validate_length(:pin_code, min: 5, max: 10)
     |> validate_format(:pin_code, ~r/^\d+$/, message: "must contain only digits")

@@ -26,7 +26,6 @@ defmodule MySqrft.UserManagement do
     Events
   }
 
-
   ## Profile Management
 
   @doc """
@@ -323,7 +322,9 @@ defmodule MySqrft.UserManagement do
   Lists all addresses for a profile.
   """
   def list_addresses(%Profile{} = profile) do
-    Repo.all(from a in Address, where: a.user_profile_id == ^profile.id, order_by: [desc: a.is_primary])
+    Repo.all(
+      from a in Address, where: a.user_profile_id == ^profile.id, order_by: [desc: a.is_primary]
+    )
   end
 
   @doc """
@@ -337,10 +338,11 @@ defmodule MySqrft.UserManagement do
   """
   def create_address(%Profile{} = profile, attrs \\ %{}) do
     # Check address limit (max 5 per user)
-    existing_count = Repo.aggregate(
-      from(a in Address, where: a.user_profile_id == ^profile.id),
-      :count
-    )
+    existing_count =
+      Repo.aggregate(
+        from(a in Address, where: a.user_profile_id == ^profile.id),
+        :count
+      )
 
     if existing_count >= 5 do
       {:error, :address_limit_reached}
@@ -352,16 +354,18 @@ defmodule MySqrft.UserManagement do
         |> Map.put("user_profile_id", profile.id)
 
       # If this is the first address or explicitly set as primary, make it primary
-      attrs = if existing_count == 0 or Map.get(attrs, "is_primary", false) do
-        # Unset other primary addresses
-        Repo.update_all(
-          from(a in Address, where: a.user_profile_id == ^profile.id),
-          set: [is_primary: false]
-        )
-        Map.put(attrs, "is_primary", true)
-      else
-        attrs
-      end
+      attrs =
+        if existing_count == 0 or Map.get(attrs, "is_primary", false) do
+          # Unset other primary addresses
+          Repo.update_all(
+            from(a in Address, where: a.user_profile_id == ^profile.id),
+            set: [is_primary: false]
+          )
+
+          Map.put(attrs, "is_primary", true)
+        else
+          attrs
+        end
 
       %Address{}
       |> Address.changeset(attrs)
@@ -393,7 +397,9 @@ defmodule MySqrft.UserManagement do
     # If setting as primary, unset other primary addresses
     if Map.get(attrs, "is_primary", false) do
       Repo.update_all(
-        from(a in Address, where: a.user_profile_id == ^address.user_profile_id and a.id != ^address.id),
+        from(a in Address,
+          where: a.user_profile_id == ^address.user_profile_id and a.id != ^address.id
+        ),
         set: [is_primary: false]
       )
     end
@@ -473,10 +479,11 @@ defmodule MySqrft.UserManagement do
       )
     end
 
-    attrs = Map.merge(attrs, %{
-      user_profile_id: profile.id,
-      uploaded_at: DateTime.utc_now()
-    })
+    attrs =
+      Map.merge(attrs, %{
+        user_profile_id: profile.id,
+        uploaded_at: DateTime.utc_now()
+      })
 
     %ProfilePhoto{}
     |> ProfilePhoto.changeset(attrs)
@@ -585,12 +592,20 @@ defmodule MySqrft.UserManagement do
       role_id: role_id
     }
 
-    case Repo.get_by(Preference, [
-      user_profile_id: profile.id,
-      category: category,
-      key: key,
-      role_id: role_id
-    ]) do
+    query =
+      from p in Preference,
+        where: p.user_profile_id == ^profile.id,
+        where: p.category == ^category,
+        where: p.key == ^key
+
+    query =
+      if role_id do
+        from p in query, where: p.role_id == ^role_id
+      else
+        from p in query, where: is_nil(p.role_id)
+      end
+
+    case Repo.one(query) do
       nil ->
         %Preference{}
         |> Preference.changeset(attrs)
@@ -667,22 +682,23 @@ defmodule MySqrft.UserManagement do
   def grant_consent(%Profile{} = profile, consent_type, version, metadata \\ %{}) do
     Repo.transaction(fn ->
       # Get or create consent
-      consent = case get_consent_by_type(profile, consent_type) do
-        nil ->
-          %Consent{}
-          |> Consent.changeset(%{
-            user_profile_id: profile.id,
-            consent_type: consent_type,
-            granted: true,
-            version: version
-          })
-          |> Repo.insert!()
+      consent =
+        case get_consent_by_type(profile, consent_type) do
+          nil ->
+            %Consent{}
+            |> Consent.changeset(%{
+              user_profile_id: profile.id,
+              consent_type: consent_type,
+              granted: true,
+              version: version
+            })
+            |> Repo.insert!()
 
-        existing ->
-          existing
-          |> Consent.grant_changeset(version)
-          |> Repo.update!()
-      end
+          existing ->
+            existing
+            |> Consent.grant_changeset(version)
+            |> Repo.update!()
+        end
 
       # Create consent history entry
       %ConsentHistory{}
@@ -721,9 +737,10 @@ defmodule MySqrft.UserManagement do
       consent ->
         Repo.transaction(fn ->
           # Update consent
-          updated_consent = consent
-          |> Consent.revoke_changeset()
-          |> Repo.update!()
+          updated_consent =
+            consent
+            |> Consent.revoke_changeset()
+            |> Repo.update!()
 
           # Create consent history entry
           %ConsentHistory{}
@@ -844,7 +861,7 @@ defmodule MySqrft.UserManagement do
     total_fields = 15
     filled_fields = count_filled_fields(profile)
 
-    score = round((filled_fields / total_fields) * 100)
+    score = round(filled_fields / total_fields * 100)
     breakdown = calculate_completeness_breakdown(profile)
     missing_fields = get_missing_fields(profile)
 
@@ -894,7 +911,11 @@ defmodule MySqrft.UserManagement do
 
   defp calculate_completeness_breakdown(profile) do
     %{
-      basic_info: calculate_section_score(["display_name", "first_name", "last_name", "email", "phone"], profile),
+      basic_info:
+        calculate_section_score(
+          ["display_name", "first_name", "last_name", "email", "phone"],
+          profile
+        ),
       personal_info: calculate_section_score(["bio", "date_of_birth", "gender"], profile),
       address: if(length(profile.addresses) > 0, do: 100, else: 0),
       photo: if(length(profile.profile_photos) > 0, do: 100, else: 0),
@@ -903,11 +924,13 @@ defmodule MySqrft.UserManagement do
   end
 
   defp calculate_section_score(fields, profile) do
-    filled = Enum.count(fields, fn field ->
-      value = Map.get(profile, String.to_existing_atom(field))
-      value != nil && value != ""
-    end)
-    round((filled / length(fields)) * 100)
+    filled =
+      Enum.count(fields, fn field ->
+        value = Map.get(profile, String.to_existing_atom(field))
+        value != nil && value != ""
+      end)
+
+    round(filled / length(fields) * 100)
   end
 
   defp get_missing_fields(profile) do
@@ -921,8 +944,15 @@ defmodule MySqrft.UserManagement do
     missing = if !profile.date_of_birth, do: ["date_of_birth" | missing], else: missing
     missing = if !profile.gender, do: ["gender" | missing], else: missing
     missing = if length(profile.addresses) == 0, do: ["address" | missing], else: missing
-    missing = if length(profile.profile_photos) == 0, do: ["profile_photo" | missing], else: missing
-    missing = if length(profile.emergency_contacts) == 0, do: ["emergency_contact" | missing], else: missing
+
+    missing =
+      if length(profile.profile_photos) == 0, do: ["profile_photo" | missing], else: missing
+
+    missing =
+      if length(profile.emergency_contacts) == 0,
+        do: ["emergency_contact" | missing],
+        else: missing
+
     missing
   end
 
@@ -944,10 +974,11 @@ defmodule MySqrft.UserManagement do
   This would typically be called by the Verification domain when a verification is completed.
   """
   def create_verification_badge(%Profile{} = profile, attrs) do
-    attrs = Map.merge(attrs, %{
-      user_profile_id: profile.id,
-      granted_at: DateTime.utc_now()
-    })
+    attrs =
+      Map.merge(attrs, %{
+        user_profile_id: profile.id,
+        granted_at: DateTime.utc_now()
+      })
 
     %VerificationBadge{}
     |> VerificationBadge.changeset(attrs)
@@ -960,11 +991,11 @@ defmodule MySqrft.UserManagement do
   Gets an onboarding flow for a profile and role.
   """
   def get_onboarding_flow(%Profile{} = profile, %Role{} = role, flow_type) do
-    Repo.get_by(OnboardingFlow, [
+    Repo.get_by(OnboardingFlow,
       user_profile_id: profile.id,
       role_id: role.id,
       flow_type: flow_type
-    ])
+    )
   end
 
   @doc """
@@ -1004,7 +1035,7 @@ defmodule MySqrft.UserManagement do
 
   """
   def update_onboarding_step(%OnboardingFlow{} = flow, step_id) do
-    completed_steps = [step_id | (flow.completed_steps || [])]
+    completed_steps = [step_id | flow.completed_steps || []]
     current_step = min(flow.current_step + 1, flow.total_steps)
 
     attrs = %{
@@ -1012,11 +1043,12 @@ defmodule MySqrft.UserManagement do
       completed_steps: completed_steps
     }
 
-    attrs = if current_step >= flow.total_steps do
-      Map.merge(attrs, %{status: "completed", completed_at: DateTime.utc_now()})
-    else
-      attrs
-    end
+    attrs =
+      if current_step >= flow.total_steps do
+        Map.merge(attrs, %{status: "completed", completed_at: DateTime.utc_now()})
+      else
+        attrs
+      end
 
     flow
     |> OnboardingFlow.changeset(attrs)
@@ -1054,10 +1086,11 @@ defmodule MySqrft.UserManagement do
   """
   def create_emergency_contact(%Profile{} = profile, attrs \\ %{}) do
     # Check limit (max 3 per user)
-    existing_count = Repo.aggregate(
-      from(ec in EmergencyContact, where: ec.user_profile_id == ^profile.id),
-      :count
-    )
+    existing_count =
+      Repo.aggregate(
+        from(ec in EmergencyContact, where: ec.user_profile_id == ^profile.id),
+        :count
+      )
 
     if existing_count >= 3 do
       {:error, :emergency_contact_limit_reached}

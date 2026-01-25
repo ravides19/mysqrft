@@ -75,6 +75,14 @@ defmodule MySqrftWeb.AddressLive.Index do
     <Layouts.app flash={@flash} current_scope={@current_scope}>
       <div class="container mx-auto px-4 py-8">
         <div class="max-w-4xl mx-auto">
+          <div class="mb-6">
+            <.link
+              navigate={~p"/profile"}
+              class="flex items-center text-sm text-gray-600 hover:text-gray-900"
+            >
+              <.icon name="hero-arrow-left" class="w-4 h-4 mr-1" /> Back to Profile
+            </.link>
+          </div>
           <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold">My Addresses</h1>
             <.link
@@ -106,16 +114,16 @@ defmodule MySqrftWeb.AddressLive.Index do
                           Primary
                         </span>
                       <% end %>
-                      <p class="font-semibold text-lg mb-2"><%= address.type |> String.capitalize() %></p>
-                      <p class="text-gray-700"><%= address.line1 %></p>
+                      <p class="font-semibold text-lg mb-2">{address.type |> String.capitalize()}</p>
+                      <p class="text-gray-700">{address.line1}</p>
                       <%= if address.line2 do %>
-                        <p class="text-gray-700"><%= address.line2 %></p>
+                        <p class="text-gray-700">{address.line2}</p>
                       <% end %>
                       <p class="text-gray-700">
-                        <%= address.locality || "" %> <%= address.city %>, <%= address.state %> <%= address.pin_code %>
+                        {address.locality || ""} {address.city}, {address.state} {address.pin_code}
                       </p>
                       <%= if address.landmark do %>
-                        <p class="text-gray-500 text-sm mt-1">Near: <%= address.landmark %></p>
+                        <p class="text-gray-500 text-sm mt-1">Near: {address.landmark}</p>
                       <% end %>
                     </div>
                     <div class="flex gap-2">

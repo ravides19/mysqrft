@@ -1,0 +1,133 @@
+Compiling 1 file (.ex)
+Generated my_sqrft app
+Running ExUnit with seed: 715712, max_cases: 20
+
+Upsert Error for marketing_promotions: {:error,
+ #Ecto.Changeset<
+   action: :insert,
+   changes: %{
+     key: "marketing_promotions",
+     category: "notification",
+     user_profile_id: "2acc0a96-b88c-48af-95cb-f6e1be363d9a"
+   },
+   errors: [value: {"is invalid", [type: :map, validation: :cast]}],
+   data: #MySqrft.UserManagement.Preference<>,
+   valid?: false,
+   ...
+ >}
+Upsert Error for new_match_alerts: {:error,
+ #Ecto.Changeset<
+   action: :insert,
+   changes: %{
+     key: "new_match_alerts",
+     category: "notification",
+     user_profile_id: "2acc0a96-b88c-48af-95cb-f6e1be363d9a"
+   },
+   errors: [value: {"is invalid", [type: :map, validation: :cast]}],
+   data: #MySqrft.UserManagement.Preference<>,
+   valid?: false,
+   ...
+ >}
+Upsert Error for system_updates: {:error,
+ #Ecto.Changeset<
+   action: :insert,
+   changes: %{
+     key: "system_updates",
+     category: "notification",
+     user_profile_id: "2acc0a96-b88c-48af-95cb-f6e1be363d9a"
+   },
+   errors: [value: {"is invalid", [type: :map, validation: :cast]}],
+   data: #MySqrft.UserManagement.Preference<>,
+   valid?: false,
+   ...
+ >}
+Upsert Error for unread_message_reminders: {:error,
+ #Ecto.Changeset<
+   action: :insert,
+   changes: %{
+     key: "unread_message_reminders",
+     category: "notification",
+     user_profile_id: "2acc0a96-b88c-48af-95cb-f6e1be363d9a"
+   },
+   errors: [value: {"is invalid", [type: :map, validation: :cast]}],
+   data: #MySqrft.UserManagement.Preference<>,
+   valid?: false,
+   ...
+ >}
+
+
+  1) test Preferences saves notification preferences (MySqrftWeb.PreferenceLiveTest)
+     test/my_sqrft_web/live/preference_live_test.exs:56
+     ** (ArgumentError) expected MySqrftWeb.PreferenceLive.Edit to redirect to "/preferences", but got none
+     code: assert_redirect(view, ~p"/preferences")
+     stacktrace:
+       (phoenix_live_view 1.1.19) lib/phoenix_live_view/test/live_view_test.ex:1455: Phoenix.LiveViewTest.assert_navigation/4
+       (phoenix_live_view 1.1.19) lib/phoenix_live_view/test/live_view_test.ex:1414: Phoenix.LiveViewTest.assert_redirect/3
+       test/my_sqrft_web/live/preference_live_test.exs:70: (test)
+
+Upsert Error for dietary: {:error,
+ #Ecto.Changeset<
+   action: :insert,
+   changes: %{
+     key: "dietary",
+     category: "lifestyle",
+     user_profile_id: "b4b892dd-5db6-4cdd-9268-b5ba110ab0f9"
+   },
+   errors: [value: {"is invalid", [type: :map, validation: :cast]}],
+   data: #MySqrft.UserManagement.Preference<>,
+   valid?: false,
+   ...
+ >}
+Upsert Error for drinking: {:error,
+ #Ecto.Changeset<
+   action: :insert,
+   changes: %{
+     key: "drinking",
+     category: "lifestyle",
+     user_profile_id: "b4b892dd-5db6-4cdd-9268-b5ba110ab0f9"
+   },
+   errors: [value: {"is invalid", [type: :map, validation: :cast]}],
+   data: #MySqrft.UserManagement.Preference<>,
+   valid?: false,
+   ...
+ >}
+Upsert Error for pets: {:error,
+ #Ecto.Changeset<
+   action: :insert,
+   changes: %{
+     key: "pets",
+     category: "lifestyle",
+     user_profile_id: "b4b892dd-5db6-4cdd-9268-b5ba110ab0f9"
+   },
+   errors: [value: {"is invalid", [type: :map, validation: :cast]}],
+   data: #MySqrft.UserManagement.Preference<>,
+   valid?: false,
+   ...
+ >}
+Upsert Error for smoking: {:error,
+ #Ecto.Changeset<
+   action: :insert,
+   changes: %{
+     key: "smoking",
+     category: "lifestyle",
+     user_profile_id: "b4b892dd-5db6-4cdd-9268-b5ba110ab0f9"
+   },
+   errors: [value: {"is invalid", [type: :map, validation: :cast]}],
+   data: #MySqrft.UserManagement.Preference<>,
+   valid?: false,
+   ...
+ >}
+
+
+  2) test Preferences saves lifestyle preferences (MySqrftWeb.PreferenceLiveTest)
+     test/my_sqrft_web/live/preference_live_test.exs:27
+     ** (ArgumentError) expected MySqrftWeb.PreferenceLive.Edit to redirect to "/preferences", but got none
+     code: assert_redirect(view, ~p"/preferences")
+     stacktrace:
+       (phoenix_live_view 1.1.19) lib/phoenix_live_view/test/live_view_test.ex:1455: Phoenix.LiveViewTest.assert_navigation/4
+       (phoenix_live_view 1.1.19) lib/phoenix_live_view/test/live_view_test.ex:1414: Phoenix.LiveViewTest.assert_redirect/3
+       test/my_sqrft_web/live/preference_live_test.exs:41: (test)
+
+
+Finished in 0.6 seconds (0.6s async, 0.00s sync)
+2 tests, 2 failures

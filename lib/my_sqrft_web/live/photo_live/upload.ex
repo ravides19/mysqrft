@@ -51,23 +51,25 @@ defmodule MySqrftWeb.PhotoLive.Upload do
   end
 
   def handle_event("save", _params, socket) do
-    case consume_uploaded_entries(socket, :photo, fn %{path: _path}, entry ->
-           # In a real implementation, this would upload to S3/CDN
-           # For now, we'll create a placeholder URL
+    case consume_uploaded_entries(socket, :photo, fn %{path: path}, entry ->
+           dest_dir = Path.join(:code.priv_dir(:my_sqrft), "static/uploads")
+           # Ensure directory exists
+           File.mkdir_p!(dest_dir)
            filename = "#{entry.uuid}-#{entry.client_name}"
-           # TODO: Upload to S3/CDN and get URLs
-           # For now, using placeholder URLs
-           original_url = "/uploads/#{filename}"
-           thumbnail_url = "/uploads/thumbnails/#{filename}"
-           medium_url = "/uploads/medium/#{filename}"
-           large_url = "/uploads/large/#{filename}"
+           dest_path = Path.join(dest_dir, filename)
+
+           IO.inspect(path, label: "Temp File Path")
+           IO.inspect(dest_path, label: "Destination Path")
+           File.cp!(path, dest_path)
+
+           url = "/uploads/#{filename}"
 
            {:ok,
             %{
-              original_url: original_url,
-              thumbnail_url: thumbnail_url,
-              medium_url: medium_url,
-              large_url: large_url
+              original_url: url,
+              thumbnail_url: url,
+              medium_url: url,
+              large_url: url
             }}
          end) do
       {[], []} ->
@@ -78,6 +80,7 @@ defmodule MySqrftWeb.PhotoLive.Upload do
 
       {urls, []} ->
         [url_data | _] = urls
+        IO.inspect(url_data, label: "URL Data")
 
         attrs =
           Map.merge(url_data, %{
@@ -86,15 +89,19 @@ defmodule MySqrftWeb.PhotoLive.Upload do
           })
 
         case UserManagement.create_profile_photo(socket.assigns.profile, attrs) do
-          {:ok, _photo} ->
+          {:ok, photo} ->
+            IO.inspect(photo, label: "Created Photo")
             photos = UserManagement.list_profile_photos(socket.assigns.profile)
+            IO.inspect(length(photos), label: "Photo Count")
 
             {:noreply,
              socket
              |> put_flash(:info, "Photo uploaded successfully")
              |> assign(:photos, photos)}
 
-          {:error, _changeset} ->
+          {:error, changeset} ->
+            IO.inspect(changeset, label: "Create Error")
+
             {:noreply,
              socket
              |> put_flash(:error, "Failed to save photo")
@@ -138,95 +145,127 @@ defmodule MySqrftWeb.PhotoLive.Upload do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
       <div class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-          <h1 class="text-3xl font-bold mb-6">Profile Photos</h1>
-
-          <div class="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 class="text-xl font-semibold mb-4">Upload New Photo</h2>
+        <div class="max-w-4xl mx-auto space-y-8">
+          <div>
+            <.link
+              navigate={~p"/profile"}
+              class="flex items-center text-sm text-gray-600 hover:text-gray-900"
+            >
+              <.icon name="hero-arrow-left" class="w-4 h-4 mr-1" /> Back to Profile
+            </.link>
+          </div>
+          <.card title="Upload New Photo" padding="medium">
             <form phx-submit="save" phx-change="validate" id="photo-upload-form">
-              <.live_file_input upload={@uploads.photo} class="mb-4" />
-              <%= for entry <- @uploads.photo.entries do %>
-                <div class="mb-4">
-                  <div class="flex items-center gap-4">
-                    <div class="flex-1">
-                      <p class="text-sm text-gray-600">{entry.client_name}</p>
-                      <progress value={entry.progress} max="100" class="w-full mt-2">
-                        {entry.progress}%
-                      </progress>
+              <div class="flex items-center justify-center w-full mb-6">
+                <label
+                  for={@uploads.photo.ref}
+                  class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 relative overflow-hidden"
+                >
+                  <%= if length(@uploads.photo.entries) > 0 do %>
+                    <%= for entry <- @uploads.photo.entries do %>
+                      <.live_img_preview entry={entry} class="w-full h-full object-contain" />
+                    <% end %>
+                  <% else %>
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                      <.icon name="hero-cloud-arrow-up" class="w-10 h-10 mb-3 text-gray-400" />
+                      <p class="mb-2 text-sm text-gray-500">
+                        <span class="font-semibold">Click to upload</span> or drag and drop
+                      </p>
+                      <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 5MB)</p>
                     </div>
-                    <button
+                  <% end %>
+                  <.live_file_input upload={@uploads.photo} class="hidden" />
+                </label>
+              </div>
+
+              <%= for entry <- @uploads.photo.entries do %>
+                <div class="mb-6">
+                  <div class="flex items-center gap-4 mb-2">
+                    <span class="text-sm font-medium text-gray-700 truncate flex-1">
+                      {entry.client_name}
+                    </span>
+                    <.button
                       type="button"
                       phx-click="cancel-entry"
                       phx-value-ref={entry.ref}
-                      class="px-3 py-1 text-sm border border-red-300 text-red-600 rounded hover:bg-red-50"
+                      variant="ghost"
+                      color="danger"
+                      size="small"
                     >
                       Cancel
-                    </button>
+                    </.button>
                   </div>
+                  <.progress value={entry.progress} color="primary" size="medium" />
                   <%= for err <- upload_errors(@uploads.photo, entry) do %>
                     <p class="text-sm text-red-600 mt-1">{error_to_string(err)}</p>
                   <% end %>
                 </div>
               <% end %>
-              <button
-                type="submit"
-                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                phx-disable-with="Uploading..."
-              >
-                Upload Photo
-              </button>
-            </form>
-          </div>
 
-          <%= if length(@photos) > 0 do %>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <%= for photo <- @photos do %>
-                <div class="bg-white rounded-lg shadow p-4">
-                  <div class="aspect-square bg-gray-200 rounded mb-4 flex items-center justify-center">
-                    <%= if photo.thumbnail_url do %>
-                      <img
-                        src={photo.thumbnail_url}
-                        alt="Profile photo"
-                        class="w-full h-full object-cover rounded"
+              <div class="flex justify-end">
+                <.button
+                  type="submit"
+                  variant="primary"
+                  phx-disable-with="Uploading..."
+                  disabled={length(@uploads.photo.entries) == 0}
+                >
+                  Upload Photo
+                </.button>
+              </div>
+            </form>
+          </.card>
+
+          <.card title="Your Photos" padding="medium">
+            <%= if length(@photos) > 0 do %>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <%= for photo <- @photos do %>
+                  <div class="relative group">
+                    <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                      <.avatar
+                        src={photo.thumbnail_url || photo.original_url}
+                        size="full"
+                        rounded="none"
+                        class="w-full h-full object-cover"
                       />
-                    <% else %>
-                      <span class="text-gray-400">No image</span>
-                    <% end %>
-                  </div>
-                  <div class="flex gap-2">
-                    <%= if photo.is_current do %>
-                      <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">
-                        Current
-                      </span>
-                    <% else %>
-                      <button
-                        phx-click="set-current"
+                    </div>
+
+                    <div class="absolute top-2 right-2">
+                      <%= if photo.is_current do %>
+                        <.badge color="primary" variant="default" size="small">Current</.badge>
+                      <% end %>
+                    </div>
+
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      <%= unless photo.is_current do %>
+                        <.button
+                          phx-click="set-current"
+                          phx-value-id={photo.id}
+                          variant="secondary"
+                          size="small"
+                        >
+                          Set Current
+                        </.button>
+                      <% end %>
+                      <.button
+                        phx-click="delete"
                         phx-value-id={photo.id}
-                        class="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50"
-                      >
-                        Set as Current
-                      </button>
-                    <% end %>
-                    <button
-                      phx-click="delete"
-                      phx-value-id={photo.id}
-                      data-confirm="Are you sure you want to delete this photo?"
-                      class="px-3 py-1 text-sm border border-red-300 text-red-600 rounded hover:bg-red-50"
-                    >
-                      Delete
-                    </button>
+                        data-confirm="Are you sure you want to delete this photo?"
+                        variant="danger"
+                        size="small"
+                        icon="hero-trash"
+                      />
+                    </div>
                   </div>
-                  <p class="text-xs text-gray-500 mt-2">
-                    Status: {String.capitalize(photo.moderation_status)}
-                  </p>
-                </div>
-              <% end %>
-            </div>
-          <% else %>
-            <div class="bg-white rounded-lg shadow p-6 text-center">
-              <p class="text-gray-600">You don't have any photos yet. Upload one above!</p>
-            </div>
-          <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-12">
+                <.icon name="hero-photo" class="mx-auto h-12 w-12 text-gray-300" />
+                <h3 class="mt-2 text-sm font-semibold text-gray-900">No photos</h3>
+                <p class="mt-1 text-sm text-gray-500">Get started by uploading a new photo.</p>
+              </div>
+            <% end %>
+          </.card>
         </div>
       </div>
     </Layouts.app>
