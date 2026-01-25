@@ -25,8 +25,8 @@ defmodule MySqrftWeb.Layouts do
     >
       <.navbar
         id="main-navbar"
-        variant="shadow"
-        color="natural"
+        variant="default"
+        color="white"
         rounded="none"
         padding="small"
         max_width=""
@@ -48,7 +48,7 @@ defmodule MySqrftWeb.Layouts do
 
         <:list
           icon="hero-home-solid"
-          icon_class="w-4 h-4 text-base-text-light dark:text-base-text-dark transition-colors group-hover:text-primary-light dark:group-hover:text-primary-dark"
+          icon_class="w-4 h-4"
           class="gap-2 group"
         >
           <.link
@@ -60,7 +60,7 @@ defmodule MySqrftWeb.Layouts do
         </:list>
         <:list
           icon="hero-information-circle-solid"
-          icon_class="w-4 h-4 text-base-text-light dark:text-base-text-dark transition-colors group-hover:text-primary-light dark:group-hover:text-primary-dark"
+          icon_class="w-4 h-4"
           class="gap-2 group"
         >
           <.link
@@ -72,7 +72,7 @@ defmodule MySqrftWeb.Layouts do
         </:list>
         <:list
           icon="hero-envelope-solid"
-          icon_class="w-4 h-4 text-base-text-light dark:text-base-text-dark transition-colors group-hover:text-primary-light dark:group-hover:text-primary-dark"
+          icon_class="w-4 h-4"
           class="gap-2 group"
         >
           <.link
@@ -83,8 +83,8 @@ defmodule MySqrftWeb.Layouts do
           </.link>
         </:list>
 
-        <:end_content class="flex items-center gap-6 md:justify-end md:col-start-3 md:col-end-4">
-          <div class="flex flex-row items-center w-full gap-4">
+        <:end_content class="flex items-center gap-4 md:justify-end md:col-start-3 md:col-end-4">
+          <div class="flex flex-row items-center gap-4">
             <.theme_toggle />
             <%= if @current_scope do %>
               <.dropdown
@@ -92,15 +92,14 @@ defmodule MySqrftWeb.Layouts do
                 position="bottom"
                 relative="relative"
                 width="w-fit"
-                space="small"
                 rounded="large"
                 padding="small"
-                variant="bordered"
-                color="natural"
+                variant="default"
+                color="white"
               >
                 <:trigger>
-                  <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                    <.avatar size="small" color="primary" rounded="full" class="w-8 h-8">
+                  <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-base-border-light/10 dark:hover:bg-base-border-dark/10 transition-colors">
+                    <.avatar size="small" color="primary" rounded="full">
                       {String.first(@current_scope.user.firstname || @current_scope.user.email)
                       |> String.upcase()}
                     </.avatar>
@@ -131,7 +130,8 @@ defmodule MySqrftWeb.Layouts do
                         <.icon name="hero-cog-6-tooth" class="w-4 h-4" /> Settings
                       </.link>
                     </li>
-                    <li class="border-t border-gray-200 dark:border-gray-700 my-1"></li>
+                    <li class="border-t border-base-border-light dark:border-base-border-dark my-1">
+                    </li>
                     <li>
                       <.link
                         href={~p"/users/log-out"}
@@ -145,12 +145,13 @@ defmodule MySqrftWeb.Layouts do
                 </:content>
               </.dropdown>
             <% else %>
-              <div class="flex items-center gap-4">
+              <div class="flex items-center gap-3">
                 <.button_link
                   href={~p"/users/log-in"}
                   variant="default"
                   color="natural"
                   size="medium"
+                  rounded="large"
                 >
                   Log in
                 </.button_link>
@@ -159,6 +160,7 @@ defmodule MySqrftWeb.Layouts do
                   variant="default"
                   color="primary"
                   size="medium"
+                  rounded="large"
                 >
                   Register
                 </.button_link>
@@ -462,7 +464,7 @@ defmodule MySqrftWeb.Layouts do
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 dark:bg-gray-950 text-gray-300 border-t border-gray-800">
+    <footer class="bg-base-bg-dark dark:bg-gray-950 text-gray-300 border-t border-base-border-dark">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           <!-- Brand Column -->
@@ -485,25 +487,75 @@ defmodule MySqrftWeb.Layouts do
             <h4 class="font-semibold text-white mb-4">Platform</h4>
             <ul class="space-y-3 text-sm">
               <li>
-                <.link navigate="/" class="hover:text-[#FF385C] transition-colors">Home</.link>
+                <.link
+                  navigate="/"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  Home
+                </.link>
               </li>
               <li>
-                <.link navigate="/about" class="hover:text-[#FF385C] transition-colors">
+                <.link
+                  navigate="/about"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
                   About Us
                 </.link>
               </li>
-              <li><a href="#" class="hover:text-[#FF385C] transition-colors">How it Works</a></li>
-              <li><a href="#" class="hover:text-[#FF385C] transition-colors">Pricing</a></li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  How it Works
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  Pricing
+                </a>
+              </li>
             </ul>
           </div>
 
           <div>
             <h4 class="font-semibold text-white mb-4">Resources</h4>
             <ul class="space-y-3 text-sm">
-              <li><a href="#" class="hover:text-[#FF385C] transition-colors">Help Center</a></li>
-              <li><a href="#" class="hover:text-[#FF385C] transition-colors">Blog</a></li>
-              <li><a href="#" class="hover:text-[#FF385C] transition-colors">Guides</a></li>
-              <li><a href="#" class="hover:text-[#FF385C] transition-colors">API</a></li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  Help Center
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  Guides
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  API
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -511,33 +563,49 @@ defmodule MySqrftWeb.Layouts do
             <h4 class="font-semibold text-white mb-4">Legal</h4>
             <ul class="space-y-3 text-sm">
               <li>
-                <.link navigate="/privacy" class="hover:text-[#FF385C] transition-colors">
+                <.link
+                  navigate="/privacy"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
                   Privacy Policy
                 </.link>
               </li>
               <li>
-                <.link navigate="/terms" class="hover:text-[#FF385C] transition-colors">
+                <.link
+                  navigate="/terms"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
                   Terms of Service
                 </.link>
               </li>
               <li>
-                <a href="#" class="hover:text-[#FF385C] transition-colors">Cookie Policy</a>
+                <a
+                  href="#"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  Cookie Policy
+                </a>
               </li>
               <li>
-                <a href="#" class="hover:text-[#FF385C] transition-colors">Refund Policy</a>
+                <a
+                  href="#"
+                  class="hover:text-primary-light dark:hover:text-primary-dark transition-colors"
+                >
+                  Refund Policy
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div class="mt-12 pt-8 border-t border-stone-800 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="mt-12 pt-8 border-t border-base-border-dark flex flex-col md:flex-row items-center justify-between gap-4">
           <p class="text-sm text-gray-500">
             2026 MySqrft. All rights reserved.
           </p>
           <div class="flex items-center gap-6">
             <a
               href="#"
-              class="text-gray-400 hover:text-[#FF385C] transition-colors"
+              class="text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
               aria-label="Twitter"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -546,7 +614,7 @@ defmodule MySqrftWeb.Layouts do
             </a>
             <a
               href="#"
-              class="text-gray-400 hover:text-[#FF385C] transition-colors"
+              class="text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
               aria-label="LinkedIn"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -555,7 +623,7 @@ defmodule MySqrftWeb.Layouts do
             </a>
             <a
               href="#"
-              class="text-gray-400 hover:text-[#FF385C] transition-colors"
+              class="text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors"
               aria-label="Instagram"
             >
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

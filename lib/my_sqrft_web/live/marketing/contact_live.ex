@@ -60,7 +60,7 @@ defmodule MySqrftWeb.Marketing.ContactLive do
           </p>
         </div>
       </section>
-
+      
     <!-- Contact Form Section -->
       <section class="py-20 md:py-32">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -118,15 +118,14 @@ defmodule MySqrftWeb.Marketing.ContactLive do
                 </div>
               </div>
             </div>
-
+            
     <!-- Contact Form -->
             <div>
               <.card
-                variant="bordered"
-                color="natural"
+                variant="default"
+                color="white"
                 rounded="extra_large"
                 padding="extra_large"
-                class="!bg-white dark:!bg-gray-800"
               >
                 <.form
                   for={@form}
@@ -180,10 +179,10 @@ defmodule MySqrftWeb.Marketing.ContactLive do
                     <.button
                       type="submit"
                       variant="default"
-                      color="warning"
+                      color="primary"
                       size="extra_large"
                       rounded="large"
-                      class="w-full !bg-gradient-to-r !from-[#FF385C] !to-[#FF5A5F] hover:!from-[#FF5A5F] hover:!to-[#FF385C] !shadow-lg hover:!shadow-xl"
+                      class="w-full"
                       phx-disable-with="Sending..."
                     >
                       Send Message <.icon name="hero-paper-airplane" class="w-5 h-5 ml-2" />
@@ -195,7 +194,7 @@ defmodule MySqrftWeb.Marketing.ContactLive do
           </div>
         </div>
       </section>
-
+      
     <!-- Additional CTA Section -->
       <section class="py-20 md:py-32 bg-gray-50 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -208,10 +207,9 @@ defmodule MySqrftWeb.Marketing.ContactLive do
           <.button_link
             navigate="/"
             variant="default"
-            color="warning"
+            color="primary"
             size="extra_large"
             rounded="large"
-            class="!bg-gradient-to-r !from-[#FF385C] !to-[#FF5A5F] hover:!from-[#FF5A5F] hover:!to-[#FF385C]"
           >
             Browse Properties <.icon name="hero-arrow-right" class="w-5 h-5 ml-2" />
           </.button_link>
