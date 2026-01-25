@@ -345,16 +345,20 @@ defmodule MySqrft.UserManagement do
     if existing_count >= 5 do
       {:error, :address_limit_reached}
     else
-      attrs = Map.put(attrs, :user_profile_id, profile.id)
+      # Normalize attrs to have string keys (Phoenix forms provide string keys)
+      attrs =
+        attrs
+        |> ensure_string_keys()
+        |> Map.put("user_profile_id", profile.id)
 
       # If this is the first address or explicitly set as primary, make it primary
-      attrs = if existing_count == 0 or Map.get(attrs, :is_primary, false) do
+      attrs = if existing_count == 0 or Map.get(attrs, "is_primary", false) do
         # Unset other primary addresses
         Repo.update_all(
           from(a in Address, where: a.user_profile_id == ^profile.id),
           set: [is_primary: false]
         )
-        Map.put(attrs, :is_primary, true)
+        Map.put(attrs, "is_primary", true)
       else
         attrs
       end
@@ -383,8 +387,11 @@ defmodule MySqrft.UserManagement do
 
   """
   def update_address(%Address{} = address, attrs) do
+    # Normalize attrs to have string keys
+    attrs = ensure_string_keys(attrs)
+
     # If setting as primary, unset other primary addresses
-    if Map.get(attrs, :is_primary, false) do
+    if Map.get(attrs, "is_primary", false) do
       Repo.update_all(
         from(a in Address, where: a.user_profile_id == ^address.user_profile_id and a.id != ^address.id),
         set: [is_primary: false]
@@ -821,6 +828,13 @@ defmodule MySqrft.UserManagement do
   ## Profile Completeness
 
   @doc """
+  Gets the latest profile completeness record for a profile.
+  """
+  def get_profile_completeness(%Profile{} = profile) do
+    Repo.get_by(ProfileCompleteness, user_profile_id: profile.id)
+  end
+
+  @doc """
   Calculates and updates profile completeness for a profile.
   """
   def calculate_and_update_completeness(%Profile{} = profile) do
@@ -1048,7 +1062,11 @@ defmodule MySqrft.UserManagement do
     if existing_count >= 3 do
       {:error, :emergency_contact_limit_reached}
     else
-      attrs = Map.put(attrs, :user_profile_id, profile.id)
+      # Normalize attrs to have string keys (Phoenix forms provide string keys)
+      attrs =
+        attrs
+        |> ensure_string_keys()
+        |> Map.put("user_profile_id", profile.id)
 
       %EmergencyContact{}
       |> EmergencyContact.changeset(attrs)
@@ -1110,4 +1128,17 @@ defmodule MySqrft.UserManagement do
         error
     end
   end
+
+  ## Helper Functions
+
+  # Normalizes map keys to strings, converting atom keys to string keys.
+  # This ensures consistency when merging form params (string keys) with programmatically added params.
+  defp ensure_string_keys(attrs) when is_map(attrs) do
+    Enum.reduce(attrs, %{}, fn {key, value}, acc ->
+      normalized_key = if is_atom(key), do: Atom.to_string(key), else: key
+      Map.put(acc, normalized_key, value)
+    end)
+  end
+
+  defp ensure_string_keys(attrs), do: attrs
 end

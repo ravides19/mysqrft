@@ -45,10 +45,21 @@ defmodule MySqrft.UserManagement.Address do
       :longitude,
       :is_primary
     ])
+    |> normalize_empty_strings([:type, :line2, :locality, :landmark])
     |> validate_required([:user_profile_id, :type, :line1, :city, :pin_code, :state, :country])
     |> validate_inclusion(:type, ["home", "work", "other"])
     |> validate_length(:line1, min: 1, max: 200)
     |> validate_length(:pin_code, min: 5, max: 10)
     |> validate_format(:pin_code, ~r/^\d+$/, message: "must contain only digits")
+  end
+
+  # Convert empty strings to nil for optional fields
+  defp normalize_empty_strings(changeset, fields) do
+    Enum.reduce(fields, changeset, fn field, acc ->
+      update_change(acc, field, fn
+        "" -> nil
+        value -> value
+      end)
+    end)
   end
 end
