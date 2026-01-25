@@ -267,7 +267,6 @@ defmodule MySqrftWeb.ProfileLive.Index do
             icon="hero-map-pin"
             link={~p"/addresses"}
             color="green"
-            action_text="Manage"
           >
             <%= if @profile.addresses && length(@profile.addresses) > 0 do %>
               <div class="space-y-3">
@@ -310,7 +309,6 @@ defmodule MySqrftWeb.ProfileLive.Index do
             icon="hero-photo"
             link={~p"/photos"}
             color="purple"
-            action_text="Gallery"
           >
             <%= if @profile.profile_photos && length(@profile.profile_photos) > 0 do %>
               <div class="grid grid-cols-3 gap-2">
@@ -353,7 +351,6 @@ defmodule MySqrftWeb.ProfileLive.Index do
             icon="hero-heart"
             link={~p"/emergency-contacts"}
             color="red"
-            action_text="Manage"
           >
             <%= if @profile.emergency_contacts && length(@profile.emergency_contacts) > 0 do %>
               <div class="space-y-3">
