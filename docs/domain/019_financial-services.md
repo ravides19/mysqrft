@@ -230,7 +230,7 @@ The FinancialServices domain generates revenue through commission-based partners
 - PostgreSQL or equivalent relational database for loan applications and eligibility data
 - Redis or equivalent distributed cache for session data and rate limiting
 - Message queue (RabbitMQ/Kafka) for asynchronous partner communications and event processing
-- Document storage service (S3/equivalent) for loan document management
+- Tigris Object Storage (S3-compatible) for loan document management
 - Partner API integrations with authentication credentials and endpoint configurations
 - Credit bureau integration for soft inquiry eligibility checks
 - Email and SMS gateway for status notifications

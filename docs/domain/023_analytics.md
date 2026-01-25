@@ -273,7 +273,7 @@ The Analytics domain operates as a consumer of events from all other MySqrft dom
 - Redis or equivalent cache for dashboard query caching and session management
 - Time-series database (InfluxDB, TimescaleDB) for metrics storage and anomaly detection
 - Machine learning platform (MLflow, SageMaker) for fraud detection and predictive models
-- Object storage (S3, GCS) for raw event archival and report file storage
+- Tigris Object Storage (S3-compatible) for raw event archival and report file storage
 - Visualization libraries (D3.js, Apache ECharts) for dashboard rendering
 - Scheduling system (Apache Airflow) for batch job orchestration
 

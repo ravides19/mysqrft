@@ -94,6 +94,13 @@ config :my_sqrft,
 # Enable/disable Ola Maps geocoding (set to false to use only internal geocoding)
 config :my_sqrft, :ola_maps_enabled, true
 
+config :ex_aws, :s3,
+  scheme: "https://",
+  host: "fly.storage.tigris.dev",
+  region: "auto"
+
+config :my_sqrft, :tigris_bucket, "my-sqrft-dev"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

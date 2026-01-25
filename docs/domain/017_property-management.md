@@ -458,7 +458,7 @@ Automated contract renewal workflow management.
 | **Accounting Software** (QuickBooks/Xero) | API | Sync financial data with external accounting |
 | **Email Service** (SendGrid/SES) | API | Transactional email delivery |
 | **SMS Service** (Twilio) | API | Text notifications and alerts |
-| **Document Storage** (S3/Azure Blob) | API | Secure document storage |
+| **Tigris Object Storage** (S3-compatible) | API | Secure document storage |
 
 ### 8.3 Integration Data Flows
 

@@ -92,7 +92,10 @@ defmodule MySqrft.MixProject do
       {:phoenix_storybook, "~> 0.9.3"},
       {:tidewave, "~> 0.5.4", only: :dev},
       {:mishka_developer_tools, "~> 0.1.9"},
-      {:live_debugger, "~> 0.5.1", only: :dev}
+      {:live_debugger, "~> 0.5.1", only: :dev},
+      {:ex_aws, "~> 2.0"},
+      {:ex_aws_s3, "~> 2.0"},
+      {:hackney, "~> 1.9"}
     ]
   end
 

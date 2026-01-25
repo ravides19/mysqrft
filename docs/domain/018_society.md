@@ -278,7 +278,7 @@ The Society domain serves as a critical touchpoint for residential community eng
 - Payment gateway integration (Razorpay, PayU) for online maintenance payments
 - Push notification service (Firebase, OneSignal) for real-time alerts
 - SMS gateway (MSG91, Twilio) for OTP and critical notifications
-- Cloud storage (S3, GCS) for document and image attachments
+- Tigris Object Storage (S3-compatible) for document and image attachments
 - Geolocation service for guard attendance geo-fencing
 - QR code generation library for visitor passes
 - PDF generation service for bills and receipts

@@ -248,7 +248,7 @@ The Support domain operates as a cross-functional service layer, integrating wit
 - PostgreSQL or equivalent relational database for ticket storage and querying
 - Elasticsearch or equivalent for full-text search in help center and ticket search
 - Redis or equivalent for real-time queue management and caching
-- Object storage (S3, GCS) for ticket attachments and media files
+- Tigris Object Storage (S3-compatible) for ticket attachments and media files
 - Email service provider for ticket notifications and customer communications
 - Machine learning service for ticket categorization and article suggestions
 - Real-time messaging infrastructure for live ticket updates to agents

@@ -117,4 +117,12 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Req
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+
+  config :ex_aws,
+    access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+    secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY")
+
+  if tigris_bucket = System.get_env("TIGRIS_BUCKET") do
+    config :my_sqrft, :tigris_bucket, tigris_bucket
+  end
 end

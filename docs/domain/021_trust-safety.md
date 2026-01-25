@@ -265,7 +265,7 @@ The TrustSafety domain integrates with every user-facing component of MySqrft, p
 - Redis or equivalent distributed cache for rate limiting counters and real-time fraud scoring
 - Message queue (Kafka, RabbitMQ) for asynchronous processing of moderation events and fraud signals
 - Machine learning infrastructure for fraud model training, deployment, and inference
-- Object storage (S3, GCS) for evidence files, screenshots, and investigation attachments
+- Tigris Object Storage (S3-compatible) for evidence files, screenshots, and investigation attachments
 - Content analysis services for image moderation, text classification, and similarity detection
 - External fraud intelligence providers for IP reputation, email validation, and known fraud databases
 - Device fingerprinting library (FingerprintJS or equivalent) for client-side signal collection

@@ -522,7 +522,7 @@ This domain covers:
 | System | Purpose | Integration Method | Priority |
 |--------|---------|-------------------|----------|
 | Google Maps API | Address autocomplete and validation | REST API | P1 |
-| AWS S3/CloudFront | Profile photo storage and CDN | SDK | P0 |
+| Tigris Object Storage | Profile photo storage and CDN (S3-compatible) | SDK | P0 |
 | AWS Rekognition | Profile photo moderation | SDK | P1 |
 | SendGrid/SNS | Email and SMS delivery | SDK | P0 |
 
@@ -569,8 +569,7 @@ This domain covers:
 | PostgreSQL | Primary data store | 99.99% |
 | Redis | Caching, session store | 99.9% |
 | Kafka | Event streaming | 99.9% |
-| AWS S3 | Photo storage | 99.99% |
-| CloudFront | Photo delivery | 99.9% |
+| Tigris Object Storage | Photo storage and CDN | 99.99% |
 
 ---
 

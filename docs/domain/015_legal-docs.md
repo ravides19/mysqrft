@@ -631,7 +631,7 @@ POST   /api/v1/verifications/:id/documents   # Upload verification docs
 | State Stamp Portals | e-Stamp generation | P1 |
 | State Registration Portals | Online registration | P2 |
 | IDfy/AuthBridge | Background verification | P2 |
-| AWS S3/GCS | Document storage | P0 |
+| Tigris Object Storage | Document storage (S3-compatible) | P0 |
 
 ### 9.2 Internal Integrations
 
