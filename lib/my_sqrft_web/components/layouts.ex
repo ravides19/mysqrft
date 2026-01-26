@@ -31,11 +31,11 @@ defmodule MySqrftWeb.Layouts do
         padding="small"
         max_width=""
         content_position="between"
-        nav_wrapper_class="md:grid md:grid-cols-3 md:items-center md:gap-4"
-        list_wrapper_class="md:flex md:justify-center md:col-start-2 md:col-end-3"
+        nav_wrapper_class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative"
+        list_wrapper_class="hidden md:flex md:items-center md:justify-center md:flex-1"
         class="bg-white/95 dark:bg-base-bg-dark/95 backdrop-blur-md border-b border-base-border-light/50 dark:border-base-border-dark/50 shadow-none transition-all duration-300 navbar-scroll-state"
       >
-        <:start_content class="flex items-center gap-3 md:justify-start md:col-start-1 md:col-end-2">
+        <:start_content class="flex items-center gap-3">
           <.link navigate="/" class="flex items-center gap-3 group">
             <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-primary-light to-primary-dark rounded-xl flex items-center justify-center shadow-lg shadow-primary-light/20 group-hover:shadow-primary-light/40 transition-shadow duration-300">
               <.icon name="hero-home" class="w-6 h-6 md:w-7 md:h-7 text-white" />
@@ -48,42 +48,254 @@ defmodule MySqrftWeb.Layouts do
 
         <:list
           icon="hero-home-solid"
-          icon_class="w-4 h-4"
-          class="gap-2 group"
+          icon_class="w-5 h-5 text-gray-500 group-hover:text-primary-light dark:text-gray-400 dark:group-hover:text-primary-dark transition-colors duration-300"
+          class="gap-2 group px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-300"
         >
           <.link
             navigate="/"
-            class="text-base-text-light dark:text-base-text-dark group-hover:text-primary-light dark:group-hover:text-primary-dark font-medium transition-colors"
+            class="text-gray-600 dark:text-gray-300 group-hover:text-primary-light dark:group-hover:text-primary-dark font-medium transition-colors"
           >
             Home
           </.link>
         </:list>
         <:list
+          icon="hero-chart-bar-square-solid"
+          icon_class="w-5 h-5 text-gray-500 group-hover:text-primary-light dark:text-gray-400 dark:group-hover:text-primary-dark transition-colors duration-300"
+          class="gap-2 group px-5 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-300 min-w-fit"
+        >
+          <.mega_menu
+            id="analytics-mega-menu"
+            variant="shadow"
+            color="white"
+            rounded="xl"
+            clickable={true}
+            width="full"
+            class="group-hover:block [&>div]:bg-white [&>div]:dark:bg-gray-900 [&>div]:dark:border-gray-700 !bg-transparent !border-0"
+          >
+            <:trigger class="flex items-center gap-2 text-gray-600 dark:text-gray-300 group-hover:text-primary-light dark:group-hover:text-primary-dark font-medium transition-colors whitespace-nowrap bg-transparent border-0 p-0">
+              Analytics
+              <.icon
+                name="hero-chevron-down"
+                class="w-4 h-4 transition-transform group-aria-expanded:rotate-180"
+              />
+            </:trigger>
+
+            <div class="grid grid-cols-4 gap-8 p-8 bg-white dark:bg-gray-900">
+              <!-- Home Buyers -->
+              <div class="space-y-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
+                    <.icon name="hero-home" class="w-5 h-5" />
+                  </div>
+                  <h3 class="font-semibold text-gray-900 dark:text-white">Home Buyers</h3>
+                </div>
+                <ul class="space-y-3">
+                  <li>
+                    <.link navigate="/analytics/market-trends" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Market Trends
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Track price movements & demand
+                      </span>
+                    </.link>
+                  </li>
+                  <li>
+                    <.link navigate="/analytics/heatmaps" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Price Heatmaps
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Visualise property values
+                      </span>
+                    </.link>
+                  </li>
+                  <li>
+                    <.link navigate="/analytics/locality" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Locality Insights
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Deep dive into neighborhoods
+                      </span>
+                    </.link>
+                  </li>
+                </ul>
+              </div>
+              
+    <!-- Investors -->
+              <div class="space-y-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="p-2 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400">
+                    <.icon name="hero-currency-rupee" class="w-5 h-5" />
+                  </div>
+                  <h3 class="font-semibold text-gray-900 dark:text-white">Investors</h3>
+                </div>
+                <ul class="space-y-3">
+                  <li>
+                    <.link navigate="/analytics/yields" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Rental Yield Map
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        High yield investment zones
+                      </span>
+                    </.link>
+                  </li>
+                  <li>
+                    <.link navigate="/analytics/roi-calculator" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        ROI Calculator
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Estimate your returns
+                      </span>
+                    </.link>
+                  </li>
+                  <li>
+                    <.link navigate="/analytics/hotspots" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Investment Hotspots
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Emerging growth corridors
+                      </span>
+                    </.link>
+                  </li>
+                </ul>
+              </div>
+              
+    <!-- Resellers -->
+              <div class="space-y-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="p-2 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400">
+                    <.icon name="hero-arrow-trending-up" class="w-5 h-5" />
+                  </div>
+                  <h3 class="font-semibold text-gray-900 dark:text-white">Resellers</h3>
+                </div>
+                <ul class="space-y-3">
+                  <li>
+                    <.link navigate="/analytics/valuation" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Property Valuation
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Get fair market value
+                      </span>
+                    </.link>
+                  </li>
+                  <li>
+                    <.link navigate="/analytics/demand" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Demand Analysis
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Buyer interest heatmap
+                      </span>
+                    </.link>
+                  </li>
+                  <li>
+                    <.link navigate="/analytics/selling-guide" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Selling Guide
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Tips for faster sales
+                      </span>
+                    </.link>
+                  </li>
+                </ul>
+              </div>
+              
+    <!-- Tools -->
+              <div class="space-y-4">
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="p-2 rounded-lg bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400">
+                    <.icon name="hero-calculator" class="w-5 h-5" />
+                  </div>
+                  <h3 class="font-semibold text-gray-900 dark:text-white">Tools</h3>
+                </div>
+                <ul class="space-y-3">
+                  <li>
+                    <.link navigate="/tools/emi-calculator" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        EMI Calculator
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Plan your finances
+                      </span>
+                    </.link>
+                  </li>
+                  <li>
+                    <.link navigate="/tools/affordability" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Affordability Check
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">Know your budget</span>
+                    </.link>
+                  </li>
+                  <li>
+                    <.link navigate="/tools/stamp-duty" class="group/item flex flex-col">
+                      <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover/item:text-primary-light transition-colors">
+                        Stamp Duty
+                      </span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">
+                        Calculate registration costs
+                      </span>
+                    </.link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="px-8 pb-6 pt-2 bg-white dark:bg-gray-900">
+              <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded bg-primary-light/10 text-primary-light">
+                      NEW
+                    </span>
+                    <span class="text-sm text-gray-600 dark:text-gray-400">
+                      Explore our detailed annual real estate report 2025
+                    </span>
+                  </div>
+                  <.link
+                    navigate="/reports/annual-2025"
+                    class="text-sm font-medium text-primary-light hover:text-primary-dark transition-colors flex items-center gap-1"
+                  >
+                    Read Report <.icon name="hero-arrow-right" class="w-4 h-4" />
+                  </.link>
+                </div>
+              </div>
+            </div>
+          </.mega_menu>
+        </:list>
+        <:list
           icon="hero-information-circle-solid"
-          icon_class="w-4 h-4"
-          class="gap-2 group"
+          icon_class="w-5 h-5 text-gray-500 group-hover:text-primary-light dark:text-gray-400 dark:group-hover:text-primary-dark transition-colors duration-300"
+          class="gap-2 group px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-300"
         >
           <.link
             navigate="/about"
-            class="text-base-text-light dark:text-base-text-dark group-hover:text-primary-light dark:group-hover:text-primary-dark font-medium transition-colors"
+            class="text-gray-600 dark:text-gray-300 group-hover:text-primary-light dark:group-hover:text-primary-dark font-medium transition-colors"
           >
             About
           </.link>
         </:list>
         <:list
           icon="hero-envelope-solid"
-          icon_class="w-4 h-4"
-          class="gap-2 group"
+          icon_class="w-5 h-5 text-gray-500 group-hover:text-primary-light dark:text-gray-400 dark:group-hover:text-primary-dark transition-colors duration-300"
+          class="gap-2 group px-4 py-2 rounded-full hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-300"
         >
           <.link
             navigate="/contact"
-            class="text-base-text-light dark:text-base-text-dark group-hover:text-primary-light dark:group-hover:text-primary-dark font-medium transition-colors"
+            class="text-gray-600 dark:text-gray-300 group-hover:text-primary-light dark:group-hover:text-primary-dark font-medium transition-colors"
           >
             Contact
           </.link>
         </:list>
 
-        <:end_content class="flex items-center gap-4 md:justify-end md:col-start-3 md:col-end-4">
+        <:end_content class="flex items-center gap-4">
           <div class="flex flex-row items-center gap-4">
             <.theme_toggle />
             <%= if @current_scope do %>
@@ -673,7 +885,7 @@ defmodule MySqrftWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <header class="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 px-4 sm:px-6 lg:px-8">
+    <header class="sticky top-0 z-50 bg-white/95 dark:bg-base-bg-dark/95 backdrop-blur-md border-b border-base-border-light/50 dark:border-base-border-dark/50 px-4 sm:px-6 lg:px-8">
       <div class="max-w-7xl mx-auto flex items-center justify-between h-16">
         <div class="flex items-center gap-3">
           <.link navigate="/" class="flex items-center gap-3 group">
@@ -721,14 +933,14 @@ defmodule MySqrftWeb.Layouts do
       </div>
     </header>
 
-    <main class="px-4 py-12 sm:px-6 lg:px-8 min-h-[calc(100vh-200px)] bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900">
+    <main class="px-4 py-12 sm:px-6 lg:px-8 min-h-[calc(100vh-200px)] bg-gradient-to-b from-gray-50 to-white dark:from-base-bg-dark dark:to-gray-950">
       <div class="mx-auto max-w-4xl">
         {render_slot(@inner_block)}
       </div>
     </main>
 
     <!-- Simple Footer -->
-    <footer class="bg-gray-900 dark:bg-gray-950 text-gray-400 py-8 px-4 sm:px-6 lg:px-8">
+    <footer class="bg-base-bg-dark dark:bg-gray-950 text-gray-400 border-t border-base-border-dark py-8 px-4 sm:px-6 lg:px-8">
       <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <div class="w-8 h-8 bg-gradient-to-br from-primary-light to-primary-dark rounded-lg flex items-center justify-center">
@@ -757,8 +969,8 @@ defmodule MySqrftWeb.Layouts do
   def flash_group(assigns) do
     ~H"""
     <div id={@id} aria-live="polite">
-      <.flash kind={:info} flash={@flash} />
-      <.flash kind={:error} flash={@flash} />
+      <.flash kind={:info} flash={@flash} variant="bordered" width="medium" rounded="large" />
+      <.flash kind={:error} flash={@flash} variant="bordered" width="medium" rounded="large" />
 
       <.flash
         id="client-error"

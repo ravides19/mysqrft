@@ -101,6 +101,21 @@ config :ex_aws, :s3,
 
 config :my_sqrft, :tigris_bucket, System.get_env("BUCKET_NAME") || "mysqrft-local-dev"
 
+# Configure Oban for background job processing
+config :my_sqrft, Oban,
+  repo: MySqrft.Repo,
+  plugins: [
+    # Run cron jobs
+    {Oban.Plugins.Cron,
+     crontab: [
+       # Expire stale listings daily at midnight
+       {"0 0 * * *", MySqrft.Workers.ExpireStaleListingsWorker}
+     ]},
+    # Prune completed jobs after 60 days
+    {Oban.Plugins.Pruner, max_age: 60 * 60 * 24 * 60}
+  ],
+  queues: [default: 10, listings: 5]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

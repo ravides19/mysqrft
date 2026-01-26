@@ -105,6 +105,10 @@ defmodule MySqrftWeb.Router do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
 
+      # Property Management
+      live "/properties", PropertyLive.Index, :index
+      live "/properties/new", PropertyLive.New, :new
+
       # Profile management
       live "/profile", ProfileLive.Index, :index
       live "/profile/new", ProfileLive.New, :new

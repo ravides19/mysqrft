@@ -12,6 +12,8 @@ defmodule MySqrft.Application do
       MySqrft.Repo,
       {DNSCluster, query: Application.get_env(:my_sqrft, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: MySqrft.PubSub},
+      # Oban for background job processing
+      {Oban, Application.fetch_env!(:my_sqrft, Oban)},
       # Start a worker by calling: MySqrft.Worker.start_link(arg)
       # {MySqrft.Worker, arg},
       # Start to serve requests, typically the last entry

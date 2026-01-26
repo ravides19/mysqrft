@@ -96,7 +96,8 @@ defmodule MySqrft.MixProject do
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
-      {:image, "~> 0.54"}
+      {:image, "~> 0.54"},
+      {:oban, "~> 2.18"}
     ]
   end
 
